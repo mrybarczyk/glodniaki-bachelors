@@ -1,0 +1,25 @@
+Temat projektu: 
+Aplikacaj webowa z ofertami kateringów
+Założenia projektu:
+- lista dostępnych firm kateringowych w wybranej lokalizacji
+- każda firma kateringowa będzie posiadała listę dostępnych diet z wyborem okresu trwania
+- podział na oferty okazjonalne i długoterminowe
+- system ocen firm
+Aktorzy:
+- użytkownik ma możliwość założenia konta, wykupienia dostępnej oferty, wybranie liczby dni i przedziału czasowego
+w kalendarzu, wybrania w jakich godzinach i na jaki adres będzie dostarczane jedzenie, możliwość kontaktu z firmą 
+kateringową oceniennia firmy z której już zamawiano, wgląd do historii zamówień, możliwość pisania skarg do 
+administratora, możliwość wyszukiwania ofert po cenie
+- firma ma możliwość zamieszczenia swojej oferty w aplikacji, zamieszczanie informacji na temat firmy
+(numer kontaktowy, adres, itp.), ma wgląd do zamówień, możliwość rozpatrywania reklamacji,
+możliwość dodawania i usuwania ofert/długości subskrypcji, wgląd do wiadomości od klientów 
+- administrator ma możliwość usuwania kont, odczytawanie powiadomiń na temat błędu systemu, możliwość rospatrywania
+zażaleń od użytkowników serwisu, 
+Technologie:
+- Java
+- Spring
+- HTML
+- CSS
+- Java Script/ Type Script
+- Microsoft SQL
+ 
