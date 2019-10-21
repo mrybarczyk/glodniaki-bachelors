@@ -18,7 +18,7 @@ REFERENCES AccountType(AccountTypeID)
 )
 
 CREATE TABLE UserData (
-UserDataID INT REFERENCES Accounts(AccountID),
+UserDataID INT,
 Name NVARCHAR(50),
 LastName NVARCHAR(50),
 CONSTRAINT UserDataPrimaryKey PRIMARY KEY(UserDataID),
@@ -31,6 +31,8 @@ CompanyDataID INT,
 Name NVARCHAR(50),
 NIP NVARCHAR(50),
 REGON NVARCHAR(50),
+WebsiteAddress NVARCHAR(50),
+AverageRating REAL,
 CONSTRAINT CompanyDataPrimaryKey PRIMARY KEY(CompanyDataID),
 CONSTRAINT CompanyDataAccountsForeignKey FOREIGN KEY(CompanyDataID)
 REFERENCES Accounts(AccountID)
@@ -67,12 +69,22 @@ CONSTRAINT ServicesCompanyDataForeignKey FOREIGN KEY(CompanyDataID)
 REFERENCES CompanyData(CompanyDataID)
 )
 
+CREATE TABLE Favorites(
+UserDataID INT NOT NULL,
+ServiceID INT NOT NULL,
+CONSTRAINT FavoritesUserDataForeignKey FOREIGN KEY(UserDataID)
+REFERENCES UserData(UserDataID),
+CONSTRAINT FavoritesServicesForeignKey FOREIGN KEY(ServiceID)
+REFERENCES Services(ServiceID)
+)
+
 CREATE TABLE ServiceVariant (
 ServiceVariantID INT IDENTITY(1,1),
 ServiceID INT NOT NULL,
 Calories INT,
 PricePerPerson REAL,
 DayNumber INT,
+DeliveryTime TIME,
 CONSTRAINT ServiceVariantPrimaryKey PRIMARY KEY(ServiceVariantID),
 CONSTRAINT ServiceVariantServicesForeignKey FOREIGN KEY(ServiceID)
 REFERENCES Services(ServiceID)
@@ -99,10 +111,39 @@ RateID INT IDENTITY(1,1),
 CompanyDataID INT NOT NULL,
 UserDataID INT NOT NULL,
 Rate INT,
-Comment TEXT,
+Description TEXT,
 CONSTRAINT RatesPrimaryKey PRIMARY KEY(RateID),
 CONSTRAINT RatesCompanyData FOREIGN KEY(CompanyDataID)
 REFERENCES CompanyData(CompanyDataID),
 CONSTRAINT RatesUserDataForeignKey FOREIGN KEY(UserDataID)
+REFERENCES UserData(UserDataID)
+)
+
+CREATE TABLE Categories(
+CategoryID INT IDENTITY(1,1),
+CategoryName NVARCHAR(50),
+CONSTRAINT CategoriesPrimaryKey PRIMARY KEY(CategoryID)
+)
+
+CREATE TABLE ServiceCategory(
+ServiceID INT NOT NULL,
+CategoryID INT NOT NULL,
+CONSTRAINT ServiceCategoryCategoriesForeignKey FOREIGN KEY(CategoryID)
+REFERENCES Categories(CategoryID),
+CONSTRAINT ServiceCategoryServicesForeignKey FOREIGN KEY(ServiceID)
+REFERENCES Services(ServiceID)
+)
+
+
+CREATE TABLE Messages(
+MessageID INT IDENTITY(1,1),
+CompanyDataID INT NOT NULL,
+UserDataID INT NOT NULL,
+Subject TEXT,
+Description TEXT,
+CONSTRAINT MessagesPrimaryKey PRIMARY KEY(MessageID),
+CONSTRAINT MessagesCompanyData FOREIGN KEY(CompanyDataID)
+REFERENCES CompanyData(CompanyDataID),
+CONSTRAINT MessagesUserDataForeignKey FOREIGN KEY(UserDataID)
 REFERENCES UserData(UserDataID)
 )
