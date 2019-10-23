@@ -1,5 +1,3 @@
-use ProjektCatering
-
 CREATE TABLE AccountType (
 AccountTypeID INT IDENTITY(1,1),
 Name NVARCHAR(50),
