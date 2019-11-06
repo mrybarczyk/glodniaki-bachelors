@@ -27,9 +27,6 @@ public class CompanyData {
     private Accounts account;
 
     @OneToMany(mappedBy = "companyData")
-    private List<Messages> messages;
-
-    @OneToMany(mappedBy = "companyData")
     private List<Services> services;
 
     @OneToMany(mappedBy = "companyData")
@@ -91,20 +88,12 @@ public class CompanyData {
         this.averageRating = averageRating;
     }
 
-//    public Accounts getAccount() {
-//        return account;
-//    }
-//
-//    public void setAccount(Accounts account) {
-//        this.account = account;
-//    }
-
-    public List<Messages> getMessages() {
-        return messages;
+    public Accounts getAccount() {
+        return account;
     }
 
-    public void setMessages(List<Messages> messages) {
-        this.messages = messages;
+    public void setAccount(Accounts account) {
+        this.account = account;
     }
 
     public List<Services> getServices() {

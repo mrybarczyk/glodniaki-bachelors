@@ -25,6 +25,12 @@ public class Accounts {
     @OneToMany(mappedBy = "accounts")
     private List<Address> address;
 
+    @OneToMany(mappedBy = "sender")
+    private List<Messages> sent;
+
+    @OneToMany(mappedBy = "receiver")
+    private List<Messages> received;
+
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     private CompanyData companyData;
 
@@ -87,11 +93,35 @@ public class Accounts {
         this.address = address;
     }
 
+    public List<Messages> getSent() {
+        return sent;
+    }
+
+    public void setSent(List<Messages> sent) {
+        this.sent = sent;
+    }
+
+    public List<Messages> getReceived() {
+        return received;
+    }
+
+    public void setReceived(List<Messages> received) {
+        this.received = received;
+    }
+
     public CompanyData getCompanyData() {
         return companyData;
     }
 
     public void setCompanyData(CompanyData companyData) {
         this.companyData = companyData;
+    }
+
+    public UserData getUserData() {
+        return userData;
+    }
+
+    public void setUserData(UserData userData) {
+        this.userData = userData;
     }
 }

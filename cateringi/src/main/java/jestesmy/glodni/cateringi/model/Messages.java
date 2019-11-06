@@ -1,6 +1,7 @@
 package jestesmy.glodni.cateringi.model;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "Messages")
@@ -12,16 +13,18 @@ public class Messages {
     private int messageID;
 
     @ManyToOne
-    @JoinColumn(name = "CompanyDataID")
-    private CompanyData companyData;
+    @JoinColumn(name = "Sender")
+    private Accounts sender;
 
     @ManyToOne
-    @JoinColumn(name = "UserDataID")
-    private UserData userData;
+    @JoinColumn(name = "Receiver")
+    private Accounts receiver;
 
     private String subject;
 
     private String description;
+
+    private Timestamp dateSent;
 
     public Messages() { }
 
@@ -38,20 +41,20 @@ public class Messages {
         this.messageID = messageID;
     }
 
-    public CompanyData getCompanyData() {
-        return companyData;
+    public Accounts getSender() {
+        return sender;
     }
 
-    public void setCompanyData(CompanyData companyData) {
-        this.companyData = companyData;
+    public void setSender(Accounts sender) {
+        this.sender = sender;
     }
 
-    public UserData getUserData() {
-        return userData;
+    public Accounts getReceiver() {
+        return receiver;
     }
 
-    public void setUserData(UserData userData) {
-        this.userData = userData;
+    public void setReceiver(Accounts receiver) {
+        this.receiver = receiver;
     }
 
     public String getSubject() {
@@ -68,5 +71,13 @@ public class Messages {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Timestamp getDateSent() {
+        return dateSent;
+    }
+
+    public void setDateSent(Timestamp dateSent) {
+        this.dateSent = dateSent;
     }
 }
