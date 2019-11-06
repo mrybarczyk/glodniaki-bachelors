@@ -21,9 +21,6 @@ public class UserData {
     private Accounts account;
 
     @OneToMany(mappedBy = "userData")
-    private List<Messages> message;
-
-    @OneToMany(mappedBy = "userData")
     private List<Favorites> favorites;
 
     @OneToMany(mappedBy = "userData")
@@ -63,20 +60,12 @@ public class UserData {
         this.lastName = lastName;
     }
 
-//    public Accounts getAccount() {
-//        return account;
-//    }
-//
-//    public void setAccount(Accounts account) {
-//        this.account = account;
-//    }
-
-    public List<Messages> getMessage() {
-        return message;
+    public Accounts getAccount() {
+        return account;
     }
 
-    public void setMessage(List<Messages> message) {
-        this.message = message;
+    public void setAccount(Accounts account) {
+        this.account = account;
     }
 
     public List<Favorites> getFavorites() {
