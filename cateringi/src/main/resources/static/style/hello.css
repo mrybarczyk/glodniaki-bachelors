@@ -1,0 +1,20 @@
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: url("../images/indexBg.jpg");
+    background-size: cover;
+}
+
+section {
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    background-color: rgba(123,15,140,.5);
+    color: #e3e3e3;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    transform: translateY(-50%);
+    text-align: center;
+}
