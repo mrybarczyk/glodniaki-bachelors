@@ -7,7 +7,7 @@ body {
     background-size: cover;
 }
 
-section {
+.welcome {
     padding-top: 1.5em;
     padding-bottom: 1.5em;
     background-color: rgba(123,15,140,.5);
