@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import javax.validation.ConstraintViolationException;
 
-public class RestExceptionHandler extends ResponseEntityExceptionHandler {
+public class ClientRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({ ClientNotFoundException.class })
     protected ResponseEntity<Object> handleNotFound(
