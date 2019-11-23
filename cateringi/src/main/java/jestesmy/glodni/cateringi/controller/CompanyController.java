@@ -1,7 +1,7 @@
 package jestesmy.glodni.cateringi.controller;
 
-import jestesmy.glodni.cateringi.exception.CompanyIdMissmatchException;
-import jestesmy.glodni.cateringi.exception.CompanyNotFoundException;
+import jestesmy.glodni.cateringi.exception.IdMissmatchException;
+import jestesmy.glodni.cateringi.exception.NotFoundException;
 import jestesmy.glodni.cateringi.model.Company;
 import jestesmy.glodni.cateringi.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/companies")
@@ -31,7 +30,7 @@ public class CompanyController {
     @GetMapping("/{id}")
     public Company findOne(@PathVariable int id) {
         return companyRepository.findById(id)
-                .orElseThrow(CompanyNotFoundException::new);
+                .orElseThrow(NotFoundException::new);
     }
 
     @PostMapping
@@ -43,17 +42,17 @@ public class CompanyController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) {
         companyRepository.findById(id)
-                .orElseThrow(CompanyNotFoundException::new);
+                .orElseThrow(NotFoundException::new);
         companyRepository.deleteById(id);
     }
 
     @PutMapping("/{id}")
     public Company updateCompany(@RequestBody Company company, @PathVariable int id){
         if(company.getCompanyID()!=id) {
-            throw new CompanyIdMissmatchException();
+            throw new IdMissmatchException();
         }
         companyRepository.findById(id)
-                .orElseThrow(CompanyNotFoundException::new);
+                .orElseThrow(NotFoundException::new);
         return companyRepository.save(company);
     }
 
