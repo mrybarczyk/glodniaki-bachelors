@@ -1,6 +1,6 @@
 package jestesmy.glodni.cateringi.controller;
 
-import jestesmy.glodni.cateringi.exception.IdMissmatchException;
+import jestesmy.glodni.cateringi.exception.IdMismatchException;
 import jestesmy.glodni.cateringi.exception.NotFoundException;
 import jestesmy.glodni.cateringi.model.Service;
 import jestesmy.glodni.cateringi.repository.ServiceRepository;
@@ -47,7 +47,7 @@ public class ServiceController {
     @PutMapping("/{serviceID}")
     public Service updateService(@RequestBody Service service, @PathVariable int serviceID){
         if(service.getServiceID() != serviceID){
-            throw new IdMissmatchException();
+            throw new IdMismatchException();
         }
         serviceRepository.findById(serviceID)
                 .orElseThrow(NotFoundException::new);

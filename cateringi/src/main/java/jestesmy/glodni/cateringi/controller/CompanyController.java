@@ -1,6 +1,6 @@
 package jestesmy.glodni.cateringi.controller;
 
-import jestesmy.glodni.cateringi.exception.IdMissmatchException;
+import jestesmy.glodni.cateringi.exception.IdMismatchException;
 import jestesmy.glodni.cateringi.exception.NotFoundException;
 import jestesmy.glodni.cateringi.model.Company;
 import jestesmy.glodni.cateringi.repository.CompanyRepository;
@@ -49,7 +49,7 @@ public class CompanyController {
     @PutMapping("/{id}")
     public Company updateCompany(@RequestBody Company company, @PathVariable int id){
         if(company.getCompanyID()!=id) {
-            throw new IdMissmatchException();
+            throw new IdMismatchException();
         }
         companyRepository.findById(id)
                 .orElseThrow(NotFoundException::new);

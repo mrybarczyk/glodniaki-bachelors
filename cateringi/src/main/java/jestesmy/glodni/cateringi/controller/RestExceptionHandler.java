@@ -1,6 +1,6 @@
 package jestesmy.glodni.cateringi.controller;
 
-import jestesmy.glodni.cateringi.exception.IdMissmatchException;
+import jestesmy.glodni.cateringi.exception.IdMismatchException;
 import jestesmy.glodni.cateringi.exception.NotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
@@ -23,7 +23,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 HttpStatus.NOT_FOUND,request);
     }
 
-    @ExceptionHandler({IdMissmatchException.class,
+    @ExceptionHandler({IdMismatchException.class,
             ConstraintViolationException.class,
             DataIntegrityViolationException.class})
     public ResponseEntity<Object> handleBadRequest(Exception exception,WebRequest request) {
