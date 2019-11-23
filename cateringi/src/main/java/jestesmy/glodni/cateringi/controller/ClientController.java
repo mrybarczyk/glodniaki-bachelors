@@ -1,7 +1,7 @@
 package jestesmy.glodni.cateringi.controller;
 
-import jestesmy.glodni.cateringi.exception.ClientIDMismatchException;
-import jestesmy.glodni.cateringi.exception.ClientNotFoundException;
+import jestesmy.glodni.cateringi.exception.IdMismatchException;
+import jestesmy.glodni.cateringi.exception.NotFoundException;
 import jestesmy.glodni.cateringi.model.Client;
 import jestesmy.glodni.cateringi.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class ClientController {
     @GetMapping("/{clientID}")
     public Client findOne(@PathVariable int clientID) {
         return clientRepository.findById(clientID)
-                .orElseThrow(ClientNotFoundException::new);
+                .orElseThrow(NotFoundException::new);
     }
 
     @PostMapping
@@ -42,17 +42,17 @@ public class ClientController {
     @DeleteMapping("/{clientID}")
     public void delete(@PathVariable int clientID) {
         clientRepository.findById(clientID)
-                .orElseThrow(ClientNotFoundException::new);
+                .orElseThrow(NotFoundException::new);
         clientRepository.deleteById(clientID);
     }
 
     @PutMapping("/{clientID}")
     public Client updateClient(@RequestBody Client client, @PathVariable int clientID) {
         if (client.getClientID() != clientID) {
-            throw new ClientIDMismatchException();
+            throw new IdMismatchException();
         }
         clientRepository.findById(clientID)
-                .orElseThrow(ClientNotFoundException::new);
+                .orElseThrow(NotFoundException::new);
         return clientRepository.save(client);
     }
 }

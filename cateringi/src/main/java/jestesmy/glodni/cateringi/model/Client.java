@@ -3,10 +3,10 @@ package jestesmy.glodni.cateringi.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "Clients")
 public class Client {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int clientID;
 
     @Column(nullable = false)
