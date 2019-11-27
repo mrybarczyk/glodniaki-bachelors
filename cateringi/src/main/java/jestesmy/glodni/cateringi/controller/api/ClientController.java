@@ -1,4 +1,4 @@
-package jestesmy.glodni.cateringi.controller;
+package jestesmy.glodni.cateringi.controller.api;
 
 import jestesmy.glodni.cateringi.exception.IdMismatchException;
 import jestesmy.glodni.cateringi.exception.NotFoundException;
