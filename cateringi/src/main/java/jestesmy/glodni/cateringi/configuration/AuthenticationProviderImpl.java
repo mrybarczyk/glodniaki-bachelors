@@ -1,6 +1,6 @@
-package jestesmy.glodni.cateringi.controller.web.authentication;
+package jestesmy.glodni.cateringi.configuration;
 
-import jestesmy.glodni.cateringi.model.Account;
+import org.apache.commons.codec.binary.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.util.DigestUtils;
 
 import java.util.Collections;
 
@@ -21,7 +22,7 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         UserDetails accountDetails = accountDetailsService.loadUserByUsername(authentication.getName());
-        if(authentication.getCredentials().toString().equals(accountDetails.getPassword())){
+        if(Hex.encodeHexString(DigestUtils.md5Digest(authentication.getCredentials().toString().getBytes())).equals(accountDetails.getPassword())){
             return new UsernamePasswordAuthenticationToken(accountDetails.getUsername(),accountDetails.getPassword(), Collections.emptyList());
         } else {
             throw new BadCredentialsException("Authentication failed");

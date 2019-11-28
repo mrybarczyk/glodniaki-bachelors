@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
 
-@Controller
-@RequestMapping("/login")
+//@Controller
+//@RequestMapping("/login")
 public class LoginController {
 
     @Autowired
@@ -24,15 +24,5 @@ public class LoginController {
         return "login";
     }
 
-    @PostMapping
-    public String login(WebRequest request, Model model) {
-        String login = request.getParameter("login");
-        String password = Hex.encodeHexString(DigestUtils.md5Digest(request.getParameter("password").getBytes()));
-        Account account = accountRepository.findByAccountName(login);
-        if(account.getPassword().equals(password)) {
-            return "index";
-        }
-        return "login";
-    }
 
 }

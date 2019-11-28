@@ -1,4 +1,4 @@
-package jestesmy.glodni.cateringi.controller.web.authentication;
+package jestesmy.glodni.cateringi.configuration;
 
 import jestesmy.glodni.cateringi.model.Account;
 import org.springframework.beans.factory.annotation.Autowired;

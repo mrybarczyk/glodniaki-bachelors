@@ -1,8 +1,5 @@
 package jestesmy.glodni.cateringi.configuration;
 
-import com.sun.net.httpserver.HttpsConfigurator;
-import jestesmy.glodni.cateringi.controller.web.authentication.AccountDetailsService;
-import jestesmy.glodni.cateringi.controller.web.authentication.AuthenticationProviderImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -28,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .anyRequest()
                 .authenticated().and()
-                .formLogin().loginPage("/login").loginProcessingUrl("/perform_login").defaultSuccessUrl("/").failureForwardUrl("/error")
+                .formLogin().defaultSuccessUrl("/")
                 .and().csrf().disable();
     }
 
