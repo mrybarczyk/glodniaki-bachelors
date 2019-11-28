@@ -14,6 +14,7 @@ public class Config {
         company.setName("TestowaFirma");
         company.setNIP("111");
         company.setREGON("222");
+        company.setAverageRating(0);
         return company;
     }
 
