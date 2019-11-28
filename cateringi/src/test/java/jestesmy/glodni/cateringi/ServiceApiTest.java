@@ -153,7 +153,7 @@ public class ServiceApiTest {
     public void whenGetServicesByCompanyID_thenOK() {
         Service service = createRandomService();
         createServiceAsUri(service);
-        Response response = RestAssured.get(API_ROOT + "/companies/" + service.getCompany().getCompanyID());
+        Response response = RestAssured.get(API_ROOT + "/company/" + service.getCompany().getCompanyID());
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
         assertTrue(response.as(List.class).size() > 0);
     }

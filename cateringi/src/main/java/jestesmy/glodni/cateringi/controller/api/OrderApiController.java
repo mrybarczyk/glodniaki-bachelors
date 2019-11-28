@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/orders")
-public class OrderController {
+public class OrderApiController {
 
     @Autowired
     private OrderRepository orderRepository;
@@ -27,7 +27,7 @@ public class OrderController {
         return orderRepository.findAll();
     }
 
-    @GetMapping("/clients/{clientID}")
+    @GetMapping("/client/{clientID}")
     public List findByClient(@PathVariable int clientID){
         Client client = clientRepository.findById(clientID).orElseThrow(NotFoundException::new);
         return orderRepository.findByClient(client);

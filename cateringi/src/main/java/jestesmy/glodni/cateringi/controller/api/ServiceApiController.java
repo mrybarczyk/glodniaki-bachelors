@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/services")
-public class ServiceController {
+public class ServiceApiController {
     @Autowired
     private ServiceRepository serviceRepository;
 
@@ -36,7 +36,7 @@ public class ServiceController {
                 .orElseThrow(NotFoundException::new);
     }
 
-    @GetMapping("/companies/{companyID}")
+    @GetMapping("/company/{companyID}")
     public List findByCompany(@PathVariable int companyID){
         Company company = companyRepository.findById(companyID).orElseThrow(NotFoundException::new);
         return serviceRepository.findByCompany(company);

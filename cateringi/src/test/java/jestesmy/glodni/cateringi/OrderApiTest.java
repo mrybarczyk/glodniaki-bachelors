@@ -70,7 +70,7 @@ public class OrderApiTest {
     public void whenGetOrdersByClientID_thenOK() {
         Order order = createRandomOrder();
         createOrderAsUri(order);
-        Response response = RestAssured.get(API_ROOT + "/clients/" + order.getClient().getClientID());
+        Response response = RestAssured.get(API_ROOT + "/client/" + order.getClient().getClientID());
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
         assertTrue(response.as(List.class).size() > 0);
     }
