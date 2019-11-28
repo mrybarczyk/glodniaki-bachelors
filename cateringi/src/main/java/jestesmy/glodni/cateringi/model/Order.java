@@ -11,8 +11,9 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int orderID;
 
-    @Column(nullable = false)
-    private int clientID;
+    @ManyToOne
+    @JoinColumn(name = "ClientID", nullable = false)
+    private Client client;
 
     @Column(nullable = false)
     private int addressID;
@@ -29,12 +30,12 @@ public class Order {
 
     public void setOrderID(int orderID) { this.orderID = orderID; }
 
-    public int getClientID() {
-        return clientID;
+    public Client getClient() {
+        return client;
     }
 
-    public void setClientID(int clientID) {
-        this.clientID = clientID;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public int getAddressID() {
