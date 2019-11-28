@@ -9,12 +9,14 @@
     <table>
         <thead>
             <tr>
+                <th>Company</th>
                 <th>Name</th>
                 <th>Description</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="service : ${services}">
+                <td th:text="${company.companyID}"></td>
                 <td th:text="${service.serviceName}"></td>
                 <td th:text="${service.description}"></td>
             </tr>

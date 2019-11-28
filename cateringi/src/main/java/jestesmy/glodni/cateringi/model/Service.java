@@ -9,7 +9,7 @@ public class Service {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int serviceID;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
     @JoinColumn(name = "companyID", nullable = false)
     private Company company;
 

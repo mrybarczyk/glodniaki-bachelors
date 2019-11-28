@@ -1,5 +1,6 @@
 package jestesmy.glodni.cateringi.controller.web;
 
+import jestesmy.glodni.cateringi.exception.NotFoundException;
 import jestesmy.glodni.cateringi.model.Company;
 import jestesmy.glodni.cateringi.model.Service;
 import jestesmy.glodni.cateringi.controller.api.ServiceApiController;
@@ -20,6 +21,7 @@ import javax.validation.Valid;
 public class ServiceWebController {
 
     private ServiceRepository serviceRepository;
+    private CompanyRepository companyRepository;
 
     @Autowired
     private Company company;
@@ -44,10 +46,15 @@ public class ServiceWebController {
 
     @PostMapping("/add")
     public String addService (Service service, Model model) {
-        service.setCompany(company);
-        serviceRepository.save(service);
-        model.addAttribute("services", serviceRepository.findAll());
-        return "allServices";
+        try {
+            companyRepository.findById(service.getCompany().getCompanyID());
+            service.setCompany(company);
+            serviceRepository.save(service);
+            model.addAttribute("services", serviceRepository.findAll());
+            return "allServices";
+        } catch (NotFoundException e){
+            return "error";
+        }
     }
 
 
