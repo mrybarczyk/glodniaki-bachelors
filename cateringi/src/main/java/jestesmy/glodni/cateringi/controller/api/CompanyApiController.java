@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/companies")
-public class CompanyController {
+public class CompanyApiController {
 
     @Autowired
     CompanyRepository companyRepository;
@@ -27,9 +27,9 @@ public class CompanyController {
          return companyRepository.findByName(companyName);
     }
 
-    @GetMapping("/{id}")
-    public Company findOne(@PathVariable int id) {
-        return companyRepository.findById(id)
+    @GetMapping("/{companyID}")
+    public Company findOne(@PathVariable int companyID) {
+        return companyRepository.findById(companyID)
                 .orElseThrow(NotFoundException::new);
     }
 
@@ -39,19 +39,19 @@ public class CompanyController {
         return companyRepository.save(company);
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable int id) {
-        companyRepository.findById(id)
+    @DeleteMapping("/{companyID}")
+    public void delete(@PathVariable int companyID) {
+        companyRepository.findById(companyID)
                 .orElseThrow(NotFoundException::new);
-        companyRepository.deleteById(id);
+        companyRepository.deleteById(companyID);
     }
 
-    @PutMapping("/{id}")
-    public Company updateCompany(@RequestBody Company company, @PathVariable int id){
-        if(company.getCompanyID()!=id) {
+    @PutMapping("/{companyID}")
+    public Company updateCompany(@RequestBody Company company, @PathVariable int companyID){
+        if(company.getCompanyID() != companyID) {
             throw new IdMismatchException();
         }
-        companyRepository.findById(id)
+        companyRepository.findById(companyID)
                 .orElseThrow(NotFoundException::new);
         return companyRepository.save(company);
     }
