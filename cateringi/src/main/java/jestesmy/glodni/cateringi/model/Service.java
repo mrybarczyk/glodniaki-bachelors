@@ -9,14 +9,14 @@ public class Service {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int serviceID;
 
+    @ManyToOne
+    @JoinColumn(name = "companyID", nullable = false)
+    private Company company;
+
     @Column(nullable = false)
     private String serviceName;
 
     private String description;
-
-    @ManyToOne
-    @JoinColumn(name="CompanyID", nullable = false)
-    private Company company;
 
     public int getServiceID() {
         return serviceID;
