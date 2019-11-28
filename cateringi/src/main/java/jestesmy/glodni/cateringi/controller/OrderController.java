@@ -11,10 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/order")
+@RequestMapping("/api/orders")
 public class OrderController {
 
     @Autowired
@@ -28,7 +27,7 @@ public class OrderController {
         return orderRepository.findAll();
     }
 
-    @GetMapping("/orders/client/{clientID}")
+    @GetMapping("/clients/{clientID}")
     public List findByClient(@PathVariable int clientID){
         Client client = clientRepository.findById(clientID).orElseThrow(NotFoundException::new);
         return orderRepository.findByClient(client);

@@ -69,7 +69,7 @@ public class CompaniesAPITest {
 
     @Test
     public void whenGetNotExistCompanyById_thenNotFound() {
-        Response response = RestAssured.get(API_ROOT+"/"+randomNumeric(4));
+        Response response = RestAssured.get(API_ROOT + "/" + randomNumeric(4));
 
         assertEquals(HttpStatus.NOT_FOUND.value(),response.getStatusCode());
     }

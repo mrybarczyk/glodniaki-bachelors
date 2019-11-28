@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = { CateringiApplication.class }, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class OrderApiTest {
-    private static final String API_ROOT = "http://localhost:8080/api/order";
+    private static final String API_ROOT = "http://localhost:8080/api/orders";
 
     private static final String API_ROOT_CLIENTS = "http://localhost:8080/api/clients";
 
@@ -70,7 +70,7 @@ public class OrderApiTest {
     public void whenGetOrdersByClientID_thenOK() {
         Order order = createRandomOrder();
         createOrderAsUri(order);
-        Response response = RestAssured.get(API_ROOT + "/orders/client/" + order.getClient().getClientID());
+        Response response = RestAssured.get(API_ROOT + "/clients/" + order.getClient().getClientID());
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
         assertTrue(response.as(List.class).size() > 0);
     }
@@ -97,7 +97,6 @@ public class OrderApiTest {
         assertEquals(HttpStatus.CREATED.value(), response.getStatusCode());
     }
 
-    //potrzebuję pola które to faktycznie wywali
     @Test
     public void whenInvalidOrder_thenError(){
         Order order = createRandomOrder();
@@ -114,7 +113,7 @@ public class OrderApiTest {
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
         Order order = createRandomOrder();
         String location = createOrderAsUri(order);
-        order.setOrderID(Integer.parseInt(location.split("api/order/")[1]));
+        order.setOrderID(Integer.parseInt(location.split("api/orders/")[1]));
         order.setDeliveryDate(Timestamp.valueOf("2019-07-10 15:30:07"));
         Response response = RestAssured.given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
