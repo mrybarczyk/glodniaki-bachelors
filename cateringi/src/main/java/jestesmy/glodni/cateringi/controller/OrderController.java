@@ -2,13 +2,16 @@ package jestesmy.glodni.cateringi.controller;
 
 import jestesmy.glodni.cateringi.exception.IdMismatchException;
 import jestesmy.glodni.cateringi.exception.NotFoundException;
+import jestesmy.glodni.cateringi.model.Client;
 import jestesmy.glodni.cateringi.model.Order;
+import jestesmy.glodni.cateringi.repository.ClientRepository;
 import jestesmy.glodni.cateringi.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/order")
@@ -17,14 +20,18 @@ public class OrderController {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private ClientRepository clientRepository;
+
     @GetMapping
     public Iterable findAll(){
         return orderRepository.findAll();
     }
 
-    @GetMapping("/orders/{clientID}")
-    public List findByUserDataID(@PathVariable int clientID) {
-        return orderRepository.findByClientID(clientID);
+    @GetMapping("/orders/client/{clientID}")
+    public List findByClient(@PathVariable int clientID){
+        Client client = clientRepository.findById(clientID).orElseThrow(NotFoundException::new);
+        return orderRepository.findByClient(client);
     }
 
     @GetMapping("/{orderID}")

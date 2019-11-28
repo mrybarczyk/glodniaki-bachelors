@@ -2,6 +2,7 @@ package jestesmy.glodni.cateringi;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import jestesmy.glodni.cateringi.model.Client;
 import jestesmy.glodni.cateringi.model.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.*;
@@ -16,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.TimeZone;
 
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.apache.commons.lang3.RandomStringUtils.randomNumeric;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -25,13 +27,28 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class OrderApiTest {
     private static final String API_ROOT = "http://localhost:8080/api/order";
 
+    private static final String API_ROOT_CLIENTS = "http://localhost:8080/api/clients";
+
+    private Client createRandomClient() {
+        Client client = new Client();
+        client.setName(randomAlphabetic(10));
+        client.setLastName(randomAlphabetic(15));
+        client.setClientID(Integer.parseInt(randomNumeric(4)));
+        return client;
+    }
+
     private Order createRandomOrder(){
+        Client client = createRandomClient();
+        RestAssured.given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(client)
+                .post(API_ROOT_CLIENTS);
         Order order = new Order();
         order.setOrderID(Integer.parseInt(randomNumeric(4)));
         order.setOrderDate(Timestamp.valueOf("2019-11-11 12:20:04"));
         order.setDeliveryDate(Timestamp.valueOf("2019-12-12 14:10:09"));
         order.setAddressID(Integer.parseInt(randomNumeric(4)));
-        order.setClientID(Integer.parseInt(randomNumeric(4)));
+        order.setClient(client);
         return order;
     }
 
@@ -53,7 +70,7 @@ public class OrderApiTest {
     public void whenGetOrdersByClientID_thenOK() {
         Order order = createRandomOrder();
         createOrderAsUri(order);
-        Response response = RestAssured.get(API_ROOT + "/orders/" + order.getClientID());
+        Response response = RestAssured.get(API_ROOT + "/orders/client/" + order.getClient().getClientID());
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
         assertTrue(response.as(List.class).size() > 0);
     }

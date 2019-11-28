@@ -1,6 +1,7 @@
 package jestesmy.glodni.cateringi.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="Companies")
@@ -19,6 +20,9 @@ public class Company {
     private String websiteAddress;
 
     private double averageRating;
+
+    //@OneToMany(mappedBy = "company")
+    //private List<Service> services;
 
     public int getCompanyID() {
         return companyID;
@@ -67,4 +71,12 @@ public class Company {
     public void setAverageRating(double averageRating) {
         this.averageRating = averageRating;
     }
+
+//    public List<Service> getServices() {
+//        return services;
+//    }
+//
+//    public void setServices(List<Service> services) {
+//        this.services = services;
+//    }
 }

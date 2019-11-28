@@ -14,6 +14,10 @@ public class Service {
 
     private String description;
 
+    @ManyToOne
+    @JoinColumn(name="CompanyID", nullable = false)
+    private Company company;
+
     public int getServiceID() {
         return serviceID;
     }
@@ -37,4 +41,8 @@ public class Service {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public Company getCompany() { return company; }
+
+    public void setCompany(Company company) { this.company = company; }
 }

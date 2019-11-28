@@ -1,6 +1,7 @@
 package jestesmy.glodni.cateringi.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Clients")
@@ -14,6 +15,9 @@ public class Client {
 
     @Column(nullable = false)
     private String lastName;
+
+//    @OneToMany(mappedBy = "client")
+//    private List<Order> orders;
 
     public int getClientID() {
         return clientID;
@@ -38,4 +42,12 @@ public class Client {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+//    public List<Order> getOrders() {
+//        return orders;
+//    }
+//
+//    public void setOrders(List<Order> orders) {
+//        this.orders = orders;
+//    }
 }
