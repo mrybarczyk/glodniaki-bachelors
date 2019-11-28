@@ -2,6 +2,7 @@ package jestesmy.glodni.cateringi.controller.web;
 
 import jestesmy.glodni.cateringi.model.Service;
 import jestesmy.glodni.cateringi.controller.api.ServiceController;
+import jestesmy.glodni.cateringi.repository.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,19 +12,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller("servicewebcontroller")
-@RequestMapping(value="/api/services", method=RequestMethod.POST)
+@RequestMapping(value="/services")
 public class ServiceWebController {
 
-    private ServiceController sc;
+    private ServiceRepository serviceRepository;
 
     @Autowired
-    public ServiceWebController(ServiceController sc){
-        this.sc = sc;
+    public ServiceWebController(ServiceRepository sc){
+        this.serviceRepository = sc;
     }
 
-    @GetMapping("/all")
+    @GetMapping()
     public String home(Model model){
-        model.addAttribute("services", sc.findAll());
+        model.addAttribute("services", serviceRepository.findAll());
         return "allServices";
     }
 
@@ -35,8 +36,8 @@ public class ServiceWebController {
 
     @PostMapping("/add")
     public String addService (Service service, Model model) {
-        sc.create(service);
-        model.addAttribute("services", sc.findAll());
+        serviceRepository.save(service);
+        model.addAttribute("services", serviceRepository.findAll());
         return "allServices";
     }
 

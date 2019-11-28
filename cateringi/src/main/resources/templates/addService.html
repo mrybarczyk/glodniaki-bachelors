@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="style/addService.css" />
 </head>
 <body>
-    <form action="/api/services/add" th:action="@{/api/services/new}" th:object="${service}" method="post">
+    <form th:action="@{/services/add}" th:object="${service}" method="post">
     <table><tr>
     <td><label for="serviceName">Nazwa</label><input type="text" th:field="*{serviceName}" id="serviceName"/></td>
     <td><label for="description">Opis</label><input type="text" th:field="*{description}" id="description"/></td>

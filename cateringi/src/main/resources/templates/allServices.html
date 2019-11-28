@@ -16,12 +16,12 @@
             <tbody>
             <tr th:each="service : ${services}">
                 <td th:text="${service.serviceName}"></td>
-                <td th:text="${service.descripion}"></td>
+                <td th:text="${service.description}"></td>
             </tr>
             </tbody>
         </table>
     </div>
-    <p><a href="/api/services/new">Add new service</a></p>
+    <p><a href="/services/new">Add new service</a></p>
 </div>
 
 </form>
