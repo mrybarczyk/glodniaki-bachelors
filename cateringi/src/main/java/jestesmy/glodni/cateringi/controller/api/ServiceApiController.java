@@ -2,7 +2,9 @@ package jestesmy.glodni.cateringi.controller.api;
 
 import jestesmy.glodni.cateringi.exception.IdMismatchException;
 import jestesmy.glodni.cateringi.exception.NotFoundException;
+import jestesmy.glodni.cateringi.model.Company;
 import jestesmy.glodni.cateringi.model.Service;
+import jestesmy.glodni.cateringi.repository.CompanyRepository;
 import jestesmy.glodni.cateringi.repository.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,9 +13,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/services")
-public class ServiceController {
+public class ServiceApiController {
     @Autowired
     private ServiceRepository serviceRepository;
+
+    @Autowired
+    private CompanyRepository companyRepository;
 
     @GetMapping
     public Iterable findAll(){
@@ -29,6 +34,12 @@ public class ServiceController {
     public Service findOne(@PathVariable int serviceID){
         return serviceRepository.findById(serviceID)
                 .orElseThrow(NotFoundException::new);
+    }
+
+    @GetMapping("/company/{companyID}")
+    public List findByCompany(@PathVariable int companyID){
+        Company company = companyRepository.findById(companyID).orElseThrow(NotFoundException::new);
+        return serviceRepository.findByCompany(company);
     }
 
     @PostMapping
