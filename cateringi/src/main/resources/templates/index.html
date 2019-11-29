@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Cateringi</title>
@@ -8,6 +8,7 @@
 <body>
     <section class="welcome">
         <h1>Jestesmy Glodni!</h1>
+        <h2>Cześć, <span th:text="${username}"></span></h2>
     </section>
 
 </body>
