@@ -1,12 +1,14 @@
 package jestesmy.glodni.cateringi;
 
+import jestesmy.glodni.cateringi.model.Company;
 import jestesmy.glodni.cateringi.model.Service;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
-import static org.apache.commons.lang3.RandomStringUtils.randomNumeric;
+
+import static org.apache.commons.lang3.RandomStringUtils.*;
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
@@ -23,10 +25,28 @@ public class ServiceApiTest {
     private static final String API_ROOT
             = "http://localhost:8080/api/services";
 
+    private static final String API_ROOT_COMPANIES="http://localhost:8080/api/companies";
+
+    private Company createRandomCompany() {
+        Company company = new Company();
+        company.setName(randomAlphabetic(15));
+        company.setNIP(randomAlphanumeric(10));
+        company.setREGON(randomAlphanumeric(9));
+        company.setWebsiteAddress("https://"+randomAlphabetic(8));
+        company.setCompanyID(Integer.parseInt(randomNumeric(4)));
+        return company;
+    }
+
     private Service createRandomService() {
+        Company company = createRandomCompany();
+        RestAssured.given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(company)
+                .post(API_ROOT_COMPANIES);
         Service service = new Service();
         service.setServiceName(randomAlphabetic(10));
         service.setDescription(randomAlphabetic(100));
+        service.setCompany(company);
         return service;
     }
 
@@ -127,5 +147,14 @@ public class ServiceApiTest {
 
         response = RestAssured.get(location);
         assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatusCode());
+    }
+
+    @Test
+    public void whenGetServicesByCompanyID_thenOK() {
+        Service service = createRandomService();
+        createServiceAsUri(service);
+        Response response = RestAssured.get(API_ROOT + "/company/" + service.getCompany().getCompanyID());
+        assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+        assertTrue(response.as(List.class).size() > 0);
     }
 }
