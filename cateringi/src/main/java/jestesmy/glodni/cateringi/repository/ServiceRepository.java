@@ -9,5 +9,5 @@ import java.util.List;
 public interface ServiceRepository extends CrudRepository<Service, Integer> {
     List<Service> findByServiceName(String name);
 
-    List findByCompany(Company company);
+    List<Service> findByCompany(Company company);
 }
