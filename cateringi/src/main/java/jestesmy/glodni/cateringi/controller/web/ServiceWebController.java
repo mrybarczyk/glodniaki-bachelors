@@ -3,9 +3,11 @@ package jestesmy.glodni.cateringi.controller.web;
 import jestesmy.glodni.cateringi.exception.NotFoundException;
 import jestesmy.glodni.cateringi.model.Company;
 import jestesmy.glodni.cateringi.model.Service;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import jestesmy.glodni.cateringi.controller.api.ServiceApiController;
 import jestesmy.glodni.cateringi.repository.ServiceRepository;
 import jestesmy.glodni.cateringi.repository.CompanyRepository;
+import org.hibernate.TransientPropertyValueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +22,10 @@ import javax.validation.Valid;
 @RequestMapping(value="/services")
 public class ServiceWebController {
 
+    @Autowired
     private ServiceRepository serviceRepository;
+
+    @Autowired
     private CompanyRepository companyRepository;
 
     @Autowired
@@ -45,17 +50,13 @@ public class ServiceWebController {
     }
 
     @PostMapping("/add")
-    public String addService (Service service, Model model) {
-        try {
-            companyRepository.findById(service.getCompany().getCompanyID());
-            service.setCompany(company);
-            serviceRepository.save(service);
-            model.addAttribute("services", serviceRepository.findAll());
-            return "allServices";
-        } catch (NotFoundException e){
-            return "error";
+    public String addService (Service service, Model model){
+        Company withID = new Company();
+        withID.setCompanyID(service.getCompany().getCompanyID());
+        service.setCompany(withID);
+        serviceRepository.save(service);
+        model.addAttribute("services", serviceRepository.findAll());
+        return "allServices";
         }
-    }
-
 
 }
