@@ -100,7 +100,7 @@ public class OrderApiTest {
     @Test
     public void whenInvalidOrder_thenError(){
         Order order = createRandomOrder();
-        order.setDeliveryDate(null);
+        order.setOrderDate(null);
         Response response = RestAssured.given().contentType(MediaType.APPLICATION_JSON_VALUE).body(order).post(API_ROOT);
 
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode());
