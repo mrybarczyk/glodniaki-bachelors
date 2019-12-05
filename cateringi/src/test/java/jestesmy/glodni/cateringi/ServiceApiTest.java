@@ -1,5 +1,6 @@
 package jestesmy.glodni.cateringi;
 
+import jestesmy.glodni.cateringi.dto.ServiceDto;
 import jestesmy.glodni.cateringi.model.Company;
 import jestesmy.glodni.cateringi.model.Service;
 import org.junit.jupiter.api.Test;
@@ -58,6 +59,14 @@ public class ServiceApiTest {
         return API_ROOT + "/" + response.jsonPath().get("serviceID");
     }
 
+    private String createServiceDtoAsUri(ServiceDto serviceDto) {
+        Response response = RestAssured.given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(serviceDto)
+                .post(API_ROOT);
+        return API_ROOT + "/" + response.jsonPath().get("serviceID");
+    }
+
     @Test
     public void whenGetAllService_thenOK() {
         Response response = RestAssured.get(API_ROOT);
@@ -68,7 +77,9 @@ public class ServiceApiTest {
     @Test
     public void whenGetServicesByTitle_thenOK() {
         Service service = createRandomService();
-        createServiceAsUri(service);
+        ServiceDto serviceDto = new ServiceDto(service.getServiceID(), service.getServiceName(),
+                service.getDescription(), service.getCompany().getCompanyID());
+        createServiceDtoAsUri(serviceDto);
         Response response = RestAssured.get(
                 API_ROOT + "/name/" + service.getServiceName());
 
@@ -79,7 +90,9 @@ public class ServiceApiTest {
     @Test
     public void whenGetCreatedServiceById_thenOK() {
         Service service = createRandomService();
-        String location = createServiceAsUri(service);
+        ServiceDto serviceDto = new ServiceDto(service.getServiceID(), service.getServiceName(),
+                service.getDescription(), service.getCompany().getCompanyID());
+        String location = createServiceDtoAsUri(serviceDto);
         Response response = RestAssured.get(location);
 
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
@@ -97,9 +110,11 @@ public class ServiceApiTest {
     @Test
     public void whenCreateNewService_thenCreated() {
         Service service = createRandomService();
+        ServiceDto serviceDto = new ServiceDto(service.getServiceID(), service.getServiceName(),
+                service.getDescription(), service.getCompany().getCompanyID());
         Response response = RestAssured.given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(service)
+                .body(serviceDto)
                 .post(API_ROOT);
 
         assertEquals(HttpStatus.CREATED.value(), response.getStatusCode());
@@ -108,10 +123,12 @@ public class ServiceApiTest {
     @Test
     public void whenInvalidService_thenError() {
         Service service = createRandomService();
+        ServiceDto serviceDto = new ServiceDto(service.getServiceID(), service.getServiceName(),
+                service.getDescription(), service.getCompany().getCompanyID());
         service.setServiceName(null);
         Response response = RestAssured.given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(service)
+                .body(serviceDto)
                 .post(API_ROOT);
 
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode());
@@ -120,12 +137,14 @@ public class ServiceApiTest {
     @Test
     public void whenUpdateCreatedService_thenUpdated() {
         Service service = createRandomService();
+        ServiceDto serviceDto = new ServiceDto(service.getServiceID(), service.getServiceName(),
+                service.getDescription(), service.getCompany().getCompanyID());
         String location = createServiceAsUri(service);
         service.setServiceID(Integer.parseInt(location.split("api/services/")[1]));
         service.setDescription("newService");
         Response response = RestAssured.given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(service)
+                .body(serviceDto)
                 .put(location);
 
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
@@ -140,7 +159,9 @@ public class ServiceApiTest {
     @Test
     public void whenDeleteCreatedService_thenOk() {
         Service service = createRandomService();
-        String location = createServiceAsUri(service);
+        ServiceDto serviceDto = new ServiceDto(service.getServiceID(), service.getServiceName(),
+                service.getDescription(), service.getCompany().getCompanyID());
+        String location = createServiceDtoAsUri(serviceDto);
         Response response = RestAssured.delete(location);
 
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
@@ -152,7 +173,9 @@ public class ServiceApiTest {
     @Test
     public void whenGetServicesByCompanyID_thenOK() {
         Service service = createRandomService();
-        createServiceAsUri(service);
+        ServiceDto serviceDto = new ServiceDto(service.getServiceID(), service.getServiceName(),
+                service.getDescription(), service.getCompany().getCompanyID());
+        createServiceDtoAsUri(serviceDto);
         Response response = RestAssured.get(API_ROOT + "/company/" + service.getCompany().getCompanyID());
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
         assertTrue(response.as(List.class).size() > 0);

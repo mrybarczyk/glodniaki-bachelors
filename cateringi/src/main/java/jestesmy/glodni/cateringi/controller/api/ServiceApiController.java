@@ -1,5 +1,6 @@
 package jestesmy.glodni.cateringi.controller.api;
 
+import jestesmy.glodni.cateringi.dto.ServiceDto;
 import jestesmy.glodni.cateringi.exception.IdMismatchException;
 import jestesmy.glodni.cateringi.exception.NotFoundException;
 import jestesmy.glodni.cateringi.model.Company;
@@ -9,7 +10,11 @@ import jestesmy.glodni.cateringi.repository.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping("/api/services")
@@ -21,47 +26,83 @@ public class ServiceApiController {
     private CompanyRepository companyRepository;
 
     @GetMapping
-    public Iterable findAll(){
-        return serviceRepository.findAll();
+    public Iterable<ServiceDto> findAll() {
+        return StreamSupport.stream(serviceRepository.findAll().spliterator(), false)
+                .map(this::dtoFromModel)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/name/{serviceName}")
-    public List findByName(@PathVariable String serviceName){
-        return serviceRepository.findByServiceName(serviceName);
+    public List<ServiceDto> findByName(@PathVariable String serviceName) {
+        final List<Service> services = serviceRepository.findByServiceName(serviceName);
+        final List<ServiceDto> serviceDtos = new ArrayList<>();
+        for (Service service : services) {
+            ServiceDto serviceDto = dtoFromModel(service);
+            serviceDtos.add(serviceDto);
+        }
+        return serviceDtos;
     }
 
     @GetMapping("/{serviceID}")
-    public Service findOne(@PathVariable int serviceID){
+    public ServiceDto findOne(@PathVariable int serviceID) {
         return serviceRepository.findById(serviceID)
+                .map(this::dtoFromModel)
                 .orElseThrow(NotFoundException::new);
     }
 
     @GetMapping("/company/{companyID}")
-    public List findByCompany(@PathVariable int companyID){
-        Company company = companyRepository.findById(companyID).orElseThrow(NotFoundException::new);
-        return serviceRepository.findByCompany(company);
+    public List<ServiceDto> findByCompany(@PathVariable int companyID) {
+        final Company company = companyRepository.findById(companyID).orElseThrow(NotFoundException::new);
+        final List<Service> services = serviceRepository.findByCompany(company);
+        return services.stream()
+                .map(this::dtoFromModel)
+                .collect(Collectors.toList());
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Service create(@RequestBody Service service){
-        return serviceRepository.save(service);
+    public ServiceDto create(@RequestBody ServiceDto serviceDto) {
+        final Service service = modelFromDto(serviceDto);
+        final Service savedService = serviceRepository.save(service);
+        return dtoFromModel(savedService);
     }
 
     @DeleteMapping("/{serviceID}")
-    public void delete(@PathVariable int serviceID){
+    public void delete(@PathVariable int serviceID) {
         serviceRepository.findById(serviceID)
                 .orElseThrow(NotFoundException::new);
         serviceRepository.deleteById(serviceID);
     }
 
     @PutMapping("/{serviceID}")
-    public Service updateService(@RequestBody Service service, @PathVariable int serviceID){
-        if(service.getServiceID() != serviceID){
+    public ServiceDto updateService(@RequestBody ServiceDto serviceDto, @PathVariable int serviceID) {
+        if (serviceDto.getId() != serviceID) {
             throw new IdMismatchException();
         }
         serviceRepository.findById(serviceID)
                 .orElseThrow(NotFoundException::new);
-        return serviceRepository.save(service);
+
+        throw new UnsupportedOperationException("not implemented yet");
+    }
+
+    private ServiceDto dtoFromModel(Service service) {
+        return new ServiceDto(
+                service.getServiceID(),
+                service.getServiceName(),
+                service.getDescription(),
+                service.getCompany().getCompanyID()
+        );
+    }
+
+    private Service modelFromDto(ServiceDto serviceDto) {
+        final Company company = companyRepository.findById(serviceDto.getCompanyId()).orElseThrow(NotFoundException::new);
+
+        final Service service = new Service();
+        service.setServiceID(serviceDto.getId());
+        service.setServiceName(serviceDto.getName());
+        service.setDescription(serviceDto.getDescription());
+        service.setCompany(company);
+        return service;
+
     }
 }
