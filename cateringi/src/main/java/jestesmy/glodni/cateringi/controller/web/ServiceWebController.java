@@ -1,22 +1,15 @@
 package jestesmy.glodni.cateringi.controller.web;
 
-import jestesmy.glodni.cateringi.exception.NotFoundException;
 import jestesmy.glodni.cateringi.model.Company;
 import jestesmy.glodni.cateringi.model.Service;
-import org.apache.commons.lang3.exception.ExceptionUtils;
-import jestesmy.glodni.cateringi.controller.api.ServiceApiController;
 import jestesmy.glodni.cateringi.repository.ServiceRepository;
 import jestesmy.glodni.cateringi.repository.CompanyRepository;
-import org.hibernate.TransientPropertyValueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.validation.Valid;
 
 @Controller("servicewebcontroller")
 @RequestMapping(value="/services")
