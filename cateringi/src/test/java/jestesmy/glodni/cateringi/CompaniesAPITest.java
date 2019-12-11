@@ -1,6 +1,7 @@
 package jestesmy.glodni.cateringi;
 
 import io.restassured.RestAssured;
+import io.restassured.authentication.FormAuthConfig;
 import io.restassured.response.Response;
 import jestesmy.glodni.cateringi.model.Company;
 import org.junit.jupiter.api.Test;
@@ -25,15 +26,15 @@ public class CompaniesAPITest {
     private Company createRandomCompany() {
         Company company = new Company();
         company.setName(randomAlphabetic(15));
-        company.setNIP(randomAlphanumeric(10));
-        company.setREGON(randomAlphanumeric(9));
+        company.setNip(randomAlphanumeric(10));
+        company.setRegon(randomAlphanumeric(9));
         company.setWebsiteAddress("https://"+randomAlphabetic(8));
         company.setCompanyID(Integer.parseInt(randomNumeric(4)));
         return company;
     }
 
     private String createCompanyAsUri(Company company) {
-        Response response = RestAssured.given()
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(company)
                 .post(API_ROOT);
@@ -42,7 +43,7 @@ public class CompaniesAPITest {
 
     @Test
     public void whenGetAllCompanies_thenOK() {
-        Response response = RestAssured.get(API_ROOT);
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().get(API_ROOT);
 
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
     }
@@ -51,7 +52,7 @@ public class CompaniesAPITest {
     public void whenGetCompanyByName_thenOK(){
         Company company = createRandomCompany();
         createCompanyAsUri(company);
-        Response response = RestAssured.get(API_ROOT+"/name/"+company.getName());
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().get(API_ROOT+"/name/"+company.getName());
 
         assertEquals(HttpStatus.OK.value(),response.getStatusCode());
         assertTrue(response.as(List.class).size()>0);
@@ -61,7 +62,7 @@ public class CompaniesAPITest {
     public void whenGetCreatedCompanyById_thenOK() {
         Company company = createRandomCompany();
         String uri = createCompanyAsUri(company);
-        Response response = RestAssured.get(uri);
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().get(uri);
 
         assertEquals(HttpStatus.OK.value(),response.getStatusCode());
         assertEquals(company.getName(), response.jsonPath().get("name"));
@@ -69,7 +70,8 @@ public class CompaniesAPITest {
 
     @Test
     public void whenGetNotExistCompanyById_thenNotFound() {
-        Response response = RestAssured.get(API_ROOT + "/" + randomNumeric(4));
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when()
+                .get(API_ROOT+"/"+randomNumeric(4));
 
         assertEquals(HttpStatus.NOT_FOUND.value(),response.getStatusCode());
     }
@@ -77,7 +79,7 @@ public class CompaniesAPITest {
     @Test
     public void whenCreateNewCompany_thenCreated() {
         Company company = createRandomCompany();
-        Response response = RestAssured.given()
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(company)
                 .post(API_ROOT);
@@ -88,8 +90,8 @@ public class CompaniesAPITest {
     @Test
     public void whenInvalidCompany_thenError() {
         Company company = createRandomCompany();
-        company.setREGON(null);
-        Response response = RestAssured.given()
+        company.setRegon(null);
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(company)
                 .post(API_ROOT);
@@ -104,14 +106,14 @@ public class CompaniesAPITest {
         String uri = createCompanyAsUri(company);
         company.setCompanyID(Integer.parseInt(uri.split("api/companies/")[1]));
         company.setName("Super nazwa!");
-        Response response = RestAssured.given()
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(company)
                 .put(uri);
 
         assertEquals(HttpStatus.OK.value(),response.getStatusCode());
 
-        response = RestAssured.get(uri);
+        response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().get(uri);
 
         assertEquals(HttpStatus.OK.value(),response.getStatusCode());
         assertEquals("Super nazwa!",response.jsonPath().get("name"));
@@ -121,11 +123,11 @@ public class CompaniesAPITest {
     public void whenDeleteCreatedCompany_thenOk() {
         Company company = createRandomCompany();
         String uri = createCompanyAsUri(company);
-        Response response = RestAssured.delete(uri);
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().delete(uri);
 
         assertEquals(HttpStatus.OK.value(),response.getStatusCode());
 
-        response = RestAssured.get(uri);
+        response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().get(uri);
         assertEquals(HttpStatus.NOT_FOUND.value(),response.getStatusCode());
     }
 

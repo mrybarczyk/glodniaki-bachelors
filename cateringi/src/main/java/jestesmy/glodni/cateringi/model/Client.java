@@ -1,5 +1,7 @@
 package jestesmy.glodni.cateringi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,6 +16,28 @@ public class Client {
 
     @Column(nullable = false)
     private String lastName;
+
+    @OneToOne
+    @JoinColumn(name="clientID")
+    @MapsId
+    @JsonIgnore
+    User user;
+
+    public Client() {
+    }
+
+    public Client(String name, String lastName) {
+        this.name = name;
+        this.lastName = lastName;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public int getClientID() {
         return clientID;
