@@ -1,6 +1,7 @@
 package jestesmy.glodni.cateringi;
 
 import io.restassured.RestAssured;
+import io.restassured.authentication.FormAuthConfig;
 import io.restassured.response.Response;
 import jestesmy.glodni.cateringi.model.Client;
 import jestesmy.glodni.cateringi.model.Order;
@@ -9,6 +10,10 @@ import org.junit.jupiter.api.extension.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.annotation.SecurityTestExecutionListeners;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.sql.Timestamp;
@@ -39,7 +44,7 @@ public class OrderApiTest {
 
     private Order createRandomOrder(){
         Client client = createRandomClient();
-        RestAssured.given()
+        RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(client)
                 .post(API_ROOT_CLIENTS);
@@ -53,7 +58,7 @@ public class OrderApiTest {
     }
 
     private String createOrderAsUri(Order order) {
-        Response response = RestAssured.given()
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(order)
                 .post(API_ROOT);
@@ -62,7 +67,7 @@ public class OrderApiTest {
 
     @Test
     public void whenGetAllOrders_thenOK(){
-        Response response = RestAssured.get(API_ROOT);
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().get(API_ROOT);
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
     }
 
@@ -70,7 +75,7 @@ public class OrderApiTest {
     public void whenGetOrdersByClientID_thenOK() {
         Order order = createRandomOrder();
         createOrderAsUri(order);
-        Response response = RestAssured.get(API_ROOT + "/client/" + order.getClient().getClientID());
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().get(API_ROOT + "/client/" + order.getClient().getClientID());
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
         assertTrue(response.as(List.class).size() > 0);
     }
@@ -79,29 +84,33 @@ public class OrderApiTest {
     public void whenGetCreatedOrderById_thenOK(){
         Order order = createRandomOrder();
         String location = createOrderAsUri(order);
-        Response response = RestAssured.get(location);
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().get(location);
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
     }
 
     @Test
     public void whenGetNotExistOrderById_thenNotFound() {
-        Response response = RestAssured.get(API_ROOT + "/" + randomNumeric(4));
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().get(API_ROOT + "/" + randomNumeric(4));
         assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatusCode());
     }
 
     @Test
     public void whenCreateNewOrder_thenCreated(){
         Order order = createRandomOrder();
-        Response response = RestAssured.given().contentType(MediaType.APPLICATION_JSON_VALUE).body(order).post(API_ROOT);
+        Response response = RestAssured.given().auth()
+                .form("admin","admin", new FormAuthConfig("/login","username","password"))
+                .when().contentType(MediaType.APPLICATION_JSON_VALUE).body(order).post(API_ROOT);
 
         assertEquals(HttpStatus.CREATED.value(), response.getStatusCode());
     }
 
+    //potrzebuję pola które to faktycznie wywali
     @Test
     public void whenInvalidOrder_thenError(){
         Order order = createRandomOrder();
         order.setDeliveryDate(null);
-        Response response = RestAssured.given().contentType(MediaType.APPLICATION_JSON_VALUE).body(order).post(API_ROOT);
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when()
+                .contentType(MediaType.APPLICATION_JSON_VALUE).body(order).post(API_ROOT);
 
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode());
     }
@@ -115,14 +124,14 @@ public class OrderApiTest {
         String location = createOrderAsUri(order);
         order.setOrderID(Integer.parseInt(location.split("api/orders/")[1]));
         order.setDeliveryDate(Timestamp.valueOf("2019-07-10 15:30:07"));
-        Response response = RestAssured.given()
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(order)
                 .put(location);
 
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 
-        response = RestAssured.get(location);
+        response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().get(location);
 
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
         assertEquals(df.format(Timestamp.valueOf("2019-07-10 15:30:07")), response.jsonPath()
@@ -133,11 +142,11 @@ public class OrderApiTest {
     public void whenDeleteCreatedOrder_thenOk() {
         Order order  = createRandomOrder();
         String location = createOrderAsUri(order);
-        Response response = RestAssured.delete(location);
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().delete(location);
 
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 
-        response = RestAssured.get(location);
+        response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().get(location);
         assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatusCode());
     }
 }

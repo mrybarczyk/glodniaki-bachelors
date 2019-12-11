@@ -12,8 +12,8 @@ public class Config {
         Company company = new Company();
         company.setCompanyID(999);
         company.setName("TestowaFirma");
-        company.setNIP("111");
-        company.setREGON("222");
+        company.setNip("111");
+        company.setRegon("222");
         company.setAverageRating(0);
         return company;
     }

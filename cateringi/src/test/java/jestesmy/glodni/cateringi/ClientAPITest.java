@@ -1,6 +1,7 @@
 package jestesmy.glodni.cateringi;
 
 import io.restassured.RestAssured;
+import io.restassured.authentication.FormAuthConfig;
 import io.restassured.response.Response;
 import jestesmy.glodni.cateringi.model.Client;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ClientAPITest {
     private static final String API_ROOT = "http://localhost:8080/api/clients";
 
-
     private Client createRandomClient() {
         Client client = new Client();
         client.setName(randomAlphabetic(10));
@@ -32,7 +32,7 @@ public class ClientAPITest {
     }
 
     private String createClientAsUri(Client client) {
-        final io.restassured.response.Response response = RestAssured.given()
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(client)
                 .post(API_ROOT);
@@ -42,7 +42,7 @@ public class ClientAPITest {
 
     @Test
     public void whenGetAllClients_thenOK() {
-        Response response = RestAssured.get(API_ROOT);
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().get(API_ROOT);
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
     }
 
@@ -51,7 +51,7 @@ public class ClientAPITest {
         Client client = createRandomClient();
         createClientAsUri(client);
 
-        Response response = RestAssured.get(API_ROOT+"/lastName/"+client.getLastName());
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().get(API_ROOT+"/lastName/"+client.getLastName());
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
         assertTrue(response.as(List.class)
                 .size() > 0);
@@ -61,7 +61,7 @@ public class ClientAPITest {
     public void whenGetCreatedClientById_thenOK() {
         Client client = createRandomClient();
         String uri = createClientAsUri(client);
-        Response response = RestAssured.get(uri);
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().get(uri);
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
         assertEquals(client.getLastName(), response.jsonPath()
                 .get("lastName"));
@@ -69,7 +69,7 @@ public class ClientAPITest {
 
     @Test
     public void whenGetNotExistClientById_thenNotFound() {
-        Response response = RestAssured.get(API_ROOT+"/"+randomNumeric(4));
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().get(API_ROOT+"/"+randomNumeric(4));
         assertEquals(HttpStatus.NOT_FOUND.value(),response.getStatusCode());
     }
 
@@ -77,7 +77,7 @@ public class ClientAPITest {
     @Test
     public void whenCreateNewClient_thenCreated() {
         Client client = createRandomClient();
-        Response response = RestAssured.given()
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(client)
                 .post(API_ROOT);
@@ -89,7 +89,7 @@ public class ClientAPITest {
         Client client = createRandomClient();
         client.setLastName(null);
 
-        Response response = RestAssured.given()
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(client)
                 .post(API_ROOT);
@@ -103,13 +103,13 @@ public class ClientAPITest {
 
         client.setClientID(Integer.parseInt(uri.split("api/clients/")[1]));
         client.setLastName("Kowalski");
-        io.restassured.response.Response response = RestAssured.given()
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(client)
                 .put(uri);
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 
-        response = RestAssured.get(uri);
+        response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().get(uri);
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
         assertEquals("Kowalski", response.jsonPath()
                 .get("lastName"));
@@ -120,11 +120,11 @@ public class ClientAPITest {
     public void whenDeleteCreatedClient_thenOk() {
         Client client = createRandomClient();
         String uri = createClientAsUri(client);
-        Response response = RestAssured.delete(uri);
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().delete(uri);
 
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 
-        response = RestAssured.get(uri);
+        response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().get(uri);
         assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatusCode());
     }
 }

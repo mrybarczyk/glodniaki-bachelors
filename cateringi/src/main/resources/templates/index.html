@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Cateringi</title>
-    <link rel="stylesheet" type="text/css" href="style/hello.css" />
+    <link rel="stylesheet" type="text/css" href="css/hello.css" />
 </head>
 <body>
     <section class="welcome">
         <h1>Jestesmy Glodni!</h1>
+        <h3>Hello <span th:text="${currentUser}"></span></h3>
     </section>
 
 </body>

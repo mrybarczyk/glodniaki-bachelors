@@ -1,5 +1,7 @@
 package jestesmy.glodni.cateringi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,14 +13,40 @@ public class Company {
     private String name;
 
     @Column(nullable = false)
-    private String NIP;
+    private String nip;
 
     @Column(nullable = false)
-    private String REGON;
+    private String regon;
 
     private String websiteAddress;
 
     private double averageRating;
+
+    @OneToOne
+    @JoinColumn(name="companyID")
+    @MapsId
+    @JsonIgnore
+    User user;
+
+    public Company(){
+        this.averageRating = 0;
+    }
+
+    public Company(String name, String nip, String regon, String websiteAddress) {
+        this.name = name;
+        this.nip = nip;
+        this.regon = regon;
+        this.websiteAddress = websiteAddress;
+        this.averageRating = 0;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public int getCompanyID() {
         return companyID;
@@ -36,20 +64,20 @@ public class Company {
         this.name = name;
     }
 
-    public String getNIP() {
-        return NIP;
+    public String getNip() {
+        return nip;
     }
 
-    public void setNIP(String NIP) {
-        this.NIP = NIP;
+    public void setNip(String nip) {
+        this.nip = nip;
     }
 
-    public String getREGON() {
-        return REGON;
+    public String getRegon() {
+        return regon;
     }
 
-    public void setREGON(String REGON) {
-        this.REGON = REGON;
+    public void setRegon(String regon) {
+        this.regon = regon;
     }
 
     public String getWebsiteAddress() {

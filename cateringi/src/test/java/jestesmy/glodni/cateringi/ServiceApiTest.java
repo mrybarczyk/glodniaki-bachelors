@@ -1,25 +1,25 @@
 package jestesmy.glodni.cateringi;
 
+import io.restassured.RestAssured;
+import io.restassured.authentication.FormAuthConfig;
+import io.restassured.response.Response;
 import jestesmy.glodni.cateringi.model.Company;
 import jestesmy.glodni.cateringi.model.Service;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import static org.apache.commons.lang3.RandomStringUtils.*;
-import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import io.restassured.RestAssured;
-import io.restassured.response.Response;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.List;
+
+import static org.apache.commons.lang3.RandomStringUtils.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = { CateringiApplication.class }, webEnvironment
-        = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(classes = { CateringiApplication.class }, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class ServiceApiTest {
 
     private static final String API_ROOT
@@ -30,8 +30,8 @@ public class ServiceApiTest {
     private Company createRandomCompany() {
         Company company = new Company();
         company.setName(randomAlphabetic(15));
-        company.setNIP(randomAlphanumeric(10));
-        company.setREGON(randomAlphanumeric(9));
+        company.setNip(randomAlphanumeric(10));
+        company.setRegon(randomAlphanumeric(9));
         company.setWebsiteAddress("https://"+randomAlphabetic(8));
         company.setCompanyID(Integer.parseInt(randomNumeric(4)));
         return company;
@@ -39,19 +39,21 @@ public class ServiceApiTest {
 
     private Service createRandomService() {
         Company company = createRandomCompany();
-        RestAssured.given()
+        RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(company)
                 .post(API_ROOT_COMPANIES);
         Service service = new Service();
+        Company relation = new Company();
+        relation.setCompanyID(company.getCompanyID());
+        service.setCompany(relation);
         service.setServiceName(randomAlphabetic(10));
         service.setDescription(randomAlphabetic(100));
-        service.setCompany(company);
         return service;
     }
 
     private String createServiceAsUri(Service service) {
-        Response response = RestAssured.given()
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(service)
                 .post(API_ROOT);
@@ -60,7 +62,7 @@ public class ServiceApiTest {
 
     @Test
     public void whenGetAllService_thenOK() {
-        Response response = RestAssured.get(API_ROOT);
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().get(API_ROOT);
 
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
     }
@@ -69,7 +71,7 @@ public class ServiceApiTest {
     public void whenGetServicesByTitle_thenOK() {
         Service service = createRandomService();
         createServiceAsUri(service);
-        Response response = RestAssured.get(
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().get(
                 API_ROOT + "/name/" + service.getServiceName());
 
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
@@ -80,7 +82,7 @@ public class ServiceApiTest {
     public void whenGetCreatedServiceById_thenOK() {
         Service service = createRandomService();
         String location = createServiceAsUri(service);
-        Response response = RestAssured.get(location);
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().get(location);
 
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
         assertEquals(service.getServiceName(), response.jsonPath()
@@ -89,7 +91,7 @@ public class ServiceApiTest {
 
     @Test
     public void whenGetNotExistServiceById_thenNotFound() {
-        Response response = RestAssured.get(API_ROOT + "/" + randomNumeric(4));
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().get(API_ROOT + "/" + randomNumeric(4));
 
         assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatusCode());
     }
@@ -97,7 +99,7 @@ public class ServiceApiTest {
     @Test
     public void whenCreateNewService_thenCreated() {
         Service service = createRandomService();
-        Response response = RestAssured.given()
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(service)
                 .post(API_ROOT);
@@ -109,7 +111,7 @@ public class ServiceApiTest {
     public void whenInvalidService_thenError() {
         Service service = createRandomService();
         service.setServiceName(null);
-        Response response = RestAssured.given()
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(service)
                 .post(API_ROOT);
@@ -123,14 +125,14 @@ public class ServiceApiTest {
         String location = createServiceAsUri(service);
         service.setServiceID(Integer.parseInt(location.split("api/services/")[1]));
         service.setDescription("newService");
-        Response response = RestAssured.given()
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(service)
                 .put(location);
 
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 
-        response = RestAssured.get(location);
+        response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().get(location);
 
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
         assertEquals("newService", response.jsonPath()
@@ -141,11 +143,11 @@ public class ServiceApiTest {
     public void whenDeleteCreatedService_thenOk() {
         Service service = createRandomService();
         String location = createServiceAsUri(service);
-        Response response = RestAssured.delete(location);
+        Response response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().delete(location);
 
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 
-        response = RestAssured.get(location);
+        response = RestAssured.given().auth().form("admin","admin", new FormAuthConfig("/login","username","password")).when().get(location);
         assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatusCode());
     }
 
@@ -153,7 +155,9 @@ public class ServiceApiTest {
     public void whenGetServicesByCompanyID_thenOK() {
         Service service = createRandomService();
         createServiceAsUri(service);
-        Response response = RestAssured.get(API_ROOT + "/company/" + service.getCompany().getCompanyID());
+        Response response = RestAssured.
+                given().auth().form("admin","admin",new FormAuthConfig("/login","username","password")).
+                get(API_ROOT + "/company/" + service.getCompany().getCompanyID());
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
         assertTrue(response.as(List.class).size() > 0);
     }
