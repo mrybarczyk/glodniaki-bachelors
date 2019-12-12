@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dodaj usługę</title>
+</head>
+<body>
+<form th:action="@{/services/add}" th:object="${service}" method="post">
+    <table><tr>
+        <td><label for="serviceName">Nazwa</label><input type="text" th:field="*{serviceName}" id="serviceName"/></td>
+        <td><label for="description">Opis</label><input type="text" th:field="*{description}" id="description"/></td>
+    </tr>
+        <tr><td><input type="submit" name="results" value="Akceptuj"></td></tr>
+    </table>
+</form>
+</body>
+</html>
