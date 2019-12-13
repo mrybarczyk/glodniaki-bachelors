@@ -34,11 +34,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/api/companies/**")
                 .hasAuthority("admin")
-                .antMatchers("/css/**","/images/**")
+
+                .antMatchers("/css/**","/images/**","/scripts/**","*.css","*.js")
                 .permitAll()
                 .anyRequest()
                 .authenticated().and()
-                .formLogin().successHandler(successLoginHandler)
+                .formLogin().loginPage("/login").successHandler(successLoginHandler)
                 .and().logout()
                 .and().csrf().disable();
     }

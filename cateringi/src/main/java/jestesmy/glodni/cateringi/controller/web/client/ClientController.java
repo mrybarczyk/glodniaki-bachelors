@@ -1,6 +1,10 @@
 package jestesmy.glodni.cateringi.controller.web.client;
 
 import jestesmy.glodni.cateringi.model.Client;
+<<<<<<< HEAD
+import jestesmy.glodni.cateringi.model.User;
+=======
+>>>>>>> master
 import jestesmy.glodni.cateringi.repository.ClientRepository;
 import jestesmy.glodni.cateringi.security.CurrentAuthenticatedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +31,13 @@ public class ClientController {
 
     @GetMapping
     public String showClientWelcomePage(Model model) {
+<<<<<<< HEAD
+        User user = currentAuthenticatedUserService.getCurrentUser();
+        Client client = clientRepository.findByUser(user);
+        model.addAttribute("user",user);
+=======
         Client client = clientRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
+>>>>>>> master
         model.addAttribute("client",client);
         return "welcome-client";
     }
