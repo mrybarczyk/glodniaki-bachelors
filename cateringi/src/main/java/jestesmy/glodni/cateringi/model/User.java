@@ -1,7 +1,10 @@
 package jestesmy.glodni.cateringi.model;
 
+<<<<<<< HEAD
+=======
 import jdk.internal.instrumentation.TypeMapping;
 
+>>>>>>> master
 import javax.persistence.*;
 
 @Entity

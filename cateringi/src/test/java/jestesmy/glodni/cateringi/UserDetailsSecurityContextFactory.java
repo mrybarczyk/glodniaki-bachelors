@@ -8,6 +8,10 @@ import org.springframework.security.test.context.support.WithSecurityContextFact
 
 import java.util.Collections;
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> master
 public class UserDetailsSecurityContextFactory implements WithSecurityContextFactory<WithMockedUser> {
 
     @Override
