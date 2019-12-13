@@ -91,7 +91,7 @@ button {
     font-size: 1.2rem;
     text-decoration: none;
     color: var(--clr-text);
-    padding: 20px;
+    padding: 20px 0px 20px 0px;
     display: block;
     transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1);
 }
