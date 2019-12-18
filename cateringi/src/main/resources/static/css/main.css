@@ -2,6 +2,7 @@
     --clr-primary: #A5409C;
     --clr-secondary: #f8e2ff;
     --clr-text: #eeeeee;
+    --clr-text-dark: #333;
 }
 
 * {
@@ -43,6 +44,15 @@ body {
 .top-bar > a > img {
     max-height: 40px;
     max-width: 50px;
+}
+
+.top-bar > button {
+    position: fixed;
+    right: 0;
+    top: -1px;
+    background: var(--clr-primary);
+    border-radius: 5px;
+    box-shadow: 0 0 3em rgba(0,0,0,.3);
 }
 
 button {
@@ -131,10 +141,9 @@ button {
 }
 
 .content-wrapper {
-    display: grid;
-    grid-template-columns: auto;
+    display: flex;
     justify-content: center;
-    align-content: center;
+    align-items: center;
     background: var(--clr-secondary);
     width: 100%;
     min-height:calc(100vh - 50px);
@@ -142,7 +151,8 @@ button {
 }
 
 .content-main {
-    margin-top:10px;
+    margin-top:20px;
+    margin-bottom:20px;
     width: 70vw;
     box-sizing: border-box;
     height: min-content;

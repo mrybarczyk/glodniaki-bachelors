@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/company.css" />
     <link href="https://fonts.googleapis.com/css?family=Exo:400,500,700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/23df196ab0.js" crossorigin="anonymous"></script>
     <title>Index</title>
@@ -13,22 +14,22 @@
 <body>
 <section id="main-container">
     <header class="top-bar">
-        <a href="*"><img src="/images/logo-transparent-colors.gif" /></a>
+        <a href="*"><img src="../static/images/logo-transparent-colors.gif" /></a>
         <button id="toggle-nav" onclick="showNav()"><i class="fas fa-bars fa-3x"></i></button>
     </header>
 
     <div id="side-nav">
             <button id="close-nav" onclick="closeNav()"><i class="fas fa-times fa-3x"></i></button>
             <div class="user-info" th:object="${company}">
-            <img src="images/default-user-icon.jpg" width="100px" height="100px" />
+            <img src="../static/images/default-user-icon.jpg" width="100px" height="100px" />
                 <p><span th:text="*{name}"></span> </p>
                 <p th:object="${user}"><span style="font-size: .75rem;" th:text="${user.email}"></span></p>
             </div>
         <div class="nav-items">
-        <a href="index.html">Pomocy</a>
-        <a href="index.html">Pomocy</a>
-        <a href="index.html">Pomocy</a>
-        <a href="index.html">Pomocy</a>
+        <a class="active-item" href="index.html">Profil</a>
+        <a href="index.html">Oferta</a>
+        <a href="index.html">Historia zamówień</a>
+        <a href="index.html">Ustawienia</a>
         <a class="bottom" href="/logout">Wyloguj</a>
 
         </div>
@@ -36,23 +37,43 @@
 
     <section class="content-wrapper">
         <div class="content-main">
-            <h1>Jak to jest być skrybą? Dobrze?</h1>
-            <p>
-                Moim zdaniem to nie ma tak, że dobrze albo że nie dobrze. Gdybym miał powiedzieć, 
-                co cenię w życiu najbardziej, powiedziałbym, że<span class="highlight"> ludzi</span>. Ekhm... Ludzi, którzy podali mi pomocną dłoń,
-                kiedy sobie nie radziłem, kiedy byłem<span class="highlight"> sam</span>. I co ciekawe, to właśnie przypadkowe spotkania wpływają na nasze życie.
-                Chodzi o to, że kiedy wyznaje się pewne wartości, nawet pozornie <span class="highlight">uniwersalne</span>, bywa,
-                że nie znajduje się <span class="highlight">zrozumienia</span>, które by tak rzec, które pomaga się nam rozwijać.
-                Ja miałem szczęście, by tak rzec, ponieważ je znalazłem. I dziękuję życiu.
-                Dziękuję mu, życie to <span class="highlight">śpiew</span>, życie to <span class="highlight">taniec</span>, życie to <span class="highlight">miłość</span>. Wielu ludzi pyta mnie o to samo,
-                ale jak ty to robisz?, <span class="highlight">skąd</span> czerpiesz tę radość? A ja odpowiadam, że to proste, to <span class="highlight">umiłowanie życia</span>,
-                to właśnie ono sprawia, że dzisiaj na przykład buduję maszyny, a jutro... kto wie, dlaczego by nie,
-                oddam się pracy społecznej i będę ot, choćby sadzić... znaczy... marchew.
-            </p>
+            <a class="page-button" href="/manage"><i class="fa fa-gear"></i>Ustawienia</a>
+            <img src="../static/images/default-user-icon.jpg" alt="" class="company-photo" />
+            <div class="main-info">
+                <p class="company-name">Nazwa firmy!</p>
+                <p>Strona internetowa</p>
+                    <i class="fa fa-star checked"></i>
+                    <i class="fa fa-star checked"></i>
+                    <i class="fa fa-star checked"></i>
+                    <i class="fa fa-star checked"></i>
+                    <i class="fa fa-star"></i>
+                    <p>Średnia ocen: 4.5</p>
+            </div>
+            
+            <div class="about">
+                <h1>Jak to jest być skrybą? Dobrze?</h1>
+                <p>
+                    Moim zdaniem to nie ma tak, że dobrze albo że nie dobrze. Gdybym miał powiedzieć, 
+                    co cenię w życiu najbardziej, powiedziałbym, że<span class="highlight"> ludzi</span>. Ekhm... Ludzi, którzy podali mi pomocną dłoń,
+                    kiedy sobie nie radziłem, kiedy byłem<span class="highlight"> sam</span>. I co ciekawe, to właśnie przypadkowe spotkania wpływają na nasze życie.
+                    Chodzi o to, że kiedy wyznaje się pewne wartości, nawet pozornie <span class="highlight">uniwersalne</span>, bywa,
+                    że nie znajduje się <span class="highlight">zrozumienia</span>, które by tak rzec, które pomaga się nam rozwijać.
+                    Ja miałem szczęście, by tak rzec, ponieważ je znalazłem. I dziękuję życiu.
+                    Dziękuję mu, życie to <span class="highlight">śpiew</span>, życie to <span class="highlight">taniec</span>, życie to <span class="highlight">miłość</span>. Wielu ludzi pyta mnie o to samo,
+                    ale jak ty to robisz?, <span class="highlight">skąd</span> czerpiesz tę radość? A ja odpowiadam, że to proste, to <span class="highlight">umiłowanie życia</span>,
+                    to właśnie ono sprawia, że dzisiaj na przykład buduję maszyny, a jutro... kto wie, dlaczego by nie,
+                    oddam się pracy społecznej i będę ot, choćby sadzić... znaczy... marchew.
+                </p>
+            </div>
+            <h1>Dane kontaktowe:</h1>
+            <div class="contact">
+                <h2>Adres e-mail: <span class="highlight">Firma@nazwa.pl</span></h2>
+                <h2>Numer telefonu: <span class="highlight">666-420-997</span></h2>
+            </div>
         </div>
 
     </section>
 </section>
-<script src="scripts/nav.js"></script>
+<script src="../static/scripts/nav.js"></script>
 </body>
 </html>
