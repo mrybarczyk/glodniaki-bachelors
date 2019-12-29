@@ -1,0 +1,77 @@
+.content-main {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    width: auto;
+    text-align: center;
+}
+
+.content-main > h1 {
+    align-self: center;
+}
+.content-main > form {
+    align-self: center;
+    padding: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    row-gap: 45px;
+}
+
+.content-main > form > input[type="submit"] {
+    padding: 20px 10px;
+    font-size: 16px;
+    grid-column: 1 / span 2;
+    background: var(--clr-primary);
+}
+
+.content-main > form > input[type="submit"]:hover {
+    border: 2px solid var(--clr-primary);
+    background: var(--clr-secondary);
+    color:#333333;
+}
+
+.login-form {
+    display: flex !important;
+    width: 20vw;
+    flex-direction: column;
+}
+
+.field-container {
+    width: 100%;
+    position: relative;
+}
+
+.field-container > label {
+    color: #333333;
+    position: absolute;
+}
+
+.field-container > label:hover {
+    cursor: text;
+}
+
+.field-container.active > label {
+    transform: translate(0,-14px) scale(.75);
+}
+
+.field-container > input:not([type="submit"]) {
+    border: none;
+    border-bottom: 2px solid var(--clr-primary);
+    padding: 5px 20px;
+    background: var(--clr-text);
+    color: #333333;
+    transition: all ease-in-out 300ms;
+
+}
+
+.content-main > form > input:not([type="submit"]):focus {
+    border: 2px solid var(--clr-primary);
+}
+
+.long-field {
+    display: flex;
+    flex-direction: column;
+    grid-column: 1 / span 2;
+}
