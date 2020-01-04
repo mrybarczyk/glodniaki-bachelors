@@ -1,12 +1,15 @@
 package jestesmy.glodni.cateringi.beans;
 
-import jestesmy.glodni.cateringi.model.Client;
-import jestesmy.glodni.cateringi.model.Company;
+import jestesmy.glodni.cateringi.model.*;
+import jestesmy.glodni.cateringi.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Optional;
+
 @Configuration
 public class Config {
+
     @Bean
     public Company getCompany() {
         Company company = new Company();

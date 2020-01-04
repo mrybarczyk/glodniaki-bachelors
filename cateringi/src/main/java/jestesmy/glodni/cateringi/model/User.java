@@ -14,6 +14,8 @@ public class User {
 
     private String password;
 
+    private Boolean isActive;
+
     @Enumerated(EnumType.STRING)
     private UserType userType;
 
@@ -23,6 +25,7 @@ public class User {
         this.userName = userName;
         this.email = email;
         this.password = password;
+        this.isActive = true;
     }
 
     public UserType getUserType() {
@@ -64,4 +67,8 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Boolean getIsActive() {return isActive;}
+
+    public void setIsActive(Boolean value) { this.isActive = value;}
 }
