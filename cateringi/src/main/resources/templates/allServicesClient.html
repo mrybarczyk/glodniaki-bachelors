@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring MVC demo app</title>
+</head>
+<body>
+<h2>Usługi</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Firma</th>
+        <th>Nazwa</th>
+        <th>Opis</th>
+        <th>Ocena</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="service : ${services}">
+        <td th:text="${service.company.companyID}"></td>
+        <td th:text="${service.serviceName}"></td>
+        <td th:text="${service.description}"></td>
+        <td th:text="${service.company.averageRating}"></td>
+        <td><a th:href="@{/services/rate/{serviceID}/{star}(serviceID=${service.serviceID}, star=1)}">1</a>
+            <a th:href="@{/services/rate/{serviceID}/{star}(serviceID=${service.serviceID}, star=2)}">2</a>
+            <a th:href="@{/services/rate/{serviceID}/{star}(serviceID=${service.serviceID}, star=3)}">3</a>
+            <a th:href="@{/services/rate/{serviceID}/{star}(serviceID=${service.serviceID}, star=4)}">4</a>
+            <a th:href="@{/services/rate/{serviceID}/{star}(serviceID=${service.serviceID}, star=5)}">5</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>

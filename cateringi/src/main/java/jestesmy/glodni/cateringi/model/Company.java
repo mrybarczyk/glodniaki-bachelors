@@ -95,4 +95,5 @@ public class Company {
     public void setAverageRating(double averageRating) {
         this.averageRating = averageRating;
     }
+
 }

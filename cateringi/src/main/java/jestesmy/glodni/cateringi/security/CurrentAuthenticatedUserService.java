@@ -18,7 +18,6 @@ public class CurrentAuthenticatedUserService {
     @Autowired
     UserRepository userRepository;
 
-
     public String getCurrentUserName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getPrincipal().toString();

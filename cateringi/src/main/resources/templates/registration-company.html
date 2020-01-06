@@ -2,78 +2,21 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="/css/main.css" />
-    <link rel="stylesheet" type="text/css" href="/css/form.css" />
-    <link href="https://fonts.googleapis.com/css?family=Exo:400,500,700&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/23df196ab0.js" crossorigin="anonymous"></script>
-    <title>Index</title>
-    
+    <title>Registration</title>
 </head>
 <body>
-<section id="main-container">
-    <header class="top-bar">
-        <a href="*"><img src="/images/logo-transparent-colors.gif" /></a>
-        <button id="toggle-nav" onclick="showNav()"><i class="fas fa-bars fa-3x"></i></button>
-    </header>
 
-    <div id="side-nav">
-            <button id="close-nav" onclick="closeNav()"><i class="fas fa-times fa-3x"></i></button>
+<form action="/company/register/" th:object="${user}" method="POST">
+    <input type="text" th:field="*{userName}" placeholder="Login" />
+    <input type="email" th:field="*{email}" placeholder="E-Mail" />
+    <input type="password" th:field="*{password}" placeholder="Password" />
+    <input type="text" th:field="*{companyName}" placeholder="Company Name" />
+    <input type="text" th:field="*{nip}" placeholder="NIP" />
+    <input type="text" th:field="*{regon}" placeholder="REGON" />
+    <input type="text" th:field="*{websiteAddress}" placeholder="Website address" />
 
-        <div class="nav-items">
-        <a href="index.html">Pomocy</a>
-        <a href="index.html">Pomocy</a>
-        <a href="index.html">Pomocy</a>
-        <a href="index.html">Pomocy</a>
-        </div>
-        <div class="nav-items bottom">
-            <a href="/login">Zaloguj</a>
-            <a href="/client/register">Załóż konto klienta</a>
-            <a href="/company/register">Załóż konto firmy</a>
-        </div>
-    </div>
+    <input type="submit" value="Create Account">
+</form>
 
-    <section class="content-wrapper">
-        <div class="content-main">
-            <h1>Zarejestruj się</h1>
-            <form action="/company/register/" th:object="${user}" method="POST">
-                <div class="field-container">
-                    <label for="login">Nazwa użytkownika</label>
-                <input class="field" id="login" type="text" th:field="*{userName}"   />
-                </div>
-                <div class="field-container">
-                    <label for="password">Hasło</label>
-                    <input class="field" id="password" type="password" th:field="*{password}"   />
-                </div>
-                <div class="field-container long-field">
-                        <label for="email">Adres E-Mail</label>
-                        <input class="field" id="email"type="email" th:field="*{email}"   />
-                    </div>
-                    <div class="field-container">
-                        <label for="companyName">Nazwa firmy</label>
-                        <input class="field" id="companyName" type="text" th:field="*{companyName}"   />
-                    </div>
-                    <div class="field-container">
-                        <label for="nip">NIP</label>
-                        <input class="field" id="nip" type="text" th:field="*{nip}"   />
-                    </div>
-                    <div class="field-container">
-                        <label for="regon">REGON</label>
-                        <input class="field" id="regon" type="text" th:field="*{regon}"   />
-                    </div>
-                    <div class="field-container">
-                        <label for="website">Strona internetowa</label>
-                        <input class="field" id="website" type="text" th:field="*{websiteAddress}"   />
-                    </div>
-                
-                <input type="submit" value="Utwórz konto">
-            </form>
-        </div>
-
-    </section>
-</section>
-<script src="/scripts/nav.js"></script>
-<script src="/scripts/form.js"></script>
 </body>
 </html>
