@@ -1,6 +1,8 @@
-package jestesmy.glodni.cateringi.model;
+package jestesmy.glodni.cateringi.domain.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="Services")
@@ -45,4 +47,5 @@ public class Service {
     public Company getCompany() { return company; }
 
     public void setCompany(Company company) { this.company = company; }
+
 }

@@ -1,11 +1,14 @@
 package jestesmy.glodni.cateringi.controller.web.service;
 
-import jestesmy.glodni.cateringi.model.Company;
-import jestesmy.glodni.cateringi.model.Service;
-import jestesmy.glodni.cateringi.model.UserType;
+import jestesmy.glodni.cateringi.domain.model.Company;
+import jestesmy.glodni.cateringi.domain.model.Service;
+import jestesmy.glodni.cateringi.domain.model.ServiceVariant;
+import jestesmy.glodni.cateringi.domain.model.UserType;
+import jestesmy.glodni.cateringi.domain.util.ServiceAndServiceVariant;
 import jestesmy.glodni.cateringi.repository.ClientRepository;
 import jestesmy.glodni.cateringi.repository.CompanyRepository;
 import jestesmy.glodni.cateringi.repository.ServiceRepository;
+import jestesmy.glodni.cateringi.repository.ServiceVariantRepository;
 import jestesmy.glodni.cateringi.security.CurrentAuthenticatedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +35,8 @@ public class ServiceController {
     private ClientRepository clientRepository;
 
     @Autowired
+    private ServiceVariantRepository serviceVariantRepository;
+    @Autowired
     public ServiceController(CurrentAuthenticatedUserService currentAuthenticatedUserService, ServiceRepository serviceRepository, CompanyRepository companyRepository, ClientRepository clientRepository) {
         this.currentAuthenticatedUserService = currentAuthenticatedUserService;
         this.serviceRepository = serviceRepository;
@@ -52,16 +57,25 @@ public class ServiceController {
 
     @GetMapping("/new")
     public String newService(Model model) {
-        model.addAttribute("service", new Service());
+        ServiceAndServiceVariant serviceAndServiceVariant = new ServiceAndServiceVariant();
+        serviceAndServiceVariant.getServiceVariants().add(new ServiceVariant());
+        model.addAttribute("serviceAndServiceVariant", serviceAndServiceVariant);
         return "addService";
     }
 
     @PostMapping("/add")
-    public String addService(Service service, Model model) {
+    public String addService(ServiceAndServiceVariant serviceAndServiceVariant, Model model) {
         Company company = companyRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
         model.addAttribute("company", company);
+        Service service = new Service();
         service.setCompany(company);
+        service.setServiceName(serviceAndServiceVariant.getService().getServiceName());
+        service.setDescription(serviceAndServiceVariant.getService().getDescription());
         serviceRepository.save(service);
+        for(ServiceVariant serviceVariant : serviceAndServiceVariant.getServiceVariants()){
+            serviceVariant.setService(service);
+            serviceVariantRepository.save(serviceVariant);
+        }
         model.addAttribute("services", serviceRepository.findByCompany(company));
         return "allServices";
     }

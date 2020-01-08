@@ -1,9 +1,9 @@
 package jestesmy.glodni.cateringi.controller.web.service;
 
 
-import jestesmy.glodni.cateringi.model.Service;
-import jestesmy.glodni.cateringi.model.ServiceVariant;
-import jestesmy.glodni.cateringi.model.UserType;
+import jestesmy.glodni.cateringi.domain.model.Service;
+import jestesmy.glodni.cateringi.domain.model.ServiceVariant;
+import jestesmy.glodni.cateringi.domain.model.UserType;
 import jestesmy.glodni.cateringi.repository.ClientRepository;
 import jestesmy.glodni.cateringi.repository.ServiceRepository;
 import jestesmy.glodni.cateringi.repository.ServiceVariantRepository;

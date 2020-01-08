@@ -1,7 +1,5 @@
 package jestesmy.glodni.cateringi.beans;
 
-import jestesmy.glodni.cateringi.model.*;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration

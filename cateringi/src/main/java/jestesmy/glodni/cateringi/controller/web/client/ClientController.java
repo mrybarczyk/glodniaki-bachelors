@@ -1,7 +1,7 @@
 package jestesmy.glodni.cateringi.controller.web.client;
 
-import jestesmy.glodni.cateringi.model.Client;
-import jestesmy.glodni.cateringi.model.User;
+import jestesmy.glodni.cateringi.domain.model.Client;
+import jestesmy.glodni.cateringi.domain.model.User;
 import jestesmy.glodni.cateringi.repository.ClientRepository;
 import jestesmy.glodni.cateringi.security.CurrentAuthenticatedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
