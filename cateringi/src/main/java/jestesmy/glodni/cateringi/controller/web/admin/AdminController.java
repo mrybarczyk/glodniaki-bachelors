@@ -49,7 +49,11 @@ public class AdminController {
 
     @GetMapping("/userlist")
     public String userList(Model model){
+        User user = userRepository.findByUserName(currentAuthenticatedUserService.getCurrentUserName());
+        Admin admin = adminRepository.findByUser(user);
         model.addAttribute("allusers", userRepository.findAll());
+        model.addAttribute("user", user);
+        model.addAttribute("admin", admin);
         return "userlist";
     }
 
@@ -93,6 +97,10 @@ public class AdminController {
             user.setPassword(Hex.encodeHexString(encrypted));
         }
         userRepository.save(user);
+        User a = userRepository.findByUserName(currentAuthenticatedUserService.getCurrentUserName());
+        Admin admin = adminRepository.findByUser(a);
+        model.addAttribute("user", a);
+        model.addAttribute("admin", admin);
         model.addAttribute("allusers", userRepository.findAll());
         return "userlist";
     }

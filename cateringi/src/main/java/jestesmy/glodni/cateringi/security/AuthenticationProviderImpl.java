@@ -3,6 +3,7 @@ package jestesmy.glodni.cateringi.security;
 import org.apache.commons.codec.binary.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.DigestUtils;
 
+import javax.security.auth.login.AccountLockedException;
 import java.util.Collections;
 
 @Component
@@ -26,7 +28,10 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         UserDetails accountDetails = userDetailsService.loadUserByUsername(authentication.getName());
         if(Hex.encodeHexString(DigestUtils.md5Digest(authentication.getCredentials().toString().getBytes())).equals(accountDetails.getPassword())){
-            return new UsernamePasswordAuthenticationToken(accountDetails.getUsername(),accountDetails.getPassword(), accountDetails.getAuthorities());
+            if (accountDetails.isAccountNonLocked()) return new UsernamePasswordAuthenticationToken(accountDetails.getUsername(),accountDetails.getPassword(), accountDetails.getAuthorities());
+            else {
+                throw new BadCredentialsException("Your account is suspended.");
+            }
         } else {
             throw new BadCredentialsException("Authentication failed");
         }
