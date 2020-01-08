@@ -175,3 +175,11 @@ h1 {
     padding: 15px;
 }
 
+.notification-ok {
+    border: 2px solid green;
+    color:var(--clr-text-dark);
+    background: lightgreen;
+    border-radius: 25px;
+    padding: 5px;
+}
+

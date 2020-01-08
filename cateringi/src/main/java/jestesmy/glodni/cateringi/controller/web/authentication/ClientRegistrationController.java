@@ -29,6 +29,7 @@ public class ClientRegistrationController {
         private String email;
         private String name;
         private String lastName;
+        private String phoneNumber;
 
         public RegistrationFormClient(){}
 
@@ -71,6 +72,14 @@ public class ClientRegistrationController {
         public void setLastName(String lastName) {
             this.lastName = lastName;
         }
+
+        public String getPhoneNumber() {
+            return phoneNumber;
+        }
+
+        public void setPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+        }
     }
 
     @Autowired
@@ -87,15 +96,16 @@ public class ClientRegistrationController {
     }
 
     @PostMapping()
-    public ModelAndView createAccount(@ModelAttribute("user") RegistrationFormClient user, WebRequest request, BindingResult result, Errors errors) {
+    public String createAccount(@ModelAttribute("user") RegistrationFormClient user,Model model) {
         byte [] encrypted = DigestUtils.md5Digest(user.getPassword().getBytes());
-        User registeredUser = new User(user.getUserName(),user.email,Hex.encodeHexString(encrypted));
+        User registeredUser = new User(user.getUserName(),user.email,user.getPhoneNumber(),Hex.encodeHexString(encrypted));
         registeredUser.setUserType(UserType.CLIENT);
         Client registeredClient = new Client(user.getName(),user.getLastName());
         userRepository.save(registeredUser);
         registeredClient.setUser(registeredUser);
         clientRepository.save(registeredClient);
-        return new ModelAndView("successRegistration","user", user);
+        model.addAttribute("registered",true);
+        return "login";
     }
 
 }

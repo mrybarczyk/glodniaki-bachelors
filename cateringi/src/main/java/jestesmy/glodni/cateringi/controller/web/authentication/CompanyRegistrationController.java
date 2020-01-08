@@ -31,7 +31,17 @@ public class CompanyRegistrationController {
         private String nip;
         private String regon;
         private String websiteAddress;
+        private String phoneNumber;
+
         public RegistrationFormCompany(){
+        }
+
+        public String getPhoneNumber() {
+            return phoneNumber;
+        }
+
+        public void setPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
         }
 
         public String getUserName() {
@@ -105,16 +115,16 @@ public class CompanyRegistrationController {
     }
 
     @PostMapping()
-    public ModelAndView createAccount(@ModelAttribute("user") RegistrationFormCompany user, WebRequest request, BindingResult result, Errors errors) {
+    public String createAccount(@ModelAttribute("user") RegistrationFormCompany user, WebRequest request, BindingResult result, Errors errors) {
         byte [] encrypted = DigestUtils.md5Digest(user.getPassword().getBytes());
-        User registeredUser = new User(user.getUserName(),user.getEmail(),Hex.encodeHexString(encrypted));
+        User registeredUser = new User(user.getUserName(),user.getEmail(),user.getPhoneNumber(),Hex.encodeHexString(encrypted));
         Company registeredCompany = new Company(user.getCompanyName(),user.getNip(),user.getRegon(),user.getWebsiteAddress());
         registeredUser.setUserType(UserType.COMPANY);
         userRepository.save(registeredUser);
         registeredCompany.setUser(registeredUser);
         companyRepository.save(registeredCompany);
 
-        return new ModelAndView("successRegistration","user", user);
+        return "redirect:/login?registered";
     }
 
 }
