@@ -1,9 +1,6 @@
 package jestesmy.glodni.cateringi.controller.web.service;
 
-import jestesmy.glodni.cateringi.domain.model.Company;
-import jestesmy.glodni.cateringi.domain.model.Service;
-import jestesmy.glodni.cateringi.domain.model.ServiceVariant;
-import jestesmy.glodni.cateringi.domain.model.UserType;
+import jestesmy.glodni.cateringi.domain.model.*;
 import jestesmy.glodni.cateringi.domain.util.ServiceAndServiceVariant;
 import jestesmy.glodni.cateringi.repository.ClientRepository;
 import jestesmy.glodni.cateringi.repository.CompanyRepository;
@@ -48,9 +45,13 @@ public class ServiceAndServiceVariantController {
             model.addAttribute("client", clientRepository.findByUser(currentAuthenticatedUserService.getCurrentUser()));
             httpServletResponse.sendRedirect("/client");
         }
-        Company company = companyRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
+
+        User user = currentAuthenticatedUserService.getCurrentUser();
+        Company company = companyRepository.findByUser(user);
+        model.addAttribute("user",user);
+        model.addAttribute("company",company);
         model.addAttribute("services", serviceRepository.findByCompanyAndActiveIsTrue(company));
-        return "allServices";
+        return "company-services";
     }
 
     @GetMapping("/new")
@@ -63,7 +64,8 @@ public class ServiceAndServiceVariantController {
 
     @PostMapping("/add")
     public String addService(ServiceAndServiceVariant serviceAndServiceVariant, Model model) {
-        Company company = companyRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
+        User user = currentAuthenticatedUserService.getCurrentUser();
+        Company company = companyRepository.findByUser(user);
         model.addAttribute("company", company);
         Service service = serviceAndServiceVariant.getService();
         service.setCompany(company);
@@ -74,8 +76,10 @@ public class ServiceAndServiceVariantController {
             serviceVariant.setActive(true);
             serviceVariantRepository.save(serviceVariant);
         }
+        model.addAttribute("user",user);
+        model.addAttribute("company",company);
         model.addAttribute("services", serviceRepository.findByCompany(company));
-        return "allServices";
+        return "company-services";
     }
 
     @GetMapping("/edit/{serviceID}")
@@ -92,12 +96,14 @@ public class ServiceAndServiceVariantController {
             service.setServiceID(serviceID);
             return "updateService";
         }
-        Company company = companyRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
-        model.addAttribute("company", company);
+        User user = currentAuthenticatedUserService.getCurrentUser();
+        Company company = companyRepository.findByUser(user);        model.addAttribute("company", company);
         service.setCompany(company);
         serviceRepository.save(service);
+        model.addAttribute("user",user);
+        model.addAttribute("company",company);
         model.addAttribute("services", serviceRepository.findByCompany(company));
-        return "allServices";
+        return "company-services";
     }
 
     @GetMapping("/delete/{serviceID}")
@@ -105,9 +111,12 @@ public class ServiceAndServiceVariantController {
         Service service = serviceRepository.findById(serviceID).orElseThrow(() -> new IllegalArgumentException("Invalid service Id:" + serviceID));
         service.setActive(false);
         serviceRepository.save(service);
-        Company company = companyRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
+        User user = currentAuthenticatedUserService.getCurrentUser();
+        Company company = companyRepository.findByUser(user);
+        model.addAttribute("user",user);
+        model.addAttribute("company",company);
         model.addAttribute("services", serviceRepository.findByCompanyAndActiveIsTrue(company));
-        return "allServices";
+        return "company-services";
     }
 
     @GetMapping("/serviceVariant/new/{serviceID}")
@@ -126,9 +135,12 @@ public class ServiceAndServiceVariantController {
         serviceVariant.setActive(true);
         serviceVariant.setService(serviceAndServiceVariant.getService());
         serviceVariantRepository.save(serviceVariant);
-        Company company = companyRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
+        User user = currentAuthenticatedUserService.getCurrentUser();
+        Company company = companyRepository.findByUser(user);
+        model.addAttribute("user",user);
+        model.addAttribute("company",company);
         model.addAttribute("services", serviceRepository.findByCompanyAndActiveIsTrue(company));
-        return "allServices";
+        return "company-services";
     }
 
 }
