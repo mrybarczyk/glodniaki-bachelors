@@ -20,28 +20,26 @@ import java.io.IOException;
 
 @Controller()
 @RequestMapping("/services")
-public class ServiceController {
+public class ServiceAndServiceVariantController {
 
-    @Autowired
     private CurrentAuthenticatedUserService currentAuthenticatedUserService;
 
-    @Autowired
     private ServiceRepository serviceRepository;
 
-    @Autowired
     private CompanyRepository companyRepository;
 
-    @Autowired
     private ClientRepository clientRepository;
 
-    @Autowired
     private ServiceVariantRepository serviceVariantRepository;
+
     @Autowired
-    public ServiceController(CurrentAuthenticatedUserService currentAuthenticatedUserService, ServiceRepository serviceRepository, CompanyRepository companyRepository, ClientRepository clientRepository) {
+    public ServiceAndServiceVariantController(CurrentAuthenticatedUserService currentAuthenticatedUserService, ServiceRepository serviceRepository,
+                                              CompanyRepository companyRepository, ClientRepository clientRepository, ServiceVariantRepository serviceVariantRepository) {
         this.currentAuthenticatedUserService = currentAuthenticatedUserService;
         this.serviceRepository = serviceRepository;
         this.companyRepository = companyRepository;
         this.clientRepository = clientRepository;
+        this.serviceVariantRepository = serviceVariantRepository;
     }
 
     @GetMapping()
@@ -51,7 +49,7 @@ public class ServiceController {
             httpServletResponse.sendRedirect("/client");
         }
         Company company = companyRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
-        model.addAttribute("services", serviceRepository.findByCompany(company));
+        model.addAttribute("services", serviceRepository.findByCompanyAndActiveIsTrue(company));
         return "allServices";
     }
 
@@ -67,13 +65,13 @@ public class ServiceController {
     public String addService(ServiceAndServiceVariant serviceAndServiceVariant, Model model) {
         Company company = companyRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
         model.addAttribute("company", company);
-        Service service = new Service();
+        Service service = serviceAndServiceVariant.getService();
         service.setCompany(company);
-        service.setServiceName(serviceAndServiceVariant.getService().getServiceName());
-        service.setDescription(serviceAndServiceVariant.getService().getDescription());
+        service.setActive(true);
         serviceRepository.save(service);
         for(ServiceVariant serviceVariant : serviceAndServiceVariant.getServiceVariants()){
             serviceVariant.setService(service);
+            serviceVariant.setActive(true);
             serviceVariantRepository.save(serviceVariant);
         }
         model.addAttribute("services", serviceRepository.findByCompany(company));
@@ -105,9 +103,32 @@ public class ServiceController {
     @GetMapping("/delete/{serviceID}")
     public String deleteService(@PathVariable("serviceID") int serviceID, Model model) {
         Service service = serviceRepository.findById(serviceID).orElseThrow(() -> new IllegalArgumentException("Invalid service Id:" + serviceID));
-        serviceRepository.delete(service);
+        service.setActive(false);
+        serviceRepository.save(service);
         Company company = companyRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
-        model.addAttribute("services", serviceRepository.findByCompany(company));
+        model.addAttribute("services", serviceRepository.findByCompanyAndActiveIsTrue(company));
         return "allServices";
     }
+
+    @GetMapping("/serviceVariant/new/{serviceID}")
+    public String newServiceVariant(@PathVariable("serviceID") int serviceID, Model model) {
+        ServiceAndServiceVariant serviceAndServiceVariant = new ServiceAndServiceVariant();
+        serviceAndServiceVariant.setService(serviceRepository.findById(serviceID).orElseThrow(() ->
+                new IllegalArgumentException("Invalid service Id:" + serviceID)));
+        serviceAndServiceVariant.getServiceVariants().add(new ServiceVariant());
+        model.addAttribute("serviceAndServiceVariant", serviceAndServiceVariant);
+        return "addServiceVariant";
+    }
+
+    @PostMapping("/addServiceVariant")
+    public String addServiceVariant(ServiceAndServiceVariant serviceAndServiceVariant, Model model) {
+        ServiceVariant serviceVariant = serviceAndServiceVariant.getServiceVariants().get(0);
+        serviceVariant.setActive(true);
+        serviceVariant.setService(serviceAndServiceVariant.getService());
+        serviceVariantRepository.save(serviceVariant);
+        Company company = companyRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
+        model.addAttribute("services", serviceRepository.findByCompanyAndActiveIsTrue(company));
+        return "allServices";
+    }
+
 }

@@ -20,6 +20,8 @@ public class Service {
     @JoinColumn(name="CompanyID", nullable = false)
     private Company company;
 
+    private boolean active;
+
     public int getServiceID() {
         return serviceID;
     }
@@ -48,4 +50,11 @@ public class Service {
 
     public void setCompany(Company company) { this.company = company; }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

@@ -25,6 +25,8 @@ public class ServiceVariant {
     @Column(nullable = false)
     private int dayNumber;
 
+    private boolean active;
+
     public int getServiceVariantID() {
         return serviceVariantID;
     }
@@ -65,4 +67,11 @@ public class ServiceVariant {
         this.dayNumber = dayNumber;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

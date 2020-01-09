@@ -21,6 +21,8 @@
         <td th:text="${service.description}"></td>
         <td><a th:href="@{/services/edit/{serviceID}(serviceID=${service.serviceID})}">Edit</a></td>
         <td><a th:href="@{/services/delete/{serviceID}(serviceID=${service.serviceID})}">Delete</a></td>
+        <td><a th:href="@{/services/serviceVariant/new/{serviceID}(serviceID=${service.serviceID})}">Add Variant</a></td>
+
     </tr>
     </tbody>
 </table>

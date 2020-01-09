@@ -16,7 +16,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="serviceVariant : ${serviceVariant}">
+    <tr th:each="serviceVariant : ${serviceVariants}">
         <td th:text="${serviceVariant.service.serviceID}"></td>
         <td th:text="${serviceVariant.calories}"></td>
         <td th:text="${serviceVariant.price}"></td>
