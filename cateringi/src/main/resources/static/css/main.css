@@ -142,6 +142,7 @@ button {
 
 .content-wrapper {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     background: var(--clr-secondary);
@@ -177,9 +178,12 @@ h1 {
 
 .notification-ok {
     border: 2px solid green;
-    color:var(--clr-text-dark);
     background: lightgreen;
     border-radius: 25px;
     padding: 5px;
+}
+
+.notification-ok > p {
+    color:var(--clr-text-dark);
 }
 

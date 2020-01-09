@@ -42,12 +42,12 @@
             <div class="main-info">
                 <p class="company-name" th:text="*{companyName}"></p>
                 <p th:text="*{websiteAddress}"></p>
-                    <i class="fa fa-star checked"></i>
-                    <i class="fa fa-star checked"></i>
-                    <i class="fa fa-star checked"></i>
-                    <i class="fa fa-star checked"></i>
                     <i class="fa fa-star"></i>
-                    <p>Średnia ocen: <span th:text="*{averageRating}"></span></p>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <p>Średnia ocen: <span id="avgRating" th:text="4"></span></p>
             </div>
             
             <div class="about">
@@ -75,5 +75,6 @@
     </section>
 </section>
 <script src="/scripts/nav.js"></script>
+<script src="/scripts/rates.js"></script>
 </body>
 </html>
