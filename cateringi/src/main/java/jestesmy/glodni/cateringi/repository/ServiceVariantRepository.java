@@ -9,5 +9,5 @@ import java.util.List;
 public interface ServiceVariantRepository extends CrudRepository<ServiceVariant, Integer> {
     List<ServiceVariant> findByService(Service service);
 
-    List findByServiceAndActiveIsTrue(Service service);
+    List<ServiceVariant> findByServiceAndActiveIsTrue(Service service);
 }
