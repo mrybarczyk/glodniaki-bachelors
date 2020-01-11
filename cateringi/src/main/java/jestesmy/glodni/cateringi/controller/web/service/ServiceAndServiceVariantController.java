@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @Controller()
 @RequestMapping("/services")
@@ -30,8 +31,10 @@ public class ServiceAndServiceVariantController {
     private ServiceVariantRepository serviceVariantRepository;
 
     @Autowired
-    public ServiceAndServiceVariantController(CurrentAuthenticatedUserService currentAuthenticatedUserService, ServiceRepository serviceRepository,
-                                              CompanyRepository companyRepository, ClientRepository clientRepository, ServiceVariantRepository serviceVariantRepository) {
+    public ServiceAndServiceVariantController(CurrentAuthenticatedUserService currentAuthenticatedUserService,
+                                              ServiceRepository serviceRepository,
+                                              CompanyRepository companyRepository, ClientRepository clientRepository,
+                                              ServiceVariantRepository serviceVariantRepository) {
         this.currentAuthenticatedUserService = currentAuthenticatedUserService;
         this.serviceRepository = serviceRepository;
         this.companyRepository = companyRepository;
@@ -63,7 +66,7 @@ public class ServiceAndServiceVariantController {
                 () -> new IllegalArgumentException("Invalid service id"+ serviceId)
                 ));
         serviceAndServiceVariant.setServiceVariants(serviceVariantRepository
-                .findByService(serviceAndServiceVariant.getService()));
+                .findByServiceAndActiveIsTrue(serviceAndServiceVariant.getService()));
         model.addAttribute("user",user);
         model.addAttribute("company",company);
         model.addAttribute("service",serviceAndServiceVariant);
@@ -122,16 +125,22 @@ public class ServiceAndServiceVariantController {
         User user = currentAuthenticatedUserService.getCurrentUser();
         Company company = companyRepository.findByUser(user);
         service.setCompany(company);
+        service.setActive(true);
         serviceRepository.save(service);
         model.addAttribute("user",user);
         model.addAttribute("company",company);
-        model.addAttribute("services", serviceRepository.findByCompany(company));
+        model.addAttribute("services", serviceRepository.findByCompanyAndActiveIsTrue(company));
         return "company-services";
     }
 
     @GetMapping("/delete/{serviceID}")
     public String deleteService(@PathVariable("serviceID") int serviceID, Model model) {
         Service service = serviceRepository.findById(serviceID).orElseThrow(() -> new IllegalArgumentException("Invalid service Id:" + serviceID));
+        List<ServiceVariant> serviceVariants = serviceVariantRepository.findByServiceAndActiveIsTrue(service);
+        for(ServiceVariant sv : serviceVariants){
+            sv.setActive(false);
+            serviceVariantRepository.save(sv);
+        }
         service.setActive(false);
         serviceRepository.save(service);
         User user = currentAuthenticatedUserService.getCurrentUser();
@@ -157,6 +166,20 @@ public class ServiceAndServiceVariantController {
         ServiceVariant serviceVariant = serviceAndServiceVariant.getServiceVariants().get(0);
         serviceVariant.setActive(true);
         serviceVariant.setService(serviceAndServiceVariant.getService());
+        serviceVariantRepository.save(serviceVariant);
+        User user = currentAuthenticatedUserService.getCurrentUser();
+        Company company = companyRepository.findByUser(user);
+        model.addAttribute("user",user);
+        model.addAttribute("company",company);
+        model.addAttribute("services", serviceRepository.findByCompanyAndActiveIsTrue(company));
+        return "company-services";
+    }
+
+    @GetMapping("/serviceVariant/delete/{serviceVariantID}")
+    public String deleteServiceVariant(@PathVariable("serviceVariantID") int serviceVariantID, Model model){
+        ServiceVariant serviceVariant = serviceVariantRepository.findById(serviceVariantID).orElseThrow(() ->
+                new IllegalArgumentException("Invalid serviceVariant Id:" + serviceVariantID));
+        serviceVariant.setActive(false);
         serviceVariantRepository.save(serviceVariant);
         User user = currentAuthenticatedUserService.getCurrentUser();
         Company company = companyRepository.findByUser(user);
