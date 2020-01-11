@@ -57,13 +57,13 @@ public class ServiceAndServiceVariantController {
         return "company-services";
     }
 
-    @GetMapping("/{serviceId}/variants")
-    public String showServiceWithVariants(@PathVariable("serviceId")int serviceId,Model model) {
+    @GetMapping("/{serviceID}/variants")
+    public String showServiceWithVariants(@PathVariable("serviceID")int serviceID,Model model) {
         User user = currentAuthenticatedUserService.getCurrentUser();
         Company company = companyRepository.findByUser(user);
         ServiceAndServiceVariant serviceAndServiceVariant = new ServiceAndServiceVariant();
-        serviceAndServiceVariant.setService(serviceRepository.findById(serviceId).orElseThrow(
-                () -> new IllegalArgumentException("Invalid service id"+ serviceId)
+        serviceAndServiceVariant.setService(serviceRepository.findById(serviceID).orElseThrow(
+                () -> new IllegalArgumentException("Invalid service id"+ serviceID)
                 ));
         serviceAndServiceVariant.setServiceVariants(serviceVariantRepository
                 .findByServiceAndActiveIsTrue(serviceAndServiceVariant.getService()));

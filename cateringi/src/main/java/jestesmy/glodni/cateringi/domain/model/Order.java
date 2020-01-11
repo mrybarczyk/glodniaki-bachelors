@@ -21,14 +21,19 @@ public class Order {
     @JoinColumn(name = "CompanyID", nullable = false)
     private Company company;
 
+    @ManyToOne
+    @JoinColumn(name = "ServiceVariantID", nullable = false)
+    private ServiceVariant serviceVariant;
+
     @Column(nullable = false)
     private int addressID;
 
     @Column(nullable = false)
     private Timestamp orderDate;
 
-    @Column(nullable = false)
-    private Timestamp deliveryDate;
+    private Timestamp fromDate;
+
+    private Timestamp toDate;
 
     public int getOrderID() {
         return orderID;
@@ -66,12 +71,28 @@ public class Order {
 
     public void setOrderDate(Timestamp orderDate) { this.orderDate = orderDate; }
 
-    public Timestamp getDeliveryDate() {
-        return deliveryDate;
+    public ServiceVariant getServiceVariant() {
+        return serviceVariant;
     }
 
-    public void setDeliveryDate(Timestamp deliveryDate) {
-        this.deliveryDate = deliveryDate;
+    public void setServiceVariant(ServiceVariant serviceVariant) {
+        this.serviceVariant = serviceVariant;
+    }
+
+    public Timestamp getFromDate() {
+        return fromDate;
+    }
+
+    public void setFromDate(Timestamp fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public Timestamp getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(Timestamp toDate) {
+        this.toDate = toDate;
     }
 }
 
