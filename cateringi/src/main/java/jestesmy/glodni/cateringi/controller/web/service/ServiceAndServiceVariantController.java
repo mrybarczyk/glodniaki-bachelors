@@ -99,9 +99,6 @@ public class ServiceAndServiceVariantController {
             serviceVariant.setActive(true);
             serviceVariantRepository.save(serviceVariant);
         }
-//        model.addAttribute("user",user);
-//        model.addAttribute("company",company);
-//        model.addAttribute("services", serviceRepository.findByCompany(company));
         return "redirect:/services";
     }
 
@@ -127,10 +124,7 @@ public class ServiceAndServiceVariantController {
         service.setCompany(company);
         service.setActive(true);
         serviceRepository.save(service);
-        model.addAttribute("user",user);
-        model.addAttribute("company",company);
-        model.addAttribute("services", serviceRepository.findByCompanyAndActiveIsTrue(company));
-        return "company-services";
+        return "redirect:/services";
     }
 
     @GetMapping("/delete/{serviceID}")
@@ -143,12 +137,7 @@ public class ServiceAndServiceVariantController {
         }
         service.setActive(false);
         serviceRepository.save(service);
-        User user = currentAuthenticatedUserService.getCurrentUser();
-        Company company = companyRepository.findByUser(user);
-        model.addAttribute("user",user);
-        model.addAttribute("company",company);
-        model.addAttribute("services", serviceRepository.findByCompanyAndActiveIsTrue(company));
-        return "company-services";
+        return "redirect:/services";
     }
 
     @GetMapping("/serviceVariant/new/{serviceID}")
@@ -167,12 +156,7 @@ public class ServiceAndServiceVariantController {
         serviceVariant.setActive(true);
         serviceVariant.setService(serviceAndServiceVariant.getService());
         serviceVariantRepository.save(serviceVariant);
-        User user = currentAuthenticatedUserService.getCurrentUser();
-        Company company = companyRepository.findByUser(user);
-        model.addAttribute("user",user);
-        model.addAttribute("company",company);
-        model.addAttribute("services", serviceRepository.findByCompanyAndActiveIsTrue(company));
-        return "company-services";
+        return "redirect:/services";
     }
 
     @GetMapping("/serviceVariant/delete/{serviceVariantID}")
@@ -181,12 +165,7 @@ public class ServiceAndServiceVariantController {
                 new IllegalArgumentException("Invalid serviceVariant Id:" + serviceVariantID));
         serviceVariant.setActive(false);
         serviceVariantRepository.save(serviceVariant);
-        User user = currentAuthenticatedUserService.getCurrentUser();
-        Company company = companyRepository.findByUser(user);
-        model.addAttribute("user",user);
-        model.addAttribute("company",company);
-        model.addAttribute("services", serviceRepository.findByCompanyAndActiveIsTrue(company));
-        return "company-services";
+        return "redirect:/services";
     }
 
 }

@@ -17,6 +17,10 @@ public class Order {
     @JoinColumn(name = "ClientID", nullable = false)
     private Client client;
 
+    @ManyToOne
+    @JoinColumn(name = "CompanyID", nullable = false)
+    private Company company;
+
     @Column(nullable = false)
     private int addressID;
 
@@ -38,6 +42,14 @@ public class Order {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
     public int getAddressID() {
