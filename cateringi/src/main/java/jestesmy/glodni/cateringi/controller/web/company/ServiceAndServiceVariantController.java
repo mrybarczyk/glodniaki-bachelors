@@ -140,23 +140,33 @@ public class ServiceAndServiceVariantController {
         return "redirect:/services";
     }
 
-    @GetMapping("/serviceVariant/new/{serviceID}")
+    @GetMapping("/{serviceID}/variants/new")
     public String newServiceVariant(@PathVariable("serviceID") int serviceID, Model model) {
+        User user = currentAuthenticatedUserService.getCurrentUser();
+        Company company = companyRepository.findByUser(user);
         ServiceAndServiceVariant serviceAndServiceVariant = new ServiceAndServiceVariant();
-        serviceAndServiceVariant.setService(serviceRepository.findById(serviceID).orElseThrow(() ->
-                new IllegalArgumentException("Invalid service Id:" + serviceID)));
-        serviceAndServiceVariant.getServiceVariants().add(new ServiceVariant());
-        model.addAttribute("serviceAndServiceVariant", serviceAndServiceVariant);
-        return "addServiceVariant";
+        Service service = serviceRepository.findById(serviceID).orElseThrow(() ->
+                new IllegalArgumentException("Invalid service Id:" + serviceID));
+        serviceAndServiceVariant.setService(service);
+        serviceAndServiceVariant.setServiceVariants(serviceVariantRepository.findByService(service));
+        ServiceVariant newVariant = new ServiceVariant();
+        model.addAttribute("user",user);
+        model.addAttribute("company",company);
+        model.addAttribute("service", serviceAndServiceVariant);
+        model.addAttribute("newVariant",newVariant);
+        return "company-service-var-new";
     }
 
-    @PostMapping("/addServiceVariant")
-    public String addServiceVariant(ServiceAndServiceVariant serviceAndServiceVariant, Model model) {
-        ServiceVariant serviceVariant = serviceAndServiceVariant.getServiceVariants().get(0);
-        serviceVariant.setActive(true);
-        serviceVariant.setService(serviceAndServiceVariant.getService());
-        serviceVariantRepository.save(serviceVariant);
-        return "redirect:/services";
+    @PostMapping("/{serviceID}/variants/add")
+    public String addServiceVariant(@ModelAttribute("newVariant")ServiceVariant newVariant,
+                                    @PathVariable("serviceID")int serviceId,
+                                    Model model) {
+        newVariant.setActive(true);
+        newVariant.setService(serviceRepository.findById(serviceId).orElseThrow(
+                () -> new IllegalArgumentException("Invalid service ID" + serviceId)
+        ));
+        serviceVariantRepository.save(newVariant);
+        return "redirect:/services/"+serviceId+"/variants";
     }
 
     @GetMapping("/serviceVariant/delete/{serviceVariantID}")
