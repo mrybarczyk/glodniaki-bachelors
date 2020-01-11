@@ -1,4 +1,4 @@
-package jestesmy.glodni.cateringi.controller.web.service;
+package jestesmy.glodni.cateringi.controller.web.company;
 
 import jestesmy.glodni.cateringi.domain.model.*;
 import jestesmy.glodni.cateringi.domain.util.ServiceAndServiceVariant;
@@ -43,7 +43,7 @@ public class ServiceAndServiceVariantController {
     }
 
     @GetMapping()
-    public String home(HttpServletResponse httpServletResponse, Model model) throws IOException {
+    public String servicesAll(HttpServletResponse httpServletResponse, Model model) throws IOException {
         if(currentAuthenticatedUserService.getCurrentUser().getUserType() == UserType.CLIENT) {
             model.addAttribute("client", clientRepository.findByUser(currentAuthenticatedUserService.getCurrentUser()));
             httpServletResponse.sendRedirect("/client");

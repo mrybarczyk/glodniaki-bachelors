@@ -1,7 +1,5 @@
 package jestesmy.glodni.cateringi.domain.model;
 
-import jestesmy.glodni.cateringi.domain.model.Client;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -25,8 +23,11 @@ public class Order {
     @JoinColumn(name = "ServiceVariantID", nullable = false)
     private ServiceVariant serviceVariant;
 
-    @Column(nullable = false)
-    private int addressID;
+    private String address;
+
+    private String serviceName;
+
+    private String serviceDescription;
 
     @Column(nullable = false)
     private Timestamp orderDate;
@@ -57,13 +58,13 @@ public class Order {
         this.company = company;
     }
 
-    public int getAddressID() {
-        return addressID;
-    }
-
-    public void setAddressID(int addressID) {
-        this.addressID = addressID;
-    }
+//    public int getAddressID() {
+//        return addressID;
+//    }
+//
+//    public void setAddressID(int addressID) {
+//        this.addressID = addressID;
+//    }
 
     public Timestamp getOrderDate() {
         return orderDate;
@@ -93,6 +94,22 @@ public class Order {
 
     public void setToDate(Timestamp toDate) {
         this.toDate = toDate;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+    public String getServiceDescription() {
+        return serviceDescription;
+    }
+
+    public void setServiceDescription(String serviceDescription) {
+        this.serviceDescription = serviceDescription;
     }
 }
 
