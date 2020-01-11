@@ -51,7 +51,7 @@
                 <a th:href="@{/services/edit/{serviceID}(serviceID=${service.serviceID})}"><i class="fa fa-gear"></i></a>
                 <a th:href="@{/services/delete/{serviceID}(serviceID=${service.serviceID})}"><i class="fa fa-trash"></i></a>
             </div>
-                <a class="page-button" href="">Szczegóły</a>
+                <a class="page-button" th:href="@{/services/{serviceID}/variants(serviceID=${service.serviceID})}">Szczegóły</a>
             </div>
            </div>
         <div style="width:100%; margin-top:.5rem;">

@@ -54,12 +54,32 @@ public class ServiceAndServiceVariantController {
         return "company-services";
     }
 
+    @GetMapping("/{serviceId}/variants")
+    public String showServiceWithVariants(@PathVariable("serviceId")int serviceId,Model model) {
+        User user = currentAuthenticatedUserService.getCurrentUser();
+        Company company = companyRepository.findByUser(user);
+        ServiceAndServiceVariant serviceAndServiceVariant = new ServiceAndServiceVariant();
+        serviceAndServiceVariant.setService(serviceRepository.findById(serviceId).orElseThrow(
+                () -> new IllegalArgumentException("Invalid service id"+ serviceId)
+                ));
+        serviceAndServiceVariant.setServiceVariants(serviceVariantRepository
+                .findByService(serviceAndServiceVariant.getService()));
+        model.addAttribute("user",user);
+        model.addAttribute("company",company);
+        model.addAttribute("service",serviceAndServiceVariant);
+        return "company-service-var";
+    }
+
     @GetMapping("/new")
     public String newService(Model model) {
+        User user = currentAuthenticatedUserService.getCurrentUser();
+        Company company = companyRepository.findByUser(user);
         ServiceAndServiceVariant serviceAndServiceVariant = new ServiceAndServiceVariant();
         serviceAndServiceVariant.getServiceVariants().add(new ServiceVariant());
+        model.addAttribute("user",user);
+        model.addAttribute("company",company);
         model.addAttribute("serviceAndServiceVariant", serviceAndServiceVariant);
-        return "addService";
+        return "company-services-new";
     }
 
     @PostMapping("/add")
@@ -76,17 +96,20 @@ public class ServiceAndServiceVariantController {
             serviceVariant.setActive(true);
             serviceVariantRepository.save(serviceVariant);
         }
-        model.addAttribute("user",user);
-        model.addAttribute("company",company);
-        model.addAttribute("services", serviceRepository.findByCompany(company));
-        return "company-services";
+//        model.addAttribute("user",user);
+//        model.addAttribute("company",company);
+//        model.addAttribute("services", serviceRepository.findByCompany(company));
+        return "redirect:/services";
     }
 
     @GetMapping("/edit/{serviceID}")
     public String showUpdateForm(@PathVariable("serviceID") int serviceID, Model model) {
+        User user = currentAuthenticatedUserService.getCurrentUser();
+        Company company = companyRepository.findByUser(user);
         Service service = serviceRepository.findById(serviceID).orElseThrow(() -> new IllegalArgumentException("Invalid service Id:" + serviceID));
-        model.addAttribute("services", service);
-
+        model.addAttribute("service", service);
+        model.addAttribute("user",user);
+        model.addAttribute("company",company);
         return "updateService";
     }
 
@@ -97,7 +120,7 @@ public class ServiceAndServiceVariantController {
             return "updateService";
         }
         User user = currentAuthenticatedUserService.getCurrentUser();
-        Company company = companyRepository.findByUser(user);        model.addAttribute("company", company);
+        Company company = companyRepository.findByUser(user);
         service.setCompany(company);
         serviceRepository.save(service);
         model.addAttribute("user",user);

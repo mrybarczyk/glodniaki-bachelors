@@ -152,8 +152,8 @@ button {
     padding: 25px 30px;
 }
 
-.content-main > * {
-    color: black;
+.content-main * {
+    color: var(--clr-text-dark);
 }
 
 .highlight {
