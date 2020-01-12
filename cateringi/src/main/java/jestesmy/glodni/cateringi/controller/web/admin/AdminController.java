@@ -60,6 +60,8 @@ public class AdminController {
     @GetMapping("/ban/{userId}")
     public String ban(Model model, @PathVariable int userId){
         User user = userRepository.findById(userId).orElse(null);
+        User currentUser = userRepository.findByUserName(currentAuthenticatedUserService.getCurrentUserName());
+        Admin admin = adminRepository.findByUser(user);
         if (user == null){
             return "error";
         }
@@ -67,7 +69,11 @@ public class AdminController {
             if (user.getUserType() != UserType.ADMIN) {
                 if (user.getIsActive()) user.setIsActive(false);
                 else user.setIsActive(true);
-            } else return "error-cannotbanadmin";
+            } else{
+                model.addAttribute("user", currentUser);
+                model.addAttribute("admin", admin);
+                return "error-cannotbanadmin";
+            }
         }
         userRepository.save(user);
         model.addAttribute("allusers", userRepository.findAll());
@@ -76,7 +82,7 @@ public class AdminController {
 
     @GetMapping("/resetpassword/{userId}")
     public String resetpassword(Model model, @PathVariable int userId){
-        /*String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 + "0123456789"
                 + "abcdefghijklmnopqrstuvxyz";
         StringBuilder sb = new StringBuilder(8);
@@ -86,14 +92,13 @@ public class AdminController {
                     * Math.random());
             sb.append(AlphaNumericString
                     .charAt(index));
-        }*/
-        String sb = "LosoweHasłoBędziePóźniejBoNaRazieNieWiemJakJeDawaćUżytkownikowi";
+        }
         User user = userRepository.findById(userId).orElse(null);
         if (user == null){
             return "error";
         }
         else {
-            byte [] encrypted = DigestUtils.md5Digest(sb.getBytes());
+            byte [] encrypted = DigestUtils.md5Digest(sb.toString().getBytes());
             user.setPassword(Hex.encodeHexString(encrypted));
         }
         userRepository.save(user);
@@ -101,8 +106,9 @@ public class AdminController {
         Admin admin = adminRepository.findByUser(a);
         model.addAttribute("user", a);
         model.addAttribute("admin", admin);
-        model.addAttribute("allusers", userRepository.findAll());
-        return "userlist";
+        //model.addAttribute("allusers", userRepository.findAll());
+        model.addAttribute("resetpassword", sb.toString());
+        return "reset";
     }
 
 }
