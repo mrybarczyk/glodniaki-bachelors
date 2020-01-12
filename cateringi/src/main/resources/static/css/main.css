@@ -166,5 +166,9 @@ h1 {
 }
 
 table, th, td {
+  width: 66vw;
   font-color: black !important;
+  text-align: center;
+  border: 1px solid #A5409C;
+  border-collapse: collapse;
 }
