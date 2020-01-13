@@ -3,6 +3,7 @@ package jestesmy.glodni.cateringi.controller.web.client;
 import jestesmy.glodni.cateringi.domain.model.Client;
 import jestesmy.glodni.cateringi.domain.model.User;
 import jestesmy.glodni.cateringi.repository.ClientRepository;
+import jestesmy.glodni.cateringi.repository.ServiceRepository;
 import jestesmy.glodni.cateringi.security.CurrentAuthenticatedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,10 +21,15 @@ public class ClientController {
     private final
     ClientRepository clientRepository;
 
+    ServiceRepository serviceRepository;
+
     @Autowired
-    public ClientController(CurrentAuthenticatedUserService currentAuthenticatedUserService, ClientRepository clientRepository) {
+    public ClientController(CurrentAuthenticatedUserService currentAuthenticatedUserService,
+                            ClientRepository clientRepository,
+                            ServiceRepository serviceRepository) {
         this.currentAuthenticatedUserService = currentAuthenticatedUserService;
         this.clientRepository = clientRepository;
+        this.serviceRepository = serviceRepository;
     }
 
     @GetMapping
@@ -32,7 +38,8 @@ public class ClientController {
         Client client = clientRepository.findByUser(user);
         model.addAttribute("user",user);
         model.addAttribute("client",client);
-        return "welcome-client";
+        model.addAttribute("services",serviceRepository.findAllByActiveIsTrue());
+        return "client-services";
     }
 
 }

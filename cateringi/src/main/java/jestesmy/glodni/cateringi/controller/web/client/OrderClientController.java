@@ -70,6 +70,7 @@ public class OrderClientController {
         order.setClient(client);
         order.setOrderDate(Timestamp.valueOf(now));
         order.setToDate(Timestamp.valueOf(now.plusDays(order.getServiceVariant().getDayNumber())));
+        orderRepository.save(order);
         return "redirect:/orders";
     }
 }
