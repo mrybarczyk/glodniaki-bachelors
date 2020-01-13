@@ -5,23 +5,21 @@
     <title>Spring MVC demo app</title>
 </head>
 <body>
-<h2>Usługi</h2>
+<h2>Twoje oceny</h2>
 <table>
     <thead>
     <tr>
-        <th>Firma</th>
-        <th>Nazwa</th>
-        <th>Opis</th>
+        <th>Usługa</th>
         <th>Ocena</th>
+        <th>Opis</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="service : ${services}">
-        <td th:text="${service.company.companyID}"></td>
         <td th:text="${service.serviceName}"></td>
-        <td th:text="${service.description}"></td>
         <td th:text="${service.averageRating}"></td>
-        <td><a th:href="@{/rates/new/{serviceID}/(serviceID=${service.serviceID})}">Oceń</a> </td>
+        <td th:text="${service.description}"></td>
+        <td><a th:href="@{/rates/rated/{serviceID}/(serviceID=${service.serviceID})}">Pokaż szczegóły</a></td>
     </tr>
     </tbody>
 </table>

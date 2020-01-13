@@ -1,8 +1,8 @@
 package jestesmy.glodni.cateringi.repository;
 
 import jestesmy.glodni.cateringi.model.Client;
-import jestesmy.glodni.cateringi.model.Company;
 import jestesmy.glodni.cateringi.model.Rate;
+import jestesmy.glodni.cateringi.model.Service;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -10,11 +10,11 @@ import java.util.List;
 
 public interface RateRepository extends CrudRepository<Rate, Integer> {
     List<Rate> findByClient(Client client);
-    List<Rate> findByCompany(Company company);
-    List<Rate> findByClientAndCompany(Client client, Company company);
-    boolean existsByClientAndCompany(Client client, Company company);
-    int countAllByCompany(Company company);
+    List<Rate> findByService(Service service);
+    List<Rate> findByClientAndService(Client client, Service service);
+    boolean existsByClientAndService(Client client, Service service);
+    int countAllByService(Service service);
 
-    @Query("SELECT SUM(r.rate) from Rate r where CompanyID = ?1")
-    int getRatingByCompanyID(int companyID);
+    @Query("SELECT coalesce(SUM(r.rating), 0) from Rate r where serviceID = ?1")
+    int getRatingByServiceID(int serviceID);
 }

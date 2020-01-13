@@ -21,19 +21,14 @@ import java.math.RoundingMode;
 @RequestMapping("/services")
 public class ServiceController {
 
-    @Autowired
     private CurrentAuthenticatedUserService currentAuthenticatedUserService;
 
-    @Autowired
     private ServiceRepository serviceRepository;
 
-    @Autowired
     private CompanyRepository companyRepository;
 
-    @Autowired
     private ClientRepository clientRepository;
 
-    @Autowired
     private RateRepository rateRepository;
 
     @Autowired
@@ -49,6 +44,7 @@ public class ServiceController {
     public String home(HttpServletResponse httpServletResponse, Model model) throws IOException {
         if (currentAuthenticatedUserService.getCurrentUser().getUserType() == UserType.CLIENT) {
             model.addAttribute("services", serviceRepository.findAll());
+            model.addAttribute("rates", rateRepository.findByClient(clientRepository.findByUser(currentAuthenticatedUserService.getCurrentUser())));
             return "allServicesClient";
         }
         Company company = companyRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
@@ -99,10 +95,10 @@ public class ServiceController {
         model.addAttribute("services", serviceRepository.findAll());
         Client client = clientRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
         Rate rate;
-        if (rateRepository.existsByClientAndCompany(client, service.getCompany())) {
-            rate = rateRepository.findByClientAndCompany(client, service.getCompany()).get(0);
-            if (star != rate.getRate()) {
-                rate.setRate(star);
+        if (rateRepository.existsByClientAndService(client, service)) {
+            rate = rateRepository.findByClientAndService(client, service).get(0);
+            if (star != rate.getRating()) {
+                rate.setRating(star);
             } else {
                 return "allServicesClient";
             }
@@ -111,10 +107,14 @@ public class ServiceController {
             rate = new Rate(star);
             client = clientRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
             rate.setClient(client);
-            rate.setCompany(service.getCompany());
+            rate.setService(service);
         }
         rateRepository.save(rate);
-        BigDecimal bd = BigDecimal.valueOf(rateRepository.getRatingByCompanyID(service.getCompany().getCompanyID()) / (double)rateRepository.countAllByCompany(service.getCompany()));
+        BigDecimal bd = BigDecimal.valueOf(rateRepository.getRatingByServiceID(service.getServiceID()) / (double)rateRepository.countAllByService(service));
+        bd = bd.setScale(0, RoundingMode.HALF_UP);
+        service.setAverageRating(bd.doubleValue());
+        serviceRepository.save(service);
+        bd = BigDecimal.valueOf(serviceRepository.getRatingByCompanyID(service.getCompany().getCompanyID()) / (double)serviceRepository.countByCompanyNotZero(service.getCompany().getCompanyID()));
         bd = bd.setScale(0, RoundingMode.HALF_UP);
         service.getCompany().setAverageRating(bd.doubleValue());
         serviceRepository.save(service);

@@ -11,11 +11,13 @@ public class Rate {
     private int rateID;
 
     @Column(nullable = false)
-    private int rate;
+    private int rating;
+
+    private String description;
 
     @ManyToOne
-    @JoinColumn(name = "CompanyID", nullable = false)
-    private Company company;
+    @JoinColumn(name = "ServiceID", nullable = false)
+    private Service service;
 
     @ManyToOne
     @JoinColumn(name = "ClientID", nullable = false)
@@ -24,8 +26,8 @@ public class Rate {
     public Rate() {
     }
 
-    public Rate(int rate) {
-        this.rate = rate;
+    public Rate(int rating) {
+        this.rating = rating;
     }
 
     public int getRateID() {
@@ -36,20 +38,28 @@ public class Rate {
         this.rateID = rateID;
     }
 
-    public int getRate() {
-        return rate;
+    public int getRating() {
+        return rating;
     }
 
-    public void setRate(int rate) {
-        this.rate = rate;
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 
-    public Company getCompany() {
-        return company;
+    public String getDescription() {
+        return description;
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Service getService() {
+        return service;
+    }
+
+    public void setService(Service service) {
+        this.service = service;
     }
 
     public Client getClient() {

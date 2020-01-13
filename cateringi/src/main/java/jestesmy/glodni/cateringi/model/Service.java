@@ -14,6 +14,18 @@ public class Service {
 
     private String description;
 
+    private double averageRating;
+
+    public Service(){
+        this.averageRating = 0.0;
+    }
+
+    public Service(String serviceName, String description) {
+        this.serviceName = serviceName;
+        this.description = description;
+        this.averageRating = 0.0;
+    }
+
     @ManyToOne
     @JoinColumn(name="CompanyID", nullable = false)
     private Company company;
@@ -45,4 +57,12 @@ public class Service {
     public Company getCompany() { return company; }
 
     public void setCompany(Company company) { this.company = company; }
+
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
+    }
 }

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring MVC demo app</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>Użytkownik</th>
+        <th>Ocena</th>
+        <th>Komentarz</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="rate : ${rates}">
+        <td th:text="${rate.client.name}"></td>
+        <td th:text="${rate.rating}"></td>
+        <td th:text="${rate.description}"></td>
+    </tr>
+    </tbody>
+</table>
+<p><a href="/rates">Powrót</a></p>
+</body>

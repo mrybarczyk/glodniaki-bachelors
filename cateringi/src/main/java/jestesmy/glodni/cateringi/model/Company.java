@@ -29,7 +29,7 @@ public class Company {
     User user;
 
     public Company(){
-        this.averageRating = 0;
+        this.averageRating = 0.0;
     }
 
     public Company(String name, String nip, String regon, String websiteAddress) {
@@ -37,7 +37,7 @@ public class Company {
         this.nip = nip;
         this.regon = regon;
         this.websiteAddress = websiteAddress;
-        this.averageRating = 0;
+        this.averageRating = 0.0;
     }
 
     public User getUser() {
