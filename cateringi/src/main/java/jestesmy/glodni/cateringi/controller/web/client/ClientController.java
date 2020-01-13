@@ -36,7 +36,6 @@ public class ClientController {
     public String showClientWelcomePage(Model model) {
         User user = currentAuthenticatedUserService.getCurrentUser();
         Client client = clientRepository.findByUser(user);
-        model.addAttribute("user",user);
         model.addAttribute("client",client);
         model.addAttribute("services",serviceRepository.findAllByActiveIsTrue());
         return "client-services";

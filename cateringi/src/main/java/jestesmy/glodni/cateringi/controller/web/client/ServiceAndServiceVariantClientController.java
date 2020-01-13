@@ -42,10 +42,10 @@ public class ServiceAndServiceVariantClientController {
         model.addAttribute("user",user);
         model.addAttribute("client", client);
         model.addAttribute("services", serviceRepository.findAllByActiveIsTrue());
-        return "";
+        return "client-services";
     }
 
-    @GetMapping("/{serviceID}/variants")
+    @GetMapping("/{serviceID}/details")
     public String showServiceWithVariants(@PathVariable("serviceID")int serviceID, Model model) {
         User user = currentAuthenticatedUserService.getCurrentUser();
         Client client = clientRepository.findByUser(user);
@@ -55,9 +55,9 @@ public class ServiceAndServiceVariantClientController {
         ));
         serviceAndServiceVariant.setServiceVariants(serviceVariantRepository
                 .findByServiceAndActiveIsTrue(serviceAndServiceVariant.getService()));
-        model.addAttribute("user",user);
         model.addAttribute("client", client);
         model.addAttribute("service", serviceAndServiceVariant);
-        return "";
+        model.addAttribute("selectedVariant",new ServiceVariant());
+        return "service-details";
     }
 }

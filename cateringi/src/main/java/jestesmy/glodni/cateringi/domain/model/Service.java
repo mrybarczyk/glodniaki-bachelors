@@ -22,6 +22,8 @@ public class Service {
 
     private boolean active;
 
+    private double minPrice;
+
     public int getServiceID() {
         return serviceID;
     }
@@ -56,5 +58,13 @@ public class Service {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public double getMinPrice() {
+        return minPrice;
+    }
+
+    public void setMinPrice(double minPrice) {
+        this.minPrice = minPrice;
     }
 }

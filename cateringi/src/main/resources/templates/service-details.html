@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/css/services.css" />
+    <link rel="stylesheet" type="text/css" href="/css/service-variants.css" />
+    <link href="https://fonts.googleapis.com/css?family=Exo:400,500,700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/23df196ab0.js" crossorigin="anonymous"></script>
+    <title>Index</title>
+
+</head>
+<body>
+<section id="main-container">
+    <header class="top-bar">
+        <a href="*"><img src="/images/logo-transparent-colors.gif" /></a>
+        <button id="toggle-nav" onclick="showNav()"><i class="fas fa-bars fa-3x"></i></button>
+    </header>
+
+    <div id="side-nav">
+        <button id="close-nav" onclick="closeNav()"><i class="fas fa-times fa-3x"></i></button>
+        <div class="user-info" th:object="${client}">
+            <img src="/images/default-user-icon.jpg" width="100px" height="100px" />
+            <p><span th:text="*{name}+' '+*{lastName}"></span> </p>
+            <p><span style="font-size: .75rem;" th:text="*{user.email}"></span></p>
+        </div>
+        <div class="nav-items">
+            <a class="active-item" href="index.html">Profil</a>
+            <a href="index.html">Oferta</a>
+            <a href="index.html">Historia zamówień</a>
+            <a href="index.html">Ustawienia</a>
+            <a class="bottom" href="/logout">Wyloguj</a>
+        </div>
+    </div>
+
+    <section class="content-wrapper">
+        <div class="content-main">
+            <div th:object="${service.service}" class="service-card-big">
+                <div class="service-info">
+                    <img src="/images/indexBg.jpg" style="margin-right:.5rem;" width="200px" height="150px" alt="">
+                    <div>
+                        <p class="service-name" th:text="*{serviceName}">Nazwa</p>
+                        <a class="description" th:href="@{/company/{companyID}(companyID=*{company.companyID})}">
+                            <span th:text="*{company.name}"></span>
+                        </a>
+                        <p>Kategoria</p>
+                        <p class="description" th:text="*{description}"></p>
+                    </div>
+                </div>
+            </div>
+            <h2>Warianty usługi</h2>
+            <form th:action="@{/client/orders/new}" th:object="${selectedVariant}" th:method="post">
+                <label class="variants" th:each="serviceVariant : ${service.serviceVariants}">
+                    <input type="radio" name="variant" th:field="${selectedVariant.serviceVariantID}" th:value="${serviceVariant.serviceVariantID}"/>
+                    <p><h3>Kalorie: </h3><span th:text="${serviceVariant.calories}"></span></p>
+                    <p><h3>Ilość dni: </h3><span th:text="${serviceVariant.dayNumber}"></span></p>
+                    <p><h3>Cena/dzień: </h3><span th:text="${serviceVariant.price}"></span>zł</p>
+                </label>
+                <input type="submit" class="page-button" value="Zamów" />
+            </form>
+        </div>
+    </section>
+</section>
+<script src="/scripts/nav.js"></script>
+<script src="/scripts/services-company.js"></script>
+</body>
+</html>

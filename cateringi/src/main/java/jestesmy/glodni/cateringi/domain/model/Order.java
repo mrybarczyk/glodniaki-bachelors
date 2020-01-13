@@ -36,6 +36,8 @@ public class Order {
 
     private Timestamp toDate;
 
+    private boolean isPaid;
+
     public int getOrderID() {
         return orderID;
     }
@@ -110,6 +112,22 @@ public class Order {
 
     public void setServiceDescription(String serviceDescription) {
         this.serviceDescription = serviceDescription;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public boolean getIsPaid() {
+        return isPaid;
+    }
+
+    public void setIsPaid(boolean isPaid) {
+        this.isPaid = isPaid;
     }
 }
 

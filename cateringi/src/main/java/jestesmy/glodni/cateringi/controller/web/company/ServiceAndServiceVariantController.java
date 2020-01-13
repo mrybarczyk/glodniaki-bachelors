@@ -93,6 +93,7 @@ public class ServiceAndServiceVariantController {
         Service service = serviceAndServiceVariant.getService();
         service.setCompany(company);
         service.setActive(true);
+        service.setMinPrice(serviceAndServiceVariant.getServiceVariants().get(0).getPrice());
         serviceRepository.save(service);
         for(ServiceVariant serviceVariant : serviceAndServiceVariant.getServiceVariants()){
             serviceVariant.setService(service);
@@ -123,6 +124,7 @@ public class ServiceAndServiceVariantController {
         Company company = companyRepository.findByUser(user);
         service.setCompany(company);
         service.setActive(true);
+        service.setMinPrice(serviceRepository.findById(serviceID).get().getMinPrice());
         serviceRepository.save(service);
         return "redirect:/services";
     }
@@ -161,9 +163,13 @@ public class ServiceAndServiceVariantController {
     public String addServiceVariant(@ModelAttribute("newVariant")ServiceVariant newVariant,
                                     @PathVariable("serviceID")int serviceId) {
         newVariant.setActive(true);
-        newVariant.setService(serviceRepository.findById(serviceId).orElseThrow(
-                () -> new IllegalArgumentException("Invalid service ID" + serviceId)
-        ));
+        Service service = serviceRepository.findById(serviceId).orElseThrow(
+                () -> new IllegalArgumentException("Invalid service ID" + serviceId));
+        newVariant.setService(service);
+        if(newVariant.getPrice()<service.getMinPrice()){
+            service.setMinPrice(newVariant.getPrice());
+            serviceRepository.save(service);
+        }
         serviceVariantRepository.save(newVariant);
         return "redirect:/services/"+serviceId+"/variants";
     }

@@ -21,7 +21,7 @@ public class Client {
     @JoinColumn(name="clientID")
     @MapsId
     @JsonIgnore
-    User user;
+    private User user;
 
     public Client() {
     }
