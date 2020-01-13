@@ -53,12 +53,12 @@
                     <td colspan="2"> No Users Available </td>
                 </tr>
                 <tr th:each="user : ${allusers}">
-                    <td><span th:text="${user.userName}"> Username </span></td>
-                    <td><span th:text="${user.email}"> E-mail </span></td>
-                    <td><span th:text="${user.userType}"> Account type </span></td>
-                    <td><span th:text="${user.isActive}"> isActive </span></td>
-                    <td><a th:href="@{/admin/ban/} + ${user.userId}"> BAN </a></td>
-                    <td><a th:href="@{/admin/resetpassword/} + ${user.userId}"> RESET PASSWORD </a></td>
+                    <td><span class="black" th:text="${user.userName}"> Username </span></td>
+                    <td><span class="black" th:text="${user.email}"> E-mail </span></td>
+                    <td><span class="black" th:text="${user.userType}"> Account type </span></td>
+                    <td><span class="black" th:text="${user.isActive}"> isActive </span></td>
+                    <td><a class="black" th:href="@{/admin/ban/} + ${user.userId}"> BAN </a></td>
+                    <td><a class="black" th:href="@{/admin/resetpassword/} + ${user.userId}"> RESET PASSWORD </a></td>
                 </tr>
                 </tbody>
             </table>
