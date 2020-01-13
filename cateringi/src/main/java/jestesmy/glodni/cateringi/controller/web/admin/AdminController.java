@@ -61,7 +61,7 @@ public class AdminController {
     public String ban(Model model, @PathVariable int userId){
         User user = userRepository.findById(userId).orElse(null);
         User currentUser = userRepository.findByUserName(currentAuthenticatedUserService.getCurrentUserName());
-        Admin admin = adminRepository.findByUser(user);
+        Admin admin = adminRepository.findByUser(currentUser);
         if (user == null){
             return "error";
         }
@@ -76,6 +76,8 @@ public class AdminController {
             }
         }
         userRepository.save(user);
+        model.addAttribute("user", currentUser);
+        model.addAttribute("admin", admin);
         model.addAttribute("allusers", userRepository.findAll());
         return "userlist";
     }

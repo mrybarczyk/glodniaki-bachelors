@@ -40,12 +40,12 @@
             <table>
                 <thead>
                 <tr>
-                    <th> Username </th>
+                    <th> Nazwa użytkownika </th>
                     <th> E-mail </th>
-                    <th> Account Type </th>
-                    <th> isActive </th>
-                    <th> Banning </th>
-                    <th> Password reset </th>
+                    <th> Typ konta </th>
+                    <th> Aktywny </th>
+                    <th> Banowanie </th>
+                    <th> Reset hasła </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -53,12 +53,16 @@
                     <td colspan="2"> No Users Available </td>
                 </tr>
                 <tr th:each="user : ${allusers}">
-                    <td><span class="black" th:text="${user.userName}"> Username </span></td>
+                    <td><span class="black" th:text="${user.userName}"> Nazwa użytkownika </span></td>
                     <td><span class="black" th:text="${user.email}"> E-mail </span></td>
-                    <td><span class="black" th:text="${user.userType}"> Account type </span></td>
-                    <td><span class="black" th:text="${user.isActive}"> isActive </span></td>
+                    <td>
+                        <span class="black" th:if="${user.userType.toString() == 'CLIENT'}"> Klient </span>
+                        <span class="black" th:if="${user.userType.toString() == 'COMPANY'}"> Firma </span>
+                        <span class="black" th:if="${user.userType.toString() == 'ADMIN'}"> Administrator </span>
+                    </td>
+                    <td><span class="black" th:text="${user.isActive} ? 'Aktywny' : 'Zbanowany'"/></td>
                     <td><a class="black" th:href="@{/admin/ban/} + ${user.userId}"> BAN </a></td>
-                    <td><a class="black" th:href="@{/admin/resetpassword/} + ${user.userId}"> RESET PASSWORD </a></td>
+                    <td><a class="black" th:href="@{/admin/resetpassword/} + ${user.userId}"> RESET HASŁA </a></td>
                 </tr>
                 </tbody>
             </table>
