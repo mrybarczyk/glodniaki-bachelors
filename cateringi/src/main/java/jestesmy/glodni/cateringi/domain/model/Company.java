@@ -22,7 +22,7 @@ public class Company {
 
     private double averageRating;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name="companyID")
     @MapsId
     @JsonIgnore

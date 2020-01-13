@@ -1,0 +1,80 @@
+.active-item {
+    background-color:#444;
+    border: 5px solid #333;
+}
+
+.active-item::after {
+    height: 0px !important;
+}
+
+.active-item:hover {
+    /* border:5px solid rgba(33,33,33,.9); */
+    /* background-color: inherit; */
+    cursor: default;
+}
+
+.content-main {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+}
+
+.content-main > * > * {
+    color: var(--clr-text-dark);
+}
+
+.company-photo {
+    border-radius: 50%;
+    width: 250px;
+    height: 250px;
+    border: 5px solid var(--clr-primary);
+    align-self: center;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.page-button {
+    border: 2px solid transparent;
+    text-decoration: none;
+    color: var(--clr-text);
+    align-self: flex-end;
+    background: var(--clr-primary);
+    padding: 5px;
+}
+
+.page-button > i {
+    color: var(--clr-text);
+    margin-right: 3px;
+}
+
+.page-button:hover {
+    color: var(--clr-text-dark);
+    background: var(--clr-secondary);
+    border: 2px solid var(--clr-primary);
+}
+
+.page-button:hover>i {
+    color: var(--clr-text-dark);
+}
+
+.main-info {
+    align-self: flex-start;
+    margin-bottom: 30px;
+}
+
+.company-name {
+    font-size: 2.25rem;
+}
+
+.contact {
+    display: flex;
+    justify-content: space-between;
+}
+
+.fa-star {
+    color: #333;
+}
+
+.checked {
+    color: gold;
+}

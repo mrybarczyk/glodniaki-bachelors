@@ -46,6 +46,15 @@ body {
     max-width: 50px;
 }
 
+.top-bar > button {
+    position: fixed;
+    right: 0;
+    top: -1px;
+    background: var(--clr-primary);
+    border-radius: 5px;
+    box-shadow: 0 0 3em rgba(0,0,0,.3);
+}
+
 button {
     padding: 3px 6px;
     border: 0;
@@ -132,10 +141,10 @@ button {
 }
 
 .content-wrapper {
-    display: grid;
-    grid-template-columns: auto;
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    align-content: center;
+    align-items: center;
     background: var(--clr-secondary);
     width: 100%;
     min-height:calc(100vh - 50px);
@@ -143,7 +152,8 @@ button {
 }
 
 .content-main {
-    margin-top:10px;
+    margin-top:20px;
+    margin-bottom:20px;
     width: 70vw;
     box-sizing: border-box;
     height: min-content;
@@ -164,5 +174,16 @@ button {
 
 h1 {
     padding: 15px;
+}
+
+.notification-ok {
+    border: 2px solid green;
+    background: lightgreen;
+    border-radius: 25px;
+    padding: 5px;
+}
+
+.notification-ok > p {
+    color:var(--clr-text-dark);
 }
 
