@@ -2,8 +2,8 @@ package jestesmy.glodni.cateringi.controller.api;
 
 import jestesmy.glodni.cateringi.exception.IdMismatchException;
 import jestesmy.glodni.cateringi.exception.NotFoundException;
-import jestesmy.glodni.cateringi.model.Company;
-import jestesmy.glodni.cateringi.model.Service;
+import jestesmy.glodni.cateringi.domain.model.Company;
+import jestesmy.glodni.cateringi.domain.model.Service;
 import jestesmy.glodni.cateringi.repository.CompanyRepository;
 import jestesmy.glodni.cateringi.repository.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;

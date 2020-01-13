@@ -1,7 +1,7 @@
 package jestesmy.glodni.cateringi.beans;
 
-import jestesmy.glodni.cateringi.model.Client;
-import jestesmy.glodni.cateringi.model.Company;
+import jestesmy.glodni.cateringi.domain.model.Client;
+import jestesmy.glodni.cateringi.domain.model.Company;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

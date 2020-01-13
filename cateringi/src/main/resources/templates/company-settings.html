@@ -38,11 +38,16 @@
 
     <section class="content-wrapper">
         <div class="content-main">
+            <div class="notification-ok" th:if="${passwordChanged==true}">
+                <p>Hasło zostało zmienione</p>
+            </div>
             <form action="/company/update" method="POST" th:object="${company}">
                 <div class="image-container long-field">
                 <img src="/images/default-user-icon.jpg" alt="" class="company-photo" />
                 <input id="image" type="file" />
                 </div>
+                <h2 class="long-field">Dane logowania</h2>
+                <a class="page-button" style="justify-self:center; grid-column: 1/3;" th:href="@{update/password}">Zmień hasło</a>
                 <h2 class="long-field">Dane firmy</h2>
                 <div class="field-container">
                 <label for="name">Nazwa firmy</label>

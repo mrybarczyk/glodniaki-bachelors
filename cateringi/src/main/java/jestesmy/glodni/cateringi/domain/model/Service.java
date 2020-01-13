@@ -1,4 +1,4 @@
-package jestesmy.glodni.cateringi.model;
+package jestesmy.glodni.cateringi.domain.model;
 
 import javax.persistence.*;
 

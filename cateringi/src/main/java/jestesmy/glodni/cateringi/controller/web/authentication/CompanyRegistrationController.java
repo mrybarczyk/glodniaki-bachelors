@@ -1,8 +1,8 @@
 package jestesmy.glodni.cateringi.controller.web.authentication;
 
-import jestesmy.glodni.cateringi.model.Company;
-import jestesmy.glodni.cateringi.model.User;
-import jestesmy.glodni.cateringi.model.UserType;
+import jestesmy.glodni.cateringi.domain.model.Company;
+import jestesmy.glodni.cateringi.domain.model.User;
+import jestesmy.glodni.cateringi.domain.model.UserType;
 import jestesmy.glodni.cateringi.repository.CompanyRepository;
 import jestesmy.glodni.cateringi.repository.UserRepository;
 import org.apache.commons.codec.binary.Hex;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/company/register")

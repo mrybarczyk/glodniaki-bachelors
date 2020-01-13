@@ -1,7 +1,7 @@
-package jestesmy.glodni.cateringi.model.util;
+package jestesmy.glodni.cateringi.domain.util;
 
-import jestesmy.glodni.cateringi.model.Company;
-import jestesmy.glodni.cateringi.model.User;
+import jestesmy.glodni.cateringi.domain.model.Company;
+import jestesmy.glodni.cateringi.domain.model.User;
 
 public class CompanyWithUser{
     private String userName;
