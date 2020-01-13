@@ -114,7 +114,7 @@ public class ServiceAndServiceVariantController {
     }
 
     @PostMapping("/update/{serviceID}")
-    public String updateService(@PathVariable("serviceID") int serviceID, Service service, BindingResult result, Model model) {
+    public String updateService(@PathVariable("serviceID") int serviceID, Service service, BindingResult result) {
         if (result.hasErrors()) {
             service.setServiceID(serviceID);
             return "updateService";
@@ -128,7 +128,7 @@ public class ServiceAndServiceVariantController {
     }
 
     @GetMapping("/delete/{serviceID}")
-    public String deleteService(@PathVariable("serviceID") int serviceID, Model model) {
+    public String deleteService(@PathVariable("serviceID") int serviceID) {
         Service service = serviceRepository.findById(serviceID).orElseThrow(() -> new IllegalArgumentException("Invalid service Id:" + serviceID));
         List<ServiceVariant> serviceVariants = serviceVariantRepository.findByServiceAndActiveIsTrue(service);
         for(ServiceVariant sv : serviceVariants){
@@ -159,8 +159,7 @@ public class ServiceAndServiceVariantController {
 
     @PostMapping("/{serviceID}/variants/add")
     public String addServiceVariant(@ModelAttribute("newVariant")ServiceVariant newVariant,
-                                    @PathVariable("serviceID")int serviceId,
-                                    Model model) {
+                                    @PathVariable("serviceID")int serviceId) {
         newVariant.setActive(true);
         newVariant.setService(serviceRepository.findById(serviceId).orElseThrow(
                 () -> new IllegalArgumentException("Invalid service ID" + serviceId)
@@ -170,7 +169,7 @@ public class ServiceAndServiceVariantController {
     }
 
     @GetMapping("/serviceVariant/delete/{serviceVariantID}")
-    public String deleteServiceVariant(@PathVariable("serviceVariantID") int serviceVariantID, Model model){
+    public String deleteServiceVariant(@PathVariable("serviceVariantID") int serviceVariantID){
         ServiceVariant serviceVariant = serviceVariantRepository.findById(serviceVariantID).orElseThrow(() ->
                 new IllegalArgumentException("Invalid serviceVariant Id:" + serviceVariantID));
         serviceVariant.setActive(false);
