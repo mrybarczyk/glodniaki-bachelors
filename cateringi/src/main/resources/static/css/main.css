@@ -141,10 +141,11 @@ button {
 }
 
 .content-wrapper {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
+    align-content: center;
     background: var(--clr-secondary);
     width: 100%;
     min-height:calc(100vh - 50px);
