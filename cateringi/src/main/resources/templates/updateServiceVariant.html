@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edytuj usługę</title>
+</head>
+<body>
+<form th:action="@{/servicesvariant/update/{serviceVariantID}(serviceVariantID=${servicesVariant.serviceVariantID})}" th:object="${servicesVariant}" method="post">
+    <table><tr>
+        <td><label for="serviceID">ID Twojej usługi</label><input type="text" th:field="*{service.serviceID}" id="serviceID"/></td>
+        <td><label for="calories">Liczba kalorii</label><input type="text" th:field="*{calories}" id="calories"/></td>
+        <td><label for="price">Cena</label><input type="text" th:field="*{price}" id="price"/></td>
+        <td><label for="dayNumber">Ilość dni</label><input type="text" th:field="*{dayNumber}" id="dayNumber"/></td>
+    </tr>
+        <tr><td><input type="submit" name="results" value="Akceptuj"></td></tr>
+    </table>
+</form>
+</body>
+</html>

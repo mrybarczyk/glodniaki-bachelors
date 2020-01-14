@@ -1,4 +1,4 @@
-package jestesmy.glodni.cateringi.model;
+package jestesmy.glodni.cateringi.domain.model;
 import javax.persistence.*;
 
 @Entity
@@ -14,15 +14,26 @@ public class User {
 
     private String password;
 
+    private String phoneNumber;
+
     @Enumerated(EnumType.STRING)
     private UserType userType;
 
     public User() {    }
 
-    public User(String userName, String email, String password) {
+    public User(String userName, String email,String phoneNumber, String password) {
         this.userName = userName;
         this.email = email;
         this.password = password;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public UserType getUserType() {

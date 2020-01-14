@@ -3,7 +3,7 @@ package jestesmy.glodni.cateringi;
 import io.restassured.RestAssured;
 import io.restassured.authentication.FormAuthConfig;
 import io.restassured.response.Response;
-import jestesmy.glodni.cateringi.model.Client;
+import jestesmy.glodni.cateringi.domain.model.Client;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
