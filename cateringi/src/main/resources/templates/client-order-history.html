@@ -7,9 +7,10 @@
     <link rel="stylesheet" type="text/css" href="/css/main.css" />
     <link rel="stylesheet" type="text/css" href="/css/services.css" />
     <link rel="stylesheet" type="text/css" href="/css/service-variants.css" />
+    <link rel="stylesheet" type="text/css" href="/css/order.css" />
     <link href="https://fonts.googleapis.com/css?family=Exo:400,500,700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/23df196ab0.js" crossorigin="anonymous"></script>
-    <title>Index</title>
+    <title>Historia zamówień</title>
 
 </head>
 <body>
@@ -27,9 +28,9 @@
             <p><span style="font-size: .75rem;" th:text="*{user.email}"></span></p>
         </div>
         <div class="nav-items">
-            <a class="active-item" href="/client/profile">Profil</a>
+            <a href="/client/profile">Profil</a>
             <a href="/client/services">Oferta</a>
-            <a href="/client/orders/history">Historia zamówień</a>
+            <a class="active-item" href="/client/orders/history">Historia zamówień</a>
             <a href="/client/settings">Ustawienia</a>
             <a class="bottom" href="/logout">Wyloguj</a>
         </div>
@@ -37,27 +38,31 @@
 
     <section class="content-wrapper">
         <div class="content-main">
-            <form th:action="@{/client/orders/add}" th:object="${order}" th:method="post">
-                <h1>Zamówienie nr: <span th:text="${order.orderID}"></span></h1>
-                <p>Firma: <span th:text="*{serviceVariant.service.company.name}"></span></p>
-                <div th:object="${order.serviceVariant.service}" class="service-card-big">
-                    <div class="service-info">
-                        <img src="/images/indexBg.jpg" style="margin-right:.5rem;" width="200px" height="150px" alt="">
-                        <div>
-                            <p class="service-name" th:text="*{serviceName}">Nazwa</p>
-                            <p>Kategoria</p>
-                            <p class="description" th:text="*{description}"></p>
-                        </div>
-                    </div>
+            <h1 style="font-size: 2rem;">Zamówienia</h1>
+            <div class="order-entry" th:each="order : ${orders}">
+                <h3>Zamówienie nr: <span th:text="${order.orderID}"></span></h3>
+                <div class="order-service">
+                    <p class="highlight" th:text="${order.serviceVariant.service.serviceName}"></p>
+                    <a class="highlight description" th:text="${order.company.name}"
+                       th:href="@{/company/{companyID}(companyID=${order.company.companyID})}"></a>
                 </div>
-                <p>Kalorie: <span th:text="*{serviceVariant.calories}"></span></p>
-                <p>Ilość dni: <span th:text="*{serviceVariant.dayNumber}"></span></p>
-                <p>Cena/dzień: <span th:text="*{serviceVariant.price}"></span> zł</p>
-
-                <h1>Do zapłaty: <span th:text="${total}"></span> zł</h1>
-                <input type="text" th:field="*{orderID}" th:value="*{orderID}" style="display: none;"/>
-                <input type="submit" class="page-button" value="Zamawiam i płacę" />
-            </form>
+                <div class="date">
+                    <p>Data Zamówienia:
+                        <span class="description"
+                              th:text="${#dates.format(order.orderDate,'yyyy-MM-dd')}"></span>
+                    </p>
+                    <p>Data zakończenia:
+                        <span class="description"
+                              th:text="${#dates.format(order.toDate,'yyyy-MM-dd')}"></span>
+                    </p>
+                </div>
+                <div>
+                <p style="font-weight: bold; margin-bottom: 1.5rem;"th:with="total=${order.serviceVariant.price*order.serviceVariant.dayNumber}">
+                    Kwota: <span th:text="${total}"></span>zł
+                </p>
+                    <a class="page-button" href="#">Oceń firmę</a>
+                </div>
+            </div>
         </div>
     </section>
 </section>

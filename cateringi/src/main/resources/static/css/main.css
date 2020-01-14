@@ -123,6 +123,21 @@ button {
     left: 0;
 }
 
+.active-item {
+    background-color:#444;
+    border: 5px solid #333;
+}
+
+.active-item::after {
+    height: 0px !important;
+}
+
+.active-item:hover {
+    /* border:5px solid rgba(33,33,33,.9); */
+    /* background-color: inherit; */
+    cursor: default;
+}
+
 .bottom {
     border-top: 1px dashed #444444;
     position: absolute !important;
@@ -168,7 +183,7 @@ button {
 }
 
 .highlight {
-    color: var(--clr-primary);
+    color: var(--clr-primary) !important;
     font-weight: 900;
     text-transform: uppercase;
 }

@@ -29,13 +29,12 @@ public class OrderCompanyController {
         this.orderRepository = orderRepository;
     }
 
-    @GetMapping()
+    @GetMapping("history")
     public String allCompanyOrders(Model model){
         User user = currentAuthenticatedUserService.getCurrentUser();
         Company company = companyRepository.findByUser(user);
-        model.addAttribute("user", user);
         model.addAttribute("company", company);
         model.addAttribute("orders", orderRepository.findByCompany(company));
-        return "company-orders";
+        return "company-order-history";
     }
 }

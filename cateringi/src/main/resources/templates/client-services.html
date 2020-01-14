@@ -22,14 +22,14 @@
             <button id="close-nav" onclick="closeNav()"><i class="fas fa-times fa-3x"></i></button>
             <div class="user-info" th:object="${client}">
             <img src="/images/default-user-icon.jpg" width="100px" height="100px" />
-                <p><span th:text="*{name}"></span> </p>
+                <p><span th:text="*{name}+' '+*{lastName}"></span> </p>
                 <p><span style="font-size: .75rem;" th:text="${client.user.email}"></span></p>
             </div>
         <div class="nav-items">
-        <a class="active-item" href="index.html">Profil</a>
-        <a href="index.html">Oferta</a>
-        <a href="index.html">Historia zamówień</a>
-        <a href="index.html">Ustawienia</a>
+        <a href="/client/profile">Profil</a>
+        <a class="active-item" href="/client/services">Oferta</a>
+        <a href="/client/orders/history">Historia zamówień</a>
+        <a href="/client/settings">Ustawienia</a>
         <a class="bottom" href="/logout">Wyloguj</a>
 
         </div>

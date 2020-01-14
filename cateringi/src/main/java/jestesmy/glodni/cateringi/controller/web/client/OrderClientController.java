@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequestMapping("/client/orders")
@@ -70,6 +71,15 @@ public class OrderClientController {
         Order paidOrder = orderRepository.findById(order.getOrderID()).get();
         paidOrder.setIsPaid(true);
         orderRepository.save(paidOrder);
-        return "redirect:/orders";
+        return "redirect:/client/orders/history";
+    }
+
+    @GetMapping("history")
+    public String showOrderHistory(Model model) {
+        Client client = clientRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
+        List<Order> orders = orderRepository.findByClient(client);
+        model.addAttribute("client",client);
+        model.addAttribute("orders",orders);
+        return "client-order-history";
     }
 }

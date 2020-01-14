@@ -1,17 +1,3 @@
-.active-item {
-    background-color:#444;
-    border: 5px solid #333;
-}
-
-.active-item::after {
-    height: 0px !important;
-}
-
-.active-item:hover {
-    /* border:5px solid rgba(33,33,33,.9); */
-    /* background-color: inherit; */
-    cursor: default;
-}
 
 .content-main {
     display: flex;

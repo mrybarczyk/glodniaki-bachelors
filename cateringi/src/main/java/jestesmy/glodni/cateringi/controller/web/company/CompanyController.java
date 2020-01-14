@@ -78,7 +78,7 @@ public class CompanyController {
         User user = currentAuthenticatedUserService.getCurrentUser();
         CompanyWithUser company = new CompanyWithUser(companyRepository.findByUser(user),user);
         model.addAttribute("company",company);
-        return "change-password";
+        return "company-change-password";
     }
 
     @PostMapping("update/password")

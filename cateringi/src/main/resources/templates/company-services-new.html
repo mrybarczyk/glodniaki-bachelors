@@ -26,10 +26,10 @@
             <p th:object="${user}"><span style="font-size: .75rem;" th:text="${user.email}"></span></p>
         </div>
         <div class="nav-items">
-        <a class="active-item" href="index.html">Profil</a>
-        <a href="index.html">Oferta</a>
-        <a href="index.html">Historia zamówień</a>
-        <a href="index.html">Ustawienia</a>
+        <a href="/company">Profil</a>
+        <a href="/company/services">Oferta</a>
+        <a href="/company/orders/history">Historia zamówień</a>
+        <a href="/company/settings">Ustawienia</a>
         <a class="bottom" href="/logout">Wyloguj</a>
 
         </div>
@@ -38,7 +38,7 @@
     <section class="content-wrapper">
         <div class="content-main">
             <h1>Dodaj nową usługę</h1>
-            <form th:action="@{/services/add}" th:object="${serviceAndServiceVariant}" method="post">
+            <form th:action="@{/company/services/add}" th:object="${serviceAndServiceVariant}" method="post">
                 <div class="long-field" style="justify-self: center;">
                 <label for="serviceName">Nazwa</label>
                 <input class="field" type="text" th:field="*{service.serviceName}" id="serviceName"/>

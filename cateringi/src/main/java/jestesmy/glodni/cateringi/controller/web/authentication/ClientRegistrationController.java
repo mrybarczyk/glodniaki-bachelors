@@ -101,8 +101,7 @@ public class ClientRegistrationController {
         userRepository.save(registeredUser);
         registeredClient.setUser(registeredUser);
         clientRepository.save(registeredClient);
-        model.addAttribute("registered",true);
-        return "login";
+        return "redirect:/login?registered";
     }
 
 }

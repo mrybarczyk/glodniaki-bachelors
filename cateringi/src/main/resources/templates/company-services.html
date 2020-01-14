@@ -26,10 +26,10 @@
                 <p th:object="${user}"><span style="font-size: .75rem;" th:text="${user.email}"></span></p>
             </div>
         <div class="nav-items">
-        <a class="active-item" href="index.html">Profil</a>
-        <a href="index.html">Oferta</a>
-        <a href="index.html">Historia zamówień</a>
-        <a href="index.html">Ustawienia</a>
+        <a href="/company">Profil</a>
+        <a class="active-item" href="/company/services">Oferta</a>
+        <a href="/company/orders/history">Historia zamówień</a>
+        <a href="/company/settings">Ustawienia</a>
         <a class="bottom" href="/logout">Wyloguj</a>
 
         </div>
@@ -48,14 +48,14 @@
                </div>
                <div class="service-action">
                    <div class="manage">
-                <a th:href="@{/services/edit/{serviceID}(serviceID=${service.serviceID})}"><i class="fa fa-gear"></i></a>
-                <a th:href="@{/services/delete/{serviceID}(serviceID=${service.serviceID})}"><i class="fa fa-trash"></i></a>
+                <a th:href="@{/company/services/edit/{serviceID}(serviceID=${service.serviceID})}"><i class="fa fa-gear"></i></a>
+                <a th:href="@{/company/services/delete/{serviceID}(serviceID=${service.serviceID})}"><i class="fa fa-trash"></i></a>
             </div>
-                <a class="page-button" th:href="@{/services/{serviceID}/variants(serviceID=${service.serviceID})}">Szczegóły</a>
+                <a class="page-button" th:href="@{/company/services/{serviceID}/variants(serviceID=${service.serviceID})}">Szczegóły</a>
             </div>
            </div>
         <div style="width:100%; margin-top:.5rem;">
-            <a href="/services/new" class="page-button new-service"><i class="fa fa-plus"></i>Dodaj nowy</a>
+            <a href="/company/services/new" class="page-button new-service"><i class="fa fa-plus"></i>Dodaj nowy</a>
             </div>
         </div>
     </section>

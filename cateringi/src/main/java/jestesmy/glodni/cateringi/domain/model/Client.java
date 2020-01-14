@@ -17,7 +17,7 @@ public class Client {
     @Column(nullable = false)
     private String lastName;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name="clientID")
     @MapsId
     @JsonIgnore

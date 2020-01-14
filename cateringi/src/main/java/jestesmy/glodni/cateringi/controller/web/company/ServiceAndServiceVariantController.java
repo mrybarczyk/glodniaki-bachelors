@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller()
-@RequestMapping("/services")
+@RequestMapping("/company/services")
 public class ServiceAndServiceVariantController {
 
     private CurrentAuthenticatedUserService currentAuthenticatedUserService;
@@ -100,7 +100,7 @@ public class ServiceAndServiceVariantController {
             serviceVariant.setActive(true);
             serviceVariantRepository.save(serviceVariant);
         }
-        return "redirect:/services";
+        return "redirect:/company/services";
     }
 
     @GetMapping("/edit/{serviceID}")
@@ -126,7 +126,7 @@ public class ServiceAndServiceVariantController {
         service.setActive(true);
         service.setMinPrice(serviceRepository.findById(serviceID).get().getMinPrice());
         serviceRepository.save(service);
-        return "redirect:/services";
+        return "redirect:/company/services";
     }
 
     @GetMapping("/delete/{serviceID}")
@@ -139,7 +139,7 @@ public class ServiceAndServiceVariantController {
         }
         service.setActive(false);
         serviceRepository.save(service);
-        return "redirect:/services";
+        return "redirect:/company/services";
     }
 
     @GetMapping("/{serviceID}/variants/new")
@@ -171,7 +171,7 @@ public class ServiceAndServiceVariantController {
             serviceRepository.save(service);
         }
         serviceVariantRepository.save(newVariant);
-        return "redirect:/services/"+serviceId+"/variants";
+        return "redirect:/company/services/"+serviceId+"/variants";
     }
 
     @GetMapping("/serviceVariant/delete/{serviceVariantID}")
@@ -180,7 +180,7 @@ public class ServiceAndServiceVariantController {
                 new IllegalArgumentException("Invalid serviceVariant Id:" + serviceVariantID));
         serviceVariant.setActive(false);
         serviceVariantRepository.save(serviceVariant);
-        return "redirect:/services";
+        return "redirect:/company/services";
     }
 
 }

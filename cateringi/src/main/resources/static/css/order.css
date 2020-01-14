@@ -1,0 +1,16 @@
+.content-main {
+    width: 70vw;
+}
+
+.order-entry {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    box-shadow: 0 0 3em rgba(0,0,0,.15);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.order-service {
+    max-width: 25%;
+}

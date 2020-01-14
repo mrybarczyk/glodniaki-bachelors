@@ -20,13 +20,7 @@
 
     <div id="side-nav">
             <button id="close-nav" onclick="closeNav()"><i class="fas fa-times fa-3x"></i></button>
-        <div class="nav-items">
-        <a href="index.html">Pomocy</a>
-        <a href="index.html">Pomocy</a>
-        <a href="index.html">Pomocy</a>
-        <a href="index.html">Pomocy</a>
-        </div>
-        <div class="nav-items bottom">
+        <div class="nav-items" style="margin-top:5rem;">
             <a href="/login">Zaloguj</a>
             <a href="/client/register">Załóż konto klienta</a>
             <a href="/company/register">Załóż konto firmy</a>
@@ -36,6 +30,9 @@
     <section class="content-wrapper">
 
         <div class="content-main">
+            <div class="notification-ok" th:if="${registered==true}">
+                <p>Pomyślnie zarejestrowano</p>
+            </div>
             <h1>Zaloguj</h1>
             <form class="login-form"action="login" method="POST">
                 <div class="field-container">
@@ -48,9 +45,6 @@
                 </div>
                 <input name="submit" type="submit" value="Login" />
             </form>
-            <div class="notification-ok" th:if="${registered==true}">
-                <p>Pomyślnie zarejestrowano</p>
-            </div>
         </div>
     </section>
 </section>
