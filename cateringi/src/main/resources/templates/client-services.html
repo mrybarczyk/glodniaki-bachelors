@@ -36,7 +36,7 @@
     </div>
 
     <section class="content-wrapper">
-        <div class="content-main">
+        <div class="content-main" style="justify-content: flex-start;">
            <div th:each="service : ${services}" class="service-card">
                <img src="/images/indexBg.jpg" width="200px" height="150px" alt="">
                <p class="service-name" th:text="${service.serviceName}"></p>
