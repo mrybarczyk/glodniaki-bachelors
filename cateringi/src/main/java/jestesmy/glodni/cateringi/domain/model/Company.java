@@ -1,4 +1,4 @@
-package jestesmy.glodni.cateringi.model;
+package jestesmy.glodni.cateringi.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -22,7 +22,7 @@ public class Company {
 
     private double averageRating;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name="companyID")
     @MapsId
     @JsonIgnore

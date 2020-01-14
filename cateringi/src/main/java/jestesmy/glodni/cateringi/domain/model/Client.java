@@ -1,4 +1,4 @@
-package jestesmy.glodni.cateringi.model;
+package jestesmy.glodni.cateringi.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -17,11 +17,11 @@ public class Client {
     @Column(nullable = false)
     private String lastName;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name="clientID")
     @MapsId
     @JsonIgnore
-    User user;
+    private User user;
 
     public Client() {
     }

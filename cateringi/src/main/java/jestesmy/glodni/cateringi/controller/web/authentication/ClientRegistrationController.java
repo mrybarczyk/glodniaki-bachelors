@@ -1,8 +1,8 @@
 package jestesmy.glodni.cateringi.controller.web.authentication;
 
-import jestesmy.glodni.cateringi.model.Client;
-import jestesmy.glodni.cateringi.model.User;
-import jestesmy.glodni.cateringi.model.UserType;
+import jestesmy.glodni.cateringi.domain.model.Client;
+import jestesmy.glodni.cateringi.domain.model.User;
+import jestesmy.glodni.cateringi.domain.model.UserType;
 import jestesmy.glodni.cateringi.repository.ClientRepository;
 import jestesmy.glodni.cateringi.repository.UserRepository;
 import org.apache.commons.codec.binary.Hex;
@@ -10,14 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/client/register")
@@ -29,6 +26,7 @@ public class ClientRegistrationController {
         private String email;
         private String name;
         private String lastName;
+        private String phoneNumber;
 
         public RegistrationFormClient(){}
 
@@ -71,6 +69,14 @@ public class ClientRegistrationController {
         public void setLastName(String lastName) {
             this.lastName = lastName;
         }
+
+        public String getPhoneNumber() {
+            return phoneNumber;
+        }
+
+        public void setPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+        }
     }
 
     @Autowired
@@ -87,15 +93,15 @@ public class ClientRegistrationController {
     }
 
     @PostMapping()
-    public ModelAndView createAccount(@ModelAttribute("user") RegistrationFormClient user, WebRequest request, BindingResult result, Errors errors) {
+    public String createAccount(@ModelAttribute("user") RegistrationFormClient user,Model model) {
         byte [] encrypted = DigestUtils.md5Digest(user.getPassword().getBytes());
-        User registeredUser = new User(user.getUserName(),user.email,Hex.encodeHexString(encrypted));
+        User registeredUser = new User(user.getUserName(),user.email,user.getPhoneNumber(),Hex.encodeHexString(encrypted));
         registeredUser.setUserType(UserType.CLIENT);
         Client registeredClient = new Client(user.getName(),user.getLastName());
         userRepository.save(registeredUser);
         registeredClient.setUser(registeredUser);
         clientRepository.save(registeredClient);
-        return new ModelAndView("successRegistration","user", user);
+        return "redirect:/login?registered";
     }
 
 }

@@ -1,6 +1,6 @@
 package jestesmy.glodni.cateringi.security;
 
-import jestesmy.glodni.cateringi.model.User;
+import jestesmy.glodni.cateringi.domain.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
