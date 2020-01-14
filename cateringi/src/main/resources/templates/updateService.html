@@ -38,7 +38,7 @@
     <section class="content-wrapper">
         <div class="content-main">
             <h1>Edytuj swoją usługę</h1>
-            <form th:action="@{/services/update/{serviceID}(serviceID=${service.serviceID})}" th:object="${service}" method="post">
+            <form th:action="@{/company/services/update/{serviceID}(serviceID=${service.serviceID})}" th:object="${service}" method="post">
             <div class="long-field" style="justify-self: center;">
                     <label for="serviceName">Nazwa</label>
                     <input class="field" type="text" th:field="*{serviceName}" id="serviceName"/>

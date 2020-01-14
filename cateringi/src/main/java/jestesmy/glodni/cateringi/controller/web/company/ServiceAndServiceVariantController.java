@@ -180,7 +180,7 @@ public class ServiceAndServiceVariantController {
                 new IllegalArgumentException("Invalid serviceVariant Id:" + serviceVariantID));
         serviceVariant.setActive(false);
         serviceVariantRepository.save(serviceVariant);
-        return "redirect:/company/services";
+        return "redirect:/company/services/"+serviceVariant.getService().getServiceID()+"/variants";
     }
 
 }
