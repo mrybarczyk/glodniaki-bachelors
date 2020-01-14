@@ -3,7 +3,6 @@ package jestesmy.glodni.cateringi.security;
 import org.apache.commons.codec.binary.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.DigestUtils;
 
 import javax.security.auth.login.AccountLockedException;
+import javax.security.auth.login.AccountNotFoundException;
 import java.util.Collections;
 
 @Component

@@ -1,0 +1,101 @@
+.content-main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 90vw;
+}
+
+.content-main * {
+    color: var(--clr-text-dark);
+}
+
+.service-card {
+    box-shadow: 0 0 3em rgba(0,0,0,.15);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: .5rem;
+}
+
+.service-card-big {
+    box-shadow: 0 0 3em rgba(0,0,0,.15);
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin: .5rem;
+    max-width: 600px;
+}
+
+.service-info {
+    display: flex;
+    justify-content: space-around;
+}
+
+.service-action {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.manage {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.manage > a {
+    margin-left: .5rem;
+}
+
+
+.service-card-big > * > * {
+    color: var(--clr-text-dark);
+}
+
+.service-card, .service-card-big > * {
+    color: var(--clr-text-dark);
+}
+
+.service-name {
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-top: .75rem;
+}
+
+.description {
+    font-size: .75rem;
+    font-style: italic;
+}
+
+.page-button {
+    margin-top: 15px;
+    border: 2px solid transparent;
+    text-decoration: none;
+    color: var(--clr-text);
+    background: var(--clr-primary);
+    padding: 5px;
+}
+
+.new-service {
+    margin:.5rem;
+    width: max-content !important;
+    float: right;
+}
+
+.page-button > i {
+    color: var(--clr-text);
+    margin-right: 3px;
+}
+
+.page-button:hover {
+    color: var(--clr-text-dark);
+    background: var(--clr-secondary);
+    border: 2px solid var(--clr-primary);
+}
+
+.page-button:hover>i {
+    color: var(--clr-text-dark);
+}

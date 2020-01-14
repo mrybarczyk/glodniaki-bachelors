@@ -1,8 +1,8 @@
 package jestesmy.glodni.cateringi.controller.web.authentication;
 
-import jestesmy.glodni.cateringi.model.Company;
-import jestesmy.glodni.cateringi.model.User;
-import jestesmy.glodni.cateringi.model.UserType;
+import jestesmy.glodni.cateringi.domain.model.Company;
+import jestesmy.glodni.cateringi.domain.model.User;
+import jestesmy.glodni.cateringi.domain.model.UserType;
 import jestesmy.glodni.cateringi.repository.CompanyRepository;
 import jestesmy.glodni.cateringi.repository.UserRepository;
 import org.apache.commons.codec.binary.Hex;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/company/register")
@@ -31,7 +30,17 @@ public class CompanyRegistrationController {
         private String nip;
         private String regon;
         private String websiteAddress;
+        private String phoneNumber;
+
         public RegistrationFormCompany(){
+        }
+
+        public String getPhoneNumber() {
+            return phoneNumber;
+        }
+
+        public void setPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
         }
 
         public String getUserName() {
@@ -105,16 +114,16 @@ public class CompanyRegistrationController {
     }
 
     @PostMapping()
-    public ModelAndView createAccount(@ModelAttribute("user") RegistrationFormCompany user, WebRequest request, BindingResult result, Errors errors) {
+    public String createAccount(@ModelAttribute("user") RegistrationFormCompany user, WebRequest request, BindingResult result, Errors errors) {
         byte [] encrypted = DigestUtils.md5Digest(user.getPassword().getBytes());
-        User registeredUser = new User(user.getUserName(),user.getEmail(),Hex.encodeHexString(encrypted));
+        User registeredUser = new User(user.getUserName(),user.getEmail(),user.getPhoneNumber(),Hex.encodeHexString(encrypted));
         Company registeredCompany = new Company(user.getCompanyName(),user.getNip(),user.getRegon(),user.getWebsiteAddress());
         registeredUser.setUserType(UserType.COMPANY);
         userRepository.save(registeredUser);
         registeredCompany.setUser(registeredUser);
         companyRepository.save(registeredCompany);
 
-        return new ModelAndView("successRegistration","user", user);
+        return "redirect:/login?registered";
     }
 
 }

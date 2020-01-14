@@ -17,6 +17,13 @@ public class LoginController {
 
     @GetMapping
     public String showLoginForm(WebRequest request, Model model) {
+        model.addAttribute("registered",false);
+        return "login";
+    }
+
+    @GetMapping(params = "registered")
+    public String showLoginFormAfterRegister(Model model) {
+        model.addAttribute("registered",true);
         return "login";
     }
 

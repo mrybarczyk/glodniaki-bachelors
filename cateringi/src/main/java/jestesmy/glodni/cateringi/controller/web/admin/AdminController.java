@@ -1,22 +1,19 @@
 package jestesmy.glodni.cateringi.controller.web.admin;
 
-import jestesmy.glodni.cateringi.model.Admin;
-import jestesmy.glodni.cateringi.model.User;
-import jestesmy.glodni.cateringi.model.UserType;
+import jestesmy.glodni.cateringi.domain.model.User;
+import jestesmy.glodni.cateringi.domain.model.UserType;
+import jestesmy.glodni.cateringi.domain.model.Admin;
 import jestesmy.glodni.cateringi.repository.AdminRepository;
 import jestesmy.glodni.cateringi.repository.UserRepository;
 import jestesmy.glodni.cateringi.security.CurrentAuthenticatedUserService;
 import org.apache.commons.codec.binary.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")

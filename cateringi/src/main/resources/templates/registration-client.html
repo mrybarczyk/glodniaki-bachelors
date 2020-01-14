@@ -20,13 +20,7 @@
 
     <div id="side-nav">
             <button id="close-nav" onclick="closeNav()"><i class="fas fa-times fa-3x"></i></button>
-        <div class="nav-items">
-        <a href="index.html">Pomocy</a>
-        <a href="index.html">Pomocy</a>
-        <a href="index.html">Pomocy</a>
-        <a href="index.html">Pomocy</a>
-        </div>
-        <div class="nav-items bottom">
+        <div class="nav-items" style="margin-top:5rem;">
             <a href="/login">Zaloguj</a>
             <a href="/client/register">Załóż konto klienta</a>
             <a href="/company/register">Załóż konto firmy</a>
@@ -53,7 +47,11 @@
                 <label for="lastName">Nazwisko</label>
                 <input class="field" id="lastName"type="text" th:field="*{lastName}"   />
                 </div>
-                <div class="field-container long-field">
+                <div class="field-container">
+                    <label for="phoneNumber">Numer telefonu</label>
+                    <input class="field" id="phoneNumber"type="text" th:field="*{phoneNumber}"   />
+                </div>
+                <div class="field-container">
                     <label for="email">Adres E-Mail</label>
                     <input class="field" id="email"type="email" th:field="*{email}"   />
                 </div>

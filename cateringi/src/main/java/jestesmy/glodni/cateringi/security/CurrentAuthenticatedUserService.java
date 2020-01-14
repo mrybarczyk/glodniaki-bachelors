@@ -1,11 +1,7 @@
 package jestesmy.glodni.cateringi.security;
 
-import jestesmy.glodni.cateringi.model.Client;
-import jestesmy.glodni.cateringi.model.Company;
-import jestesmy.glodni.cateringi.model.User;
-import jestesmy.glodni.cateringi.model.UserType;
-import jestesmy.glodni.cateringi.repository.ClientRepository;
-import jestesmy.glodni.cateringi.repository.CompanyRepository;
+import jestesmy.glodni.cateringi.domain.model.User;
+import jestesmy.glodni.cateringi.domain.model.UserType;
 import jestesmy.glodni.cateringi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

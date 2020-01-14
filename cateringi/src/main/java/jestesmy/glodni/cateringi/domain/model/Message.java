@@ -1,6 +1,8 @@
-package jestesmy.glodni.cateringi.model;
+package jestesmy.glodni.cateringi.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jestesmy.glodni.cateringi.domain.model.User;
+
 import javax.persistence.*;
 
 @Entity

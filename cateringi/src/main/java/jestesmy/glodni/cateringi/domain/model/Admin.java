@@ -1,15 +1,15 @@
-package jestesmy.glodni.cateringi.model;
+package jestesmy.glodni.cateringi.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jestesmy.glodni.cateringi.domain.model.User;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Clients")
-public class Client {
-
+@Table(name = "Admins")
+public class Admin {
     @Id
-    private int clientID;
+    private int adminID;
 
     @Column(nullable = false)
     private String name;
@@ -18,15 +18,15 @@ public class Client {
     private String lastName;
 
     @OneToOne
-    @JoinColumn(name="clientID")
+    @JoinColumn(name="adminID")
     @MapsId
     @JsonIgnore
     User user;
 
-    public Client() {
+    public Admin() {
     }
 
-    public Client(String name, String lastName) {
+    public Admin(String name, String lastName) {
         this.name = name;
         this.lastName = lastName;
     }
@@ -39,12 +39,12 @@ public class Client {
         this.user = user;
     }
 
-    public int getClientID() {
-        return clientID;
+    public int getAdminID() {
+        return adminID;
     }
 
-    public void setClientID(int clientID) {
-        this.clientID = clientID;
+    public void setAdminID(int adminID) {
+        this.adminID = adminID;
     }
 
     public String getName() {

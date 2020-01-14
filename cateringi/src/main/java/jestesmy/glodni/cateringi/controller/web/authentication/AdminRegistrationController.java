@@ -2,12 +2,10 @@ package jestesmy.glodni.cateringi.controller.web.authentication;
 
 // Wiem, że miało nie być rejestracji admina przez strone, ale na razie nie wiem jak inaczej to testować :l
 
-import jestesmy.glodni.cateringi.model.Admin;
-import jestesmy.glodni.cateringi.model.Client;
-import jestesmy.glodni.cateringi.model.User;
-import jestesmy.glodni.cateringi.model.UserType;
+import jestesmy.glodni.cateringi.domain.model.User;
+import jestesmy.glodni.cateringi.domain.model.UserType;
+import jestesmy.glodni.cateringi.domain.model.Admin;
 import jestesmy.glodni.cateringi.repository.AdminRepository;
-import jestesmy.glodni.cateringi.repository.ClientRepository;
 import jestesmy.glodni.cateringi.repository.UserRepository;
 import org.apache.commons.codec.binary.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +31,7 @@ public class AdminRegistrationController {
         private String email;
         private String name;
         private String lastName;
+        private String phoneNumber;
 
         public RegistrationFormAdmin(){}
 
@@ -75,6 +74,14 @@ public class AdminRegistrationController {
         public void setLastName(String lastName) {
             this.lastName = lastName;
         }
+
+        public String getPhoneNumber() {
+            return phoneNumber;
+        }
+
+        public void setPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+        }
     }
 
     @Autowired
@@ -91,15 +98,15 @@ public class AdminRegistrationController {
     }
 
     @PostMapping()
-    public ModelAndView createAccount(@ModelAttribute("user") RegistrationFormAdmin user, WebRequest request, BindingResult result, Errors errors) {
+    public String createAccount(@ModelAttribute("user") RegistrationFormAdmin user, WebRequest request, BindingResult result, Errors errors) {
         byte [] encrypted = DigestUtils.md5Digest(user.getPassword().getBytes());
-        User registeredUser = new User(user.getUserName(),user.email,Hex.encodeHexString(encrypted));
+        User registeredUser = new User(user.getUserName(),user.email, user.phoneNumber, Hex.encodeHexString(encrypted));
         registeredUser.setUserType(UserType.ADMIN);
         Admin registeredAdmin = new Admin(user.getName(),user.getLastName());
         userRepository.save(registeredUser);
         registeredAdmin.setUser(registeredUser);
         adminRepository.save(registeredAdmin);
-        return new ModelAndView("successRegistration","user", user);
+        return "redirect:/login?registered";
     }
 
 }

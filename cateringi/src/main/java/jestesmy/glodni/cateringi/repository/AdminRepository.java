@@ -1,9 +1,8 @@
 package jestesmy.glodni.cateringi.repository;
 
 
-import jestesmy.glodni.cateringi.model.Admin;
-import jestesmy.glodni.cateringi.model.Client;
-import jestesmy.glodni.cateringi.model.User;
+import jestesmy.glodni.cateringi.domain.model.User;
+import jestesmy.glodni.cateringi.domain.model.Admin;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

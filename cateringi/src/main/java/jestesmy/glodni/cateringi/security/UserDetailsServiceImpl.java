@@ -1,6 +1,6 @@
 package jestesmy.glodni.cateringi.security;
 
-import jestesmy.glodni.cateringi.model.User;
+import jestesmy.glodni.cateringi.domain.model.User;
 import jestesmy.glodni.cateringi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +17,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String accountName) throws UsernameNotFoundException {
         User user = userRepository.findByUserName(accountName);
+        if(user==null)
+            throw new UsernameNotFoundException("Podane konto nie istnieje");
         return new UserDetailsImpl(user);
     }
 }

@@ -1,6 +1,8 @@
-package jestesmy.glodni.cateringi.model;
+package jestesmy.glodni.cateringi.domain.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="Services")
@@ -17,6 +19,10 @@ public class Service {
     @ManyToOne
     @JoinColumn(name="CompanyID", nullable = false)
     private Company company;
+
+    private boolean active;
+
+    private double minPrice;
 
     public int getServiceID() {
         return serviceID;
@@ -45,4 +51,20 @@ public class Service {
     public Company getCompany() { return company; }
 
     public void setCompany(Company company) { this.company = company; }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public double getMinPrice() {
+        return minPrice;
+    }
+
+    public void setMinPrice(double minPrice) {
+        this.minPrice = minPrice;
+    }
 }
