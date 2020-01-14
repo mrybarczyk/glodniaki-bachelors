@@ -44,7 +44,7 @@
                 <div class="order-service">
                     <p class="highlight" th:text="${order.serviceVariant.service.serviceName}"></p>
                     <a class="highlight description" th:text="${order.company.name}"
-                       th:href="@{/company/{companyID}(companyID=${order.company.companyID})}"></a>
+                       th:href="@{/client/company/profile/{companyID}(companyID=${order.company.companyID})}"></a>
                 </div>
                 <div class="date">
                     <p>Data Zamówienia:

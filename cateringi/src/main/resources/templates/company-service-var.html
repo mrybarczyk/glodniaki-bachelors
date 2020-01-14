@@ -54,9 +54,6 @@
                 <p><h3>Ilość dni: </h3><span th:text="${serviceVariant.dayNumber}"></span></p>
                 <p><h3>Cena/dzień: </h3><span th:text="${serviceVariant.price}"></span></p>
                 <div class="manage">
-                <a th:href="@{edit/{serviceVariantID}(serviceVariantID=${serviceVariant.serviceVariantID})}">
-                    <i class="fa fa-gear"></i>
-                </a>
                 <a th:href="@{/company/services/serviceVariant/delete/{serviceVariantID}(serviceVariantID=${serviceVariant.serviceVariantID})}">
                     <i class="fa fa-trash"></i>
                 </a>

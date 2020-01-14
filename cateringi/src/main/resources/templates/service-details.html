@@ -42,7 +42,7 @@
                     <img src="/images/indexBg.jpg" style="margin-right:.5rem;" width="200px" height="150px" alt="">
                     <div>
                         <p class="service-name" th:text="*{serviceName}">Nazwa</p>
-                        <a class="description" th:href="@{/company/{companyID}(companyID=*{company.companyID})}">
+                        <a class="description" th:href="@{/client/company/profile/{companyID}(companyID=*{company.companyID})}">
                             <span th:text="*{company.name}"></span>
                         </a>
                         <p>Kategoria</p>

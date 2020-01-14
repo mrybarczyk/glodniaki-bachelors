@@ -4,6 +4,7 @@ import jestesmy.glodni.cateringi.domain.model.Client;
 import jestesmy.glodni.cateringi.domain.model.Company;
 import jestesmy.glodni.cateringi.domain.model.User;
 import jestesmy.glodni.cateringi.repository.ClientRepository;
+import jestesmy.glodni.cateringi.repository.CompanyRepository;
 import jestesmy.glodni.cateringi.repository.ServiceRepository;
 import jestesmy.glodni.cateringi.security.CurrentAuthenticatedUserService;
 import org.apache.commons.codec.binary.Hex;
@@ -11,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
 @Controller
@@ -30,13 +28,17 @@ public class ClientController {
     private final
     ServiceRepository serviceRepository;
 
+    private final CompanyRepository companyRepository;
+
     @Autowired
     public ClientController(CurrentAuthenticatedUserService currentAuthenticatedUserService,
                             ClientRepository clientRepository,
-                            ServiceRepository serviceRepository) {
+                            ServiceRepository serviceRepository,
+                            CompanyRepository companyRepository) {
         this.currentAuthenticatedUserService = currentAuthenticatedUserService;
         this.clientRepository = clientRepository;
         this.serviceRepository = serviceRepository;
+        this.companyRepository = companyRepository;
     }
 
     @GetMapping
@@ -109,5 +111,14 @@ public class ClientController {
         model.addAttribute("client",client);
         model.addAttribute("passwordChanged",true);
         return "client-settings";
+    }
+
+    @GetMapping("company/profile/{companyID}")
+    public String showCompanyProfile(@PathVariable("companyID") int companyID, Model model) {
+        Company company = companyRepository.findById(companyID).get();
+        Client client = clientRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
+        model.addAttribute("company",company);
+        model.addAttribute("client",client);
+        return "client-company-profile";
     }
 }
