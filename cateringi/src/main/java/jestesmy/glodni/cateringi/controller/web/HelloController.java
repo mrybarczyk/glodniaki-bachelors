@@ -15,7 +15,7 @@ public class HelloController {
     @GetMapping("/")
     public String HomePage(Model model) {
         model.addAttribute("currentUser", currentAuthenticatedUserService.getCurrentUserName());
-        return "index";
+        return "redirect:/login";
     }
 
 }

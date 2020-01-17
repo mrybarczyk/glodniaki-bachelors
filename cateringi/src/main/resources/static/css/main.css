@@ -189,6 +189,7 @@ button {
 }
 
 h1 {
+    color: black !important;
     padding: 15px;
 }
 
@@ -203,3 +204,14 @@ h1 {
     color:var(--clr-text-dark);
 }
 
+table, th, td, tr {
+  width: 64vw;
+  color: black !important;
+  text-align: center;
+  border: 1px solid #A5409C;
+  border-collapse: collapse;
+}
+
+.black {
+    color: black !important;
+}

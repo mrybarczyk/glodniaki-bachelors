@@ -150,7 +150,7 @@ public class ServiceAndServiceVariantController {
         Service service = serviceRepository.findById(serviceID).orElseThrow(() ->
                 new IllegalArgumentException("Invalid service Id:" + serviceID));
         serviceAndServiceVariant.setService(service);
-        serviceAndServiceVariant.setServiceVariants(serviceVariantRepository.findByService(service));
+        serviceAndServiceVariant.setServiceVariants(serviceVariantRepository.findByServiceAndActiveIsTrue(service));
         ServiceVariant newVariant = new ServiceVariant();
         model.addAttribute("user",user);
         model.addAttribute("company",company);
@@ -180,6 +180,15 @@ public class ServiceAndServiceVariantController {
                 new IllegalArgumentException("Invalid serviceVariant Id:" + serviceVariantID));
         serviceVariant.setActive(false);
         serviceVariantRepository.save(serviceVariant);
+        Service service = serviceVariant.getService();
+        List<ServiceVariant> serviceVariants = serviceVariantRepository.findByServiceAndActiveIsTrue(service);
+        double minPrice = serviceVariants.get(0).getPrice();
+        for(ServiceVariant sv : serviceVariants){
+            if(sv.getPrice() < minPrice)
+                minPrice = sv.getPrice();
+        }
+        service.setMinPrice(minPrice);
+        serviceRepository.save(service);
         return "redirect:/company/services/"+serviceVariant.getService().getServiceID()+"/variants";
     }
 

@@ -73,7 +73,7 @@ public class ClientController {
     }
 
     @PostMapping("settings/password")
-    public String updatePassword(WebRequest request, Model model) {
+    public String updatePassword(WebRequest request) {
         User user = currentAuthenticatedUserService.getCurrentUser();
         String oldPassword = request.getParameter("oldPassword");
         if(!oldPassword.isEmpty()) {
@@ -95,7 +95,7 @@ public class ClientController {
     }
 
     @PostMapping("settings")
-    public String updateClientInfo(Model model, @ModelAttribute("client") Client modified) {
+    public String updateClientInfo(@ModelAttribute("client") Client modified) {
         Client client = clientRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
         client.setLastName(modified.getLastName());
         client.setName(modified.getName());

@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.DigestUtils;
 
+import javax.security.auth.login.AccountLockedException;
 import javax.security.auth.login.AccountNotFoundException;
 import java.util.Collections;
 
@@ -26,12 +27,15 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         UserDetails accountDetails = userDetailsService.loadUserByUsername(authentication.getName());
-            if (Hex.encodeHexString(DigestUtils.md5Digest(authentication.getCredentials().toString().getBytes())).equals(accountDetails.getPassword())) {
-                return new UsernamePasswordAuthenticationToken(accountDetails.getUsername(), accountDetails.getPassword(), accountDetails.getAuthorities());
-            } else {
-                throw new BadCredentialsException("Błędne hasło");
+        if(Hex.encodeHexString(DigestUtils.md5Digest(authentication.getCredentials().toString().getBytes())).equals(accountDetails.getPassword())){
+            if (accountDetails.isAccountNonLocked()) return new UsernamePasswordAuthenticationToken(accountDetails.getUsername(),accountDetails.getPassword(), accountDetails.getAuthorities());
+            else {
+                throw new BadCredentialsException("Your account is suspended.");
             }
+        } else {
+            throw new BadCredentialsException("Authentication failed");
         }
+    }
 
     @Override
     public boolean supports(Class<?> aClass) {

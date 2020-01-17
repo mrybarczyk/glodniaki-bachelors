@@ -1,6 +1,5 @@
 package jestesmy.glodni.cateringi.controller.web.company;
 
-import jestesmy.glodni.cateringi.domain.model.Client;
 import jestesmy.glodni.cateringi.domain.model.Company;
 import jestesmy.glodni.cateringi.domain.model.User;
 import jestesmy.glodni.cateringi.repository.*;

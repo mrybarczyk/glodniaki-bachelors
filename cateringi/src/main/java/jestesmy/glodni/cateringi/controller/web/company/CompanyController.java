@@ -7,7 +7,6 @@ import jestesmy.glodni.cateringi.repository.CompanyRepository;
 import jestesmy.glodni.cateringi.security.CurrentAuthenticatedUserService;
 import org.apache.commons.codec.binary.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
@@ -62,7 +61,7 @@ public class CompanyController {
     }
 
     @PostMapping("update")
-    public String updateCompanyInfo(Model model, @ModelAttribute("company")CompanyWithUser modified) {
+    public String updateCompanyInfo(@ModelAttribute("company")CompanyWithUser modified) {
         User user = currentAuthenticatedUserService.getCurrentUser();
         Company company = companyRepository.findByUser(user);
         user.setEmail(modified.getEmail());
@@ -82,7 +81,7 @@ public class CompanyController {
     }
 
     @PostMapping("update/password")
-    public String updatePassword(WebRequest request, Model model) {
+    public String updatePassword(WebRequest request) {
         User user = currentAuthenticatedUserService.getCurrentUser();
         String oldPassword = request.getParameter("oldPassword");
         if(!oldPassword.isEmpty()) {
