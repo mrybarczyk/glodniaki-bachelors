@@ -107,7 +107,7 @@ public class CompanyRegistrationController {
     private CompanyRepository companyRepository;
 
     @GetMapping()
-    public String showRegistrationForm(WebRequest request, Model model) {
+    public String showRegistrationForm(Model model) {
         RegistrationFormCompany user = new RegistrationFormCompany();
         model.addAttribute("user", user);
         return "registration-company";

@@ -32,4 +32,8 @@ public class CurrentAuthenticatedUserService {
         return getCurrentUser().getUserType() == UserType.COMPANY;
     }
 
+    private boolean isAdmin() {
+        return getCurrentUser().getUserType() == UserType.ADMIN;
+    }
+
 }

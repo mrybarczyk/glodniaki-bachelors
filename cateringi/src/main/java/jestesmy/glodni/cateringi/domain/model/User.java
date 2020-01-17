@@ -14,6 +14,8 @@ public class User {
 
     private String password;
 
+    private Boolean isActive;
+
     private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
@@ -25,6 +27,7 @@ public class User {
         this.userName = userName;
         this.email = email;
         this.password = password;
+        this.isActive = true;
         this.phoneNumber = phoneNumber;
     }
 
@@ -75,4 +78,8 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Boolean getIsActive() {return isActive;}
+
+    public void setIsActive(Boolean value) { this.isActive = value;}
 }

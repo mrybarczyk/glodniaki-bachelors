@@ -54,14 +54,6 @@
                 <p><h3>Kalorie: </h3><span th:text="${serviceVariant.calories}"></span></p>
                 <p><h3>Ilość dni: </h3><span th:text="${serviceVariant.dayNumber}"></span></p>
                 <p><h3>Cena/dzień: </h3><span th:text="${serviceVariant.price}"></span></p>
-                <div class="manage">
-                    <a th:href="@{edit/{serviceVariantID}(serviceVariantID=${serviceVariant.serviceVariantID})}">
-                        <i class="fa fa-gear"></i>
-                    </a>
-                    <a th:href="@{delete/{serviceVariantID}(serviceVariantID=${serviceVariant.serviceVariantID})}">
-                        <i class="fa fa-trash"></i>
-                    </a>
-                </div>
             </div>
             <form th:method="post" th:action="@{add}">
                 <h3 style="align-self: center;">Dodaj nowy wariant</h3>

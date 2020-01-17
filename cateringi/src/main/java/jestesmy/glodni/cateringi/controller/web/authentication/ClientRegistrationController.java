@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.context.request.WebRequest;
 
 @Controller
 @RequestMapping("/client/register")
@@ -86,14 +85,14 @@ public class ClientRegistrationController {
     private ClientRepository clientRepository;
 
     @GetMapping()
-    public String showRegistrationForm(WebRequest request, Model model) {
+    public String showRegistrationForm(Model model) {
         RegistrationFormClient user = new RegistrationFormClient();
         model.addAttribute("user", user);
         return "registration-client";
     }
 
     @PostMapping()
-    public String createAccount(@ModelAttribute("user") RegistrationFormClient user,Model model) {
+    public String createAccount(@ModelAttribute("user") RegistrationFormClient user) {
         byte [] encrypted = DigestUtils.md5Digest(user.getPassword().getBytes());
         User registeredUser = new User(user.getUserName(),user.email,user.getPhoneNumber(),Hex.encodeHexString(encrypted));
         registeredUser.setUserType(UserType.CLIENT);
