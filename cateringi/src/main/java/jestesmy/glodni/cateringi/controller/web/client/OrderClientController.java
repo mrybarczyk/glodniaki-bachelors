@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,14 +26,20 @@ public class OrderClientController {
 
     private OrderRepository orderRepository;
 
+    private RateRepository rateRepository;
+
+    private CompanyRepository companyRepository;
+
     @Autowired
     public OrderClientController(CurrentAuthenticatedUserService currentAuthenticatedUserService,
                                  ClientRepository clientRepository, ServiceVariantRepository serviceVariantRepository,
-                                 OrderRepository orderRepository) {
+                                 OrderRepository orderRepository, RateRepository rateRepository, CompanyRepository companyRepository) {
         this.currentAuthenticatedUserService = currentAuthenticatedUserService;
         this.clientRepository = clientRepository;
         this.serviceVariantRepository = serviceVariantRepository;
         this.orderRepository = orderRepository;
+        this.rateRepository = rateRepository;
+        this.companyRepository = companyRepository;
     }
 
     @GetMapping()
@@ -77,6 +86,39 @@ public class OrderClientController {
         List<Order> orders = orderRepository.findByClient(client);
         model.addAttribute("client",client);
         model.addAttribute("orders",orders);
+        return "client-order-history";
+    }
+
+    @GetMapping("rate/new/{orderID}")
+    public String newOrderRate(@PathVariable("orderID") int orderID, Model model) {
+        Client client = clientRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
+        model.addAttribute("client",client);
+        Order order = orderRepository.findById(orderID).orElseThrow(() -> new IllegalArgumentException("Invalid order Id:" + orderID));
+        if(rateRepository.existsByClientAndCompany(client, order.getCompany())) {
+            List<Order> orders = orderRepository.findByClient(client);
+            model.addAttribute("orders", orders);
+            return "client-order-history";
+        }
+        model.addAttribute("order",order);
+        model.addAttribute("rates", new Rate());
+        return "client-order-rate";
+    }
+
+    @PostMapping("rate/add/{orderID}")
+    public String addRate(@PathVariable("orderID") int orderID, Rate rate, Model model) {
+        Order order = orderRepository.findById(orderID).orElseThrow(() -> new IllegalArgumentException("Invalid order Id:" + orderID));
+        rate.setClient(clientRepository.findByUser(currentAuthenticatedUserService.getCurrentUser()));
+        Company company = order.getCompany();
+        rate.setCompany(company);
+        rateRepository.save(rate);
+        BigDecimal bd = BigDecimal.valueOf(rateRepository.getRatingByCompanyID(company.getCompanyID()) / (double)rateRepository.countAllByCompany(company));
+        bd = bd.setScale(0, RoundingMode.HALF_UP);
+        company.setAverageRating(bd.doubleValue());
+        companyRepository.save(company);
+        Client client = clientRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
+        List<Order> orders = orderRepository.findByClient(client);
+        model.addAttribute("client", client);
+        model.addAttribute("orders", orders);
         return "client-order-history";
     }
 }

@@ -60,7 +60,7 @@
                 <p style="font-weight: bold; margin-bottom: 1.5rem;"th:with="total=${order.serviceVariant.price*order.serviceVariant.dayNumber}">
                     Kwota: <span th:text="${total}"></span>zł
                 </p>
-                    <a class="page-button" href="#">Oceń firmę</a>
+                    <a class="page-button" th:href="@{/client/orders/rate/new/{orderID}/(orderID=${order.orderID})}">Oceń firmę</a>
                 </div>
             </div>
         </div>

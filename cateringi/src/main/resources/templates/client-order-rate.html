@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<title>Dodaj usługę</title>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/rates.css"/>
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+</head>
+<body>
+<div class="stars">
+    <form th:action="@{/client/orders/rate/add/{orderID}/(orderID=${order.orderID})}" th:object="${rates}" method="post">
+        <input data-value="5" class="star star-5" id="star-5" type="radio" name="star"/>
+        <label data-value="5" class="star star-5" for="star-5"></label>
+        <input data-value="4" class="star star-4" id="star-4" type="radio" name="star"/>
+        <label data-value="4" class="star star-4" for="star-4"></label>
+        <input data-value="3" class="star star-3" id="star-3" type="radio" name="star"/>
+        <label data-value="3" class="star star-3" for="star-3"></label>
+        <input data-value="2" class="star star-2" id="star-2" type="radio" name="star"/>
+        <label data-value="2" class="star star-2" for="star-2"></label>
+        <input data-value="1" class="star star-1" id="star-1" type="radio" name="star"/>
+        <label data-value="1" class="star star-1" for="star-1"></label>
+        <input type="hidden" name="rating">
+        <label for="description">Opis</label><input type="text" th:field="*{description}" id="description"/>
+        <input type="submit" value="OK" name="result">
+    </form>
+</div>
+
+<script>
+    $('input[data-value]').click(function () {
+        $('[name="rating"]').val($(this).data('value'));
+    });
+</script>
+</body>
+</html>
