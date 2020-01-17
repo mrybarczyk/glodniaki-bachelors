@@ -105,7 +105,6 @@ public class AdminController {
         Admin admin = adminRepository.findByUser(a);
         model.addAttribute("user", a);
         model.addAttribute("admin", admin);
-        //model.addAttribute("allusers", userRepository.findAll());
         model.addAttribute("resetpassword", sb.toString());
         return "reset";
     }

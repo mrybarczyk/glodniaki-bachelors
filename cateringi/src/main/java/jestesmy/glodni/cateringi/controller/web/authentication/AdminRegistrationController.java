@@ -1,7 +1,5 @@
 package jestesmy.glodni.cateringi.controller.web.authentication;
 
-// Wiem, że miało nie być rejestracji admina przez strone, ale na razie nie wiem jak inaczej to testować :l
-
 import jestesmy.glodni.cateringi.domain.model.User;
 import jestesmy.glodni.cateringi.domain.model.UserType;
 import jestesmy.glodni.cateringi.domain.model.Admin;
@@ -12,14 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/admin/register")
@@ -91,14 +86,14 @@ public class AdminRegistrationController {
     private AdminRepository adminRepository;
 
     @GetMapping()
-    public String showRegistrationForm(WebRequest request, Model model) {
+    public String showRegistrationForm(Model model) {
         RegistrationFormAdmin user = new RegistrationFormAdmin();
         model.addAttribute("user", user);
         return "registration-admin";
     }
 
     @PostMapping()
-    public String createAccount(@ModelAttribute("user") RegistrationFormAdmin user, WebRequest request, BindingResult result, Errors errors) {
+    public String createAccount(@ModelAttribute("user") RegistrationFormAdmin user) {
         byte [] encrypted = DigestUtils.md5Digest(user.getPassword().getBytes());
         User registeredUser = new User(user.getUserName(),user.email, user.phoneNumber, Hex.encodeHexString(encrypted));
         registeredUser.setUserType(UserType.ADMIN);

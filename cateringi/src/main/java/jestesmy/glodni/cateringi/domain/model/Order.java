@@ -60,14 +60,6 @@ public class Order {
         this.company = company;
     }
 
-//    public int getAddressID() {
-//        return addressID;
-//    }
-//
-//    public void setAddressID(int addressID) {
-//        this.addressID = addressID;
-//    }
-
     public Timestamp getOrderDate() {
         return orderDate;
     }
