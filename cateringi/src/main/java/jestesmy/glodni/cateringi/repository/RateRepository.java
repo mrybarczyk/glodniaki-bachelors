@@ -10,8 +10,11 @@ import java.util.List;
 
 public interface RateRepository extends CrudRepository<Rate, Integer> {
     List<Rate> findByClient(Client client);
+
     List<Rate> findByCompany(Company company);
+
     List<Rate> findByClientAndCompany(Client client, Company company);
+
     boolean existsByClientAndCompany(Client client, Company company);
     int countAllByCompany(Company company);
 

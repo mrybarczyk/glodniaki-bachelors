@@ -64,6 +64,7 @@ public class OrderClientController {
         order.setOrderDate(Timestamp.valueOf(now));
         order.setToDate(Timestamp.valueOf(now.plusDays(order.getServiceVariant().getDayNumber())));
         order.setIsPaid(false);
+        order.setRated(false);
         orderRepository.save(order);
         model.addAttribute("user", user);
         model.addAttribute("client", client);
@@ -94,11 +95,6 @@ public class OrderClientController {
         Client client = clientRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
         model.addAttribute("client",client);
         Order order = orderRepository.findById(orderID).orElseThrow(() -> new IllegalArgumentException("Invalid order Id:" + orderID));
-        if(rateRepository.existsByClientAndCompany(client, order.getCompany())) {
-            List<Order> orders = orderRepository.findByClient(client);
-            model.addAttribute("orders", orders);
-            return "client-order-history";
-        }
         model.addAttribute("order",order);
         model.addAttribute("rates", new Rate());
         return "client-order-rate";
@@ -111,14 +107,12 @@ public class OrderClientController {
         Company company = order.getCompany();
         rate.setCompany(company);
         rateRepository.save(rate);
+        order.setRated(true);
+        orderRepository.save(order);
         BigDecimal bd = BigDecimal.valueOf(rateRepository.getRatingByCompanyID(company.getCompanyID()) / (double)rateRepository.countAllByCompany(company));
         bd = bd.setScale(0, RoundingMode.HALF_UP);
         company.setAverageRating(bd.doubleValue());
         companyRepository.save(company);
-        Client client = clientRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
-        List<Order> orders = orderRepository.findByClient(client);
-        model.addAttribute("client", client);
-        model.addAttribute("orders", orders);
-        return "client-order-history";
+        return "redirect:/client/orders/history";
     }
 }
