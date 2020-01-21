@@ -37,6 +37,9 @@
 
     <section class="content-wrapper">
         <div class="content-main">
+            <div class="notification-error" th:each="error : ${errors}">
+                <p th:text="${error}"></p>
+            </div>
             <h1>Dodaj nową usługę</h1>
             <form th:action="@{/company/services/add}" th:object="${serviceAndServiceVariant}" method="post">
                 <div class="long-field" style="justify-self: center;">

@@ -30,35 +30,38 @@
 
     <section class="content-wrapper">
         <div class="content-main">
+            <div class="notification-error" th:each="error : ${errors}">
+                <p th:text="${error}"></p>
+            </div>
             <h1>Zarejestruj się</h1>
             <form action="/company/register/" th:object="${user}" method="POST">
                 <div class="field-container">
                     <label for="login">Nazwa użytkownika</label>
-                <input class="field" id="login" type="text" th:field="*{userName}"   />
+                <input class="field" id="login" type="text" th:field="*{userName}" th:required="required"  />
                 </div>
                 <div class="field-container">
                     <label for="password">Hasło</label>
-                    <input class="field" id="password" type="password" th:field="*{password}"   />
+                    <input class="field" id="password" type="password" th:field="*{password}"  th:required="required" />
                 </div>
                 <div class="field-container">
                         <label for="email">Adres E-Mail</label>
-                        <input class="field" id="email"type="email" th:field="*{email}"   />
+                        <input class="field" id="email"type="email" th:field="*{email}"  th:required="required" />
                     </div>
                     <div class="field-container">
                         <label for="companyName">Nazwa firmy</label>
-                        <input class="field" id="companyName" type="text" th:field="*{companyName}"   />
+                        <input class="field" id="companyName" type="text" th:field="*{companyName}" th:required="required"  />
                     </div>
                     <div class="field-container">
                         <label for="nip">NIP</label>
-                        <input class="field" id="nip" type="text" th:field="*{nip}"   />
+                        <input class="field" id="nip" type="text" th:field="*{nip}" th:required="required"  />
                     </div>
                     <div class="field-container">
                         <label for="regon">REGON</label>
-                        <input class="field" id="regon" type="text" th:field="*{regon}"   />
+                        <input class="field" id="regon" type="text" th:field="*{regon}" th:required="required"  />
                     </div>
                      <div class="field-container">
                          <label for="phoneNumber">Numer telefonu</label>
-                         <input class="field" id="phoneNumber"type="text" th:field="*{phoneNumber}"   />
+                         <input class="field" id="phoneNumber"type="text" th:field="*{phoneNumber}"  th:required="required" />
                      </div>
                     <div class="field-container">
                         <label for="website">Strona internetowa</label>

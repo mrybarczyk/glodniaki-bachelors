@@ -55,6 +55,9 @@
                 <p><h3>Ilość dni: </h3><span th:text="${serviceVariant.dayNumber}"></span></p>
                 <p><h3>Cena/dzień: </h3><span th:text="${serviceVariant.price}"></span></p>
             </div>
+            <div class="notification-error" th:each="error : ${errors}">
+                <p th:text="${error}"></p>
+            </div>
             <form th:method="post" th:action="@{add}">
                 <h3 style="align-self: center;">Dodaj nowy wariant</h3>
                 <div class="variant-inputs" th:object="${newVariant}">

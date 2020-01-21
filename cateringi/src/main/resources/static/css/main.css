@@ -204,6 +204,19 @@ h1 {
     color:var(--clr-text-dark);
 }
 
+.notification-error {
+    border: 2px solid red;
+    background: rgba(255, 28, 49, 0.44);
+    border-radius: 25px;
+    padding: 5px;
+    margin-bottom: .5rem;
+    margin-top: .5rem;
+}
+
+.notification-error > p {
+    color:var(--clr-text);
+}
+
 table, th, td, tr {
   width: 64vw;
   color: black !important;

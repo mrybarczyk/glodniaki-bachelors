@@ -2,6 +2,7 @@ package jestesmy.glodni.cateringi.controller.web.company;
 
 import jestesmy.glodni.cateringi.domain.model.*;
 import jestesmy.glodni.cateringi.domain.util.ServiceAndServiceVariant;
+import jestesmy.glodni.cateringi.domain.util.validation.ServiceValidator;
 import jestesmy.glodni.cateringi.repository.ClientRepository;
 import jestesmy.glodni.cateringi.repository.CompanyRepository;
 import jestesmy.glodni.cateringi.repository.ServiceRepository;
@@ -14,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller()
@@ -82,6 +84,7 @@ public class ServiceAndServiceVariantController {
         model.addAttribute("user",user);
         model.addAttribute("company",company);
         model.addAttribute("serviceAndServiceVariant", serviceAndServiceVariant);
+        model.addAttribute("errors",new ArrayList<String>());
         return "company-services-new";
     }
 
@@ -94,13 +97,21 @@ public class ServiceAndServiceVariantController {
         service.setCompany(company);
         service.setActive(true);
         service.setMinPrice(serviceAndServiceVariant.getServiceVariants().get(0).getPrice());
-        serviceRepository.save(service);
-        for(ServiceVariant serviceVariant : serviceAndServiceVariant.getServiceVariants()){
-            serviceVariant.setService(service);
-            serviceVariant.setActive(true);
-            serviceVariantRepository.save(serviceVariant);
+        List<String> validationErrors = ServiceValidator.validate(serviceAndServiceVariant.getServiceVariants().get(0));
+        if(validationErrors.isEmpty()) {
+            serviceRepository.save(service);
+            for (ServiceVariant serviceVariant : serviceAndServiceVariant.getServiceVariants()) {
+                serviceVariant.setService(service);
+                serviceVariant.setActive(true);
+                serviceVariantRepository.save(serviceVariant);
+            }
+            return "redirect:/company/services";
+        } else {
+            model.addAttribute("user",user);
+            model.addAttribute("serviceAndServiceVariant", serviceAndServiceVariant);
+            model.addAttribute("errors",validationErrors);
+            return "company-services-new";
         }
-        return "redirect:/company/services";
     }
 
     @GetMapping("/edit/{serviceID}")
@@ -156,22 +167,39 @@ public class ServiceAndServiceVariantController {
         model.addAttribute("company",company);
         model.addAttribute("service", serviceAndServiceVariant);
         model.addAttribute("newVariant",newVariant);
+        model.addAttribute("errors",new ArrayList<String>());
         return "company-service-var-new";
     }
 
     @PostMapping("/{serviceID}/variants/add")
     public String addServiceVariant(@ModelAttribute("newVariant")ServiceVariant newVariant,
-                                    @PathVariable("serviceID")int serviceId) {
+                                    @PathVariable("serviceID")int serviceId,
+                                    Model model) {
         newVariant.setActive(true);
         Service service = serviceRepository.findById(serviceId).orElseThrow(
                 () -> new IllegalArgumentException("Invalid service ID" + serviceId));
         newVariant.setService(service);
-        if(newVariant.getPrice()<service.getMinPrice()){
-            service.setMinPrice(newVariant.getPrice());
-            serviceRepository.save(service);
+        List<String> validationErrors = ServiceValidator.validate(newVariant);
+        if(validationErrors.isEmpty()) {
+            if (newVariant.getPrice() < service.getMinPrice()) {
+                service.setMinPrice(newVariant.getPrice());
+                serviceRepository.save(service);
+            }
+            serviceVariantRepository.save(newVariant);
+            return "redirect:/company/services/" + serviceId + "/variants";
+        } else {
+            User user = currentAuthenticatedUserService.getCurrentUser();
+            Company company = companyRepository.findByUser(user);
+            ServiceAndServiceVariant serviceAndServiceVariant = new ServiceAndServiceVariant();
+            serviceAndServiceVariant.setService(service);
+            serviceAndServiceVariant.setServiceVariants(serviceVariantRepository.findByServiceAndActiveIsTrue(service));
+            model.addAttribute("user",user);
+            model.addAttribute("company",company);
+            model.addAttribute("service", serviceAndServiceVariant);
+            model.addAttribute("newVariant",newVariant);
+            model.addAttribute("errors",validationErrors);
+            return "company-service-var-new";
         }
-        serviceVariantRepository.save(newVariant);
-        return "redirect:/company/services/"+serviceId+"/variants";
     }
 
     @GetMapping("/serviceVariant/delete/{serviceVariantID}")

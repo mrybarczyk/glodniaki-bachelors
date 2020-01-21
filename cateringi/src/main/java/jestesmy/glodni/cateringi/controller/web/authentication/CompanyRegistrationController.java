@@ -3,6 +3,8 @@ package jestesmy.glodni.cateringi.controller.web.authentication;
 import jestesmy.glodni.cateringi.domain.model.Company;
 import jestesmy.glodni.cateringi.domain.model.User;
 import jestesmy.glodni.cateringi.domain.model.UserType;
+import jestesmy.glodni.cateringi.domain.util.validation.CompanyValidator;
+import jestesmy.glodni.cateringi.domain.util.validation.UserValidator;
 import jestesmy.glodni.cateringi.repository.CompanyRepository;
 import jestesmy.glodni.cateringi.repository.UserRepository;
 import org.apache.commons.codec.binary.Hex;
@@ -17,6 +19,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/company/register")
@@ -106,24 +111,35 @@ public class CompanyRegistrationController {
     @Autowired
     private CompanyRepository companyRepository;
 
+    @Autowired private UserValidator userValidator;
+
     @GetMapping()
     public String showRegistrationForm(Model model) {
         RegistrationFormCompany user = new RegistrationFormCompany();
         model.addAttribute("user", user);
+        model.addAttribute("errors", new ArrayList<String>());
         return "registration-company";
     }
 
     @PostMapping()
-    public String createAccount(@ModelAttribute("user") RegistrationFormCompany user, WebRequest request, BindingResult result, Errors errors) {
+    public String createAccount(@ModelAttribute("user") RegistrationFormCompany user, Model model) {
         byte [] encrypted = DigestUtils.md5Digest(user.getPassword().getBytes());
         User registeredUser = new User(user.getUserName(),user.getEmail(),user.getPhoneNumber(),Hex.encodeHexString(encrypted));
         Company registeredCompany = new Company(user.getCompanyName(),user.getNip(),user.getRegon(),user.getWebsiteAddress());
-        registeredUser.setUserType(UserType.COMPANY);
-        userRepository.save(registeredUser);
-        registeredCompany.setUser(registeredUser);
-        companyRepository.save(registeredCompany);
+        List<String> validationErrors = CompanyValidator.validate(registeredCompany);
+        List<String> userValidationErrors = userValidator.validate(registeredUser);
+        validationErrors.addAll(userValidationErrors);
+        if(validationErrors.isEmpty()) {
+            registeredUser.setUserType(UserType.COMPANY);
+            userRepository.save(registeredUser);
+            registeredCompany.setUser(registeredUser);
+            companyRepository.save(registeredCompany);
 
-        return "redirect:/login?registered";
+            return "redirect:/login?registered";
+        }
+            model.addAttribute("user",user);
+            model.addAttribute("errors",validationErrors);
+            return "registration-company";
     }
 
 }

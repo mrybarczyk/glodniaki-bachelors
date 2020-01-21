@@ -58,6 +58,12 @@ public class CompanyValidator {
 
     public static List<String> validate(Company company) {
         List<String> validationErrors = new ArrayList<>();
+        String error = validateRegon(company.getRegon());
+        if(!error.isEmpty())
+            validationErrors.add(error);
+        error = validateNip(company.getNip());
+        if(!error.isEmpty())
+            validationErrors.add(error);
         return validationErrors;
     }
 
