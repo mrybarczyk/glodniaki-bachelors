@@ -25,7 +25,7 @@
         <div class="user-info" th:object="${company}">
             <img src="/images/default-user-icon.jpg" width="100px" height="100px" />
             <p><span th:text="*{name}"></span> </p>
-            <p th:object="*{user}"><span style="font-size: .75rem;" th:text="*{user.email}"></span></p>
+            <p><span style="font-size: .75rem;" th:text="*{user.email}"></span></p>
         </div>
         <div class="nav-items">
             <a href="/company">Profil</a>
