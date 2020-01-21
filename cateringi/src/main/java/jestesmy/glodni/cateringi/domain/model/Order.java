@@ -38,6 +38,8 @@ public class Order {
 
     private boolean isPaid;
 
+    private boolean rated;
+
     public int getOrderID() {
         return orderID;
     }
@@ -120,5 +122,21 @@ public class Order {
 
     public void setIsPaid(boolean isPaid) {
         this.isPaid = isPaid;
+    }
+
+    public boolean isPaid() {
+        return isPaid;
+    }
+
+    public void setPaid(boolean paid) {
+        isPaid = paid;
+    }
+
+    public boolean isRated() {
+        return rated;
+    }
+
+    public void setRated(boolean rated) {
+        this.rated = rated;
     }
 }

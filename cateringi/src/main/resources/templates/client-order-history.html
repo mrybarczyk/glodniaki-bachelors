@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="/css/order.css" />
     <link href="https://fonts.googleapis.com/css?family=Exo:400,500,700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/23df196ab0.js" crossorigin="anonymous"></script>
+
     <title>Historia zamówień</title>
 
 </head>
@@ -60,7 +61,9 @@
                 <p style="font-weight: bold; margin-bottom: 1.5rem;"th:with="total=${order.serviceVariant.price*order.serviceVariant.dayNumber}">
                     Kwota: <span th:text="${total}"></span>zł
                 </p>
-                    <a class="page-button" href="#">Oceń firmę</a>
+                    <!--<a class="page-button" th:href="@{/client/orders/rate/new/{orderID}/(orderID=${order.orderID})}">Oceń firmę</a>-->
+                    <a th:if="${order.rated == false}" class="page-button" th:href="@{/client/orders/rate/new/{orderID}/(orderID=${order.orderID})}" >Oceń firmę</a>
+                    <a th:unless="${order.rated == false}" class="page-button" th:disabled="disabled">Oceniono</a>
                 </div>
             </div>
         </div>
