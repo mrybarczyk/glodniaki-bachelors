@@ -45,7 +45,7 @@
                 </div>
                 <div class="long-field">
                 <label for="description">Opis</label>
-                    <textarea class="field" type="text" th:field="*{service.description}" id="description"></textarea>
+                    <textarea class="field"th:field="*{service.description}" id="description"></textarea>
                 </div>
                 <h3 style="align-self: center;">Wariant usługi</h3>
                 <div class="variant-inputs" th:each="serviceVariant, itemStat : *{serviceVariants}">

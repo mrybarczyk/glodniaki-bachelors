@@ -41,6 +41,7 @@ public class RateClientController {
         Client client = clientRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
         Company company = companyRepository.findById(companyID).get();
         List<Rate> rates = rateRepository.findByCompany(company);
+        model.addAttribute("company",company);
         model.addAttribute("client",client);
         model.addAttribute("rates", rates);
         return "client-company-rates";

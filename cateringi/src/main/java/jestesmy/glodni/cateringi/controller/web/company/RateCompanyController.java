@@ -38,6 +38,6 @@ public class RateCompanyController {
         List<Rate> rates = rateRepository.findByCompany(company);
         model.addAttribute("company", company);
         model.addAttribute("rates", rates);
-        return "client-company-rates";
+        return "company-rates";
     }
 }
