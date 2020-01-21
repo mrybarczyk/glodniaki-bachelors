@@ -29,6 +29,9 @@
 
     <section class="content-wrapper">
         <div class="content-main">
+            <div class="notification-error" th:each="error : ${errors}">
+                <p th:text="${error}"></p>
+            </div>
             <h1>Zarejestruj się</h1>
             <form action="/client/register/" th:object="${user}" method="POST">
                 <div class="field-container">

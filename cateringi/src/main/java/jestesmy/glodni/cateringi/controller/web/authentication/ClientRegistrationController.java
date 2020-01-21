@@ -114,7 +114,7 @@ public class ClientRegistrationController {
         } else {
             model.addAttribute("user",user);
             model.addAttribute("errors",validationErrors);
-            return "registration-company";
+            return "registration-client";
         }
     }
 
