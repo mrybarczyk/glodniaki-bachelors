@@ -1,5 +1,10 @@
 package jestesmy.glodni.cateringi.domain.util.validation;
 
+import jestesmy.glodni.cateringi.domain.model.Company;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class CompanyValidator {
 
     private static String validateRegon(String regon) {
@@ -51,8 +56,13 @@ public class CompanyValidator {
         return "";
     }
 
+    public static List<String> validate(Company company) {
+        List<String> validationErrors = new ArrayList<>();
+        return validationErrors;
+    }
+
     public static void main (String[] args) {
-        System.out.println(validateRegon("12345678512348"));
+
     }
 
 }
