@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/css/company.css" />
     <link href="https://fonts.googleapis.com/css?family=Exo:400,500,700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/23df196ab0.js" crossorigin="anonymous"></script>
-    <title>Index</title>
+    <title>Firma</title>
 
 </head>
 <body>
@@ -46,7 +46,8 @@
                 <i class="fa fa-star"></i>
                 <i class="fa fa-star"></i>
                 <i class="fa fa-star"></i>
-                <p>Średnia ocen: <span id="avgRating" th:text="4"></span></p>
+                <p>Średnia ocen: <span id="avgRating" th:text="*{averageRating}"></span></p>
+                <a class="highlight description" th:href="@{/client/company/rating/all/{companyID}(companyID=${company.companyID})}">Lista ocen</a>
             </div>
 
             <div class="about">
