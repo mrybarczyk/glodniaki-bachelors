@@ -228,3 +228,8 @@ table, th, td, tr {
 .black {
     color: black !important;
 }
+
+.description {
+    font-size: .75rem;
+    font-style: italic;
+}

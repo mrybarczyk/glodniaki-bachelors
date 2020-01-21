@@ -26,6 +26,8 @@
     align-items: flex-start;
     margin: .5rem;
     max-width: 600px;
+    min-width: 45%;
+    justify-content: space-between;
 }
 
 .service-info {
