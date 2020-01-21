@@ -3,6 +3,7 @@ package jestesmy.glodni.cateringi.controller.web.authentication;
 import jestesmy.glodni.cateringi.domain.model.Client;
 import jestesmy.glodni.cateringi.domain.model.User;
 import jestesmy.glodni.cateringi.domain.model.UserType;
+import jestesmy.glodni.cateringi.domain.util.validation.UserValidator;
 import jestesmy.glodni.cateringi.repository.ClientRepository;
 import jestesmy.glodni.cateringi.repository.UserRepository;
 import org.apache.commons.codec.binary.Hex;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/client/register")
@@ -84,23 +88,34 @@ public class ClientRegistrationController {
     @Autowired
     private ClientRepository clientRepository;
 
+    @Autowired
+    private UserValidator userValidator;
+
     @GetMapping()
     public String showRegistrationForm(Model model) {
         RegistrationFormClient user = new RegistrationFormClient();
         model.addAttribute("user", user);
+        model.addAttribute("errors",new ArrayList<String>());
         return "registration-client";
     }
 
     @PostMapping()
-    public String createAccount(@ModelAttribute("user") RegistrationFormClient user) {
+    public String createAccount(@ModelAttribute("user") RegistrationFormClient user,Model model) {
         byte [] encrypted = DigestUtils.md5Digest(user.getPassword().getBytes());
         User registeredUser = new User(user.getUserName(),user.email,user.getPhoneNumber(),Hex.encodeHexString(encrypted));
         registeredUser.setUserType(UserType.CLIENT);
         Client registeredClient = new Client(user.getName(),user.getLastName());
-        userRepository.save(registeredUser);
-        registeredClient.setUser(registeredUser);
-        clientRepository.save(registeredClient);
-        return "redirect:/login?registered";
+        List<String> validationErrors = userValidator.validate(registeredUser);
+        if(validationErrors.isEmpty()) {
+            userRepository.save(registeredUser);
+            registeredClient.setUser(registeredUser);
+            clientRepository.save(registeredClient);
+            return "redirect:/login?registered";
+        } else {
+            model.addAttribute("user",user);
+            model.addAttribute("errors",validationErrors);
+            return "registration-company";
+        }
     }
 
 }
