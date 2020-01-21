@@ -57,3 +57,8 @@ label.star:before {
     padding: 1rem;
     margin-bottom: 1.5rem;
 }
+
+.rate-button {
+    padding: 10px 20px;
+    margin-top: .5rem;
+}

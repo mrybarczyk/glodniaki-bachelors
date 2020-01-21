@@ -19,7 +19,7 @@
     row-gap: 45px;
 }
 
-.content-main > form  input[type="submit"] {
+input[type="submit"] {
     padding: 10px 5px;
     font-size: 16px;
     grid-column: 1 / span 2;
@@ -27,7 +27,7 @@
     color:var(--clr-text);
 }
 
-.content-main > form  input[type="submit"]:hover {
+input[type="submit"]:hover {
     border: 2px solid var(--clr-primary);
     background: var(--clr-secondary);
     color:#333333;
