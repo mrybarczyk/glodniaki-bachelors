@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring MVC demo app</title>
+</head>
+<body>
+<h2>Messages</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Author</th>
+        <th>Subject</th>
+        <th>Text</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="message : ${messages}">
+        <td th:text="${message.from.userId}"></td>
+        <td th:text="${message.subject}"></td>
+        <td th:text="${message.contents}"></td>
+        <!-- adres do nowej wiadomości-->
+        <td><a th:href="@{/services/edit/{serviceID}(serviceID=${service.serviceID})}">Reply</a></td>
+        <!-- usuwanie wpisu po prostu-->
+        <td><a th:href="@{/services/delete/{serviceID}(serviceID=${service.serviceID})}">Delete</a></td>
+        <!-- przekierowanie na profil klienta/firmy (autora). niedostępny jeżeli wiadomość od admina?-->
+        <td><a th:href="@{/services/serviceVariant/new/{serviceID}(serviceID=${service.serviceID})}">View profile</a></td>
+        <p th:text="${companyRepo.}"></p>
+    </tr>
+    </tbody>
+</table>
+</div>
+<p><a href="/services/new">Add new service</a></p>
+</div>
+
+</form>
+</body>
