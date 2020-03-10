@@ -18,16 +18,45 @@ public class Message {
     private String contents;
 
     @ManyToOne
-    @JoinColumn(name="clientID")
+    @JoinColumn(name="userId")
     @MapsId
     @JsonIgnore
     private User to;
 
     @ManyToOne
-    @JoinColumn(name="clientID")
+    @JoinColumn(name="userId")
     @MapsId
     @JsonIgnore
     private User from;
+
+    // czy nadawca usunął swoją kopię wiadomości?
+    @Column(nullable = false)
+    private boolean deletedFrom;
+
+    // czy odbiorca usunął swoją kopię wiadomości?
+    @Column(nullable = false)
+    private boolean deletedTo;
+
+    public boolean isDeletedFrom() {
+        return deletedFrom;
+    }
+
+    public void setDeletedFrom(boolean deletedFrom) {
+        this.deletedFrom = deletedFrom;
+    }
+
+    public boolean isDeletedTo() {
+        return deletedTo;
+    }
+
+    public void setDeletedTo(boolean deletedTo) {
+        this.deletedTo = deletedTo;
+    }
+
+    // Jeżeli usunęli ją zarówno odbiorca jak i nadawca to można wywalić z bazy?
+    public boolean isDeletedOnBothSides(){
+        return this.deletedFrom && this.deletedTo;
+    }
 
     public int getMessageID() {
         return messageID;
