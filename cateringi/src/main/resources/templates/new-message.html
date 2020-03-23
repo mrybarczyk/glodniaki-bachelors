@@ -9,7 +9,7 @@
 <form th:action="@{/messages/send}" th:object="${message}" method="post">
     <table>
         <tr>
-            <td><label for="to">Odbiorca</label><input type="text" th:field="*{message.to.userName}" id="to"</td>
+            <!-- odbiorca: pobrane company -->
             <td><label for="subject">Temat</label><input type="text" th:field="*{message.subject}" id="subject"/></td>
             <td><label for="contents">Treść</label><input type="text" th:field="*{message.contents}" id="contents"/></td>
         </tr>
