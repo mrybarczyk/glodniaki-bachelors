@@ -50,14 +50,14 @@ public class MessageController {
     @GetMapping("/")
     public String getMessages(Model model){
         User user = currentAuthenticatedUserService.getCurrentUser();
-        List<Message> lm = messageRepository.findByUser(user);
+        List<Message> lm = messageRepository.findByFrom(user);
         model.addAttribute("companyRepo",companyRepository);
         return "list-messages";
     }
 
-    //@Mapping
+    /*@Mapping
     public String deleteMessage(Model model){
         User user = currentAuthenticatedUserService.getCurrentUser();
         return "redirect:/";
-    }
+    }*/
 }
