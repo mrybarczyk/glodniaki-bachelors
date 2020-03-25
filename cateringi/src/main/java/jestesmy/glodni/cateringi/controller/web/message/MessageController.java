@@ -1,8 +1,6 @@
 package jestesmy.glodni.cateringi.controller.web.message;
 
-import jestesmy.glodni.cateringi.domain.model.Client;
-import jestesmy.glodni.cateringi.domain.model.Message;
-import jestesmy.glodni.cateringi.domain.model.User;
+import jestesmy.glodni.cateringi.domain.model.*;
 import jestesmy.glodni.cateringi.repository.ClientRepository;
 import jestesmy.glodni.cateringi.repository.CompanyRepository;
 import jestesmy.glodni.cateringi.repository.MessageRepository;
@@ -41,10 +39,12 @@ public class MessageController {
     public String sendMessage(@PathVariable("id") int id, Model model){
         Message m = new Message();
         User author = currentAuthenticatedUserService.getCurrentUser();
+        Client c = clientRepository.findByUser(author);
         User addressee = companyRepository.findById(id).get().getUser();
         m.setFrom(author);
         m.setTo(addressee);
         model.addAttribute("message", m);
+        model.addAttribute("client", c);
         return "new-message";
     }
 
@@ -56,14 +56,26 @@ public class MessageController {
 
     //Both for sent and received?
     //raz listowanie od to=user, raz listowanie od from=user?
-    @GetMapping("/")
+    @GetMapping(value={"", "/"})
     public String getMessages(Model model){
         User user = currentAuthenticatedUserService.getCurrentUser();
         List<Message> from = messageRepository.findByFrom(user);
-        //List<Message> to = messageRepository.findByTo(user);
-        model.addAttribute("messages", from);
+        List<Message> to = messageRepository.findByTo(user);
+        model.addAttribute("messagesFrom", from);
+        model.addAttribute("messagesTo", to);
+        if (user.getUserType() == UserType.CLIENT){
+            Client c = clientRepository.findByUser(user);
+            model.addAttribute("client", c);
+            return "list-messages-client";
+        }
+        if (user.getUserType() == UserType.COMPANY){
+            Company c = companyRepository.findByUser(user);
+            model.addAttribute("user", user);
+            model.addAttribute("company", c);
+            return "list-messages-company";
+        }
+        return "redirect:/";
         //model.addAttribute("companyRepo",companyRepository);
-        return "list-messages";
     }
 
     /*@Mapping
