@@ -3,10 +3,7 @@ package jestesmy.glodni.cateringi.controller.web.company;
 import jestesmy.glodni.cateringi.domain.model.*;
 import jestesmy.glodni.cateringi.domain.util.ServiceAndServiceVariant;
 import jestesmy.glodni.cateringi.domain.util.validation.ServiceValidator;
-import jestesmy.glodni.cateringi.repository.ClientRepository;
-import jestesmy.glodni.cateringi.repository.CompanyRepository;
-import jestesmy.glodni.cateringi.repository.ServiceRepository;
-import jestesmy.glodni.cateringi.repository.ServiceVariantRepository;
+import jestesmy.glodni.cateringi.repository.*;
 import jestesmy.glodni.cateringi.security.CurrentAuthenticatedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,16 +29,20 @@ public class ServiceAndServiceVariantController {
 
     private ServiceVariantRepository serviceVariantRepository;
 
+    private CategoryRepository categoryRepository;
+
     @Autowired
     public ServiceAndServiceVariantController(CurrentAuthenticatedUserService currentAuthenticatedUserService,
                                               ServiceRepository serviceRepository,
                                               CompanyRepository companyRepository, ClientRepository clientRepository,
-                                              ServiceVariantRepository serviceVariantRepository) {
+                                              ServiceVariantRepository serviceVariantRepository,
+                                              CategoryRepository categoryRepository) {
         this.currentAuthenticatedUserService = currentAuthenticatedUserService;
         this.serviceRepository = serviceRepository;
         this.companyRepository = companyRepository;
         this.clientRepository = clientRepository;
         this.serviceVariantRepository = serviceVariantRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @GetMapping()
@@ -84,6 +85,7 @@ public class ServiceAndServiceVariantController {
         model.addAttribute("user",user);
         model.addAttribute("company",company);
         model.addAttribute("serviceAndServiceVariant", serviceAndServiceVariant);
+        model.addAttribute("categories",categoryRepository.findAll());
         model.addAttribute("errors",new ArrayList<String>());
         return "company-services-new";
     }
