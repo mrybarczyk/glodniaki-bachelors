@@ -66,7 +66,7 @@
                 </p>
             </div>
             <!-- to nie działa -->
-            <td><a th:href="@{/messages/send/{userId}(userId=${company.user.userId})}">Napisz wiadomość</a></td>
+            <td><a th:href="@{/messages/new/{userId}(userId=${company.user.userId})}">Napisz wiadomość</a></td>
             <h1>Dane kontaktowe:</h1>
             <div class="contact">
                 <h2>Adres e-mail: <span class="highlight" th:text="*{user.email}"></span></h2>

@@ -20,7 +20,7 @@
         <td th:text="${message.subject}"></td>
         <td th:text="${message.contents}"></td>
         <!-- adres do nowej wiadomości-->
-        <td><a th:href="@{/messages/send/{userId}(userId=${message.from.userId})}">Reply</a></td>
+        <!--<td><a th:href="@{/messages/new/{userId}(userId=${from.userId})}">Reply</a></td>-->
         <!-- usuwanie wpisu po prostu-->
         <!--<td><a th:href="@{/services/delete/{serviceID}(serviceID=${service.serviceID})}">Delete</a></td>-->
         <!-- przekierowanie na profil klienta/firmy (autora). niedostępny jeżeli wiadomość od admina?-->
