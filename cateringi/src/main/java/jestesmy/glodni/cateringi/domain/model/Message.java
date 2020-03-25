@@ -18,14 +18,12 @@ public class Message {
     private String contents;
 
     @ManyToOne
-    @JoinColumn(name="userId")
-    @MapsId
+    //@JoinColumn(name="userId")
     @JsonIgnore
     private User to;
 
     @ManyToOne
-    @JoinColumn(name="userId")
-    @MapsId
+    //@JoinColumn(name="userId")
     @JsonIgnore
     private User from;
 

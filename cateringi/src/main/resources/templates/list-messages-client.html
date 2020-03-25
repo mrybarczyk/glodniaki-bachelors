@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/css/services.css" />
+    <link href="https://fonts.googleapis.com/css?family=Exo:400,500,700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/23df196ab0.js" crossorigin="anonymous"></script>
+    <title>Spring MVC demo app</title>
+</head>
+<body>
+<section id="main-container">
+    <header class="top-bar">
+        <a href="/"><img src="/images/logo-transparent-colors.gif" /></a>
+        <button id="toggle-nav" onclick="showNav()"><i class="fas fa-bars fa-3x"></i></button>
+    </header>
+
+    <div id="side-nav">
+        <button id="close-nav" onclick="closeNav()"><i class="fas fa-times fa-3x"></i></button>
+        <div class="user-info" th:object="${client}">
+            <img src="/images/default-user-icon.jpg" width="100px" height="100px" />
+            <p><span th:text="*{name}+' '+*{lastName}"></span> </p>
+            <p><span style="font-size: .75rem;" th:text="*{user.email}"></span></p>
+        </div>
+        <div class="nav-items">
+            <a class="active-item" href="/client/profile">Profil</a>
+            <a href="/client/services">Oferta</a>
+            <a href="/client/orders/history">Historia zamówień</a>
+            <a href="/client/settings">Ustawienia</a>
+            <a class="bottom" href="/logout">Wyloguj</a>
+
+        </div>
+    </div>
+    <section class="content-wrapper">
+        <div class="content-main">
+            <table>
+                <thead>
+                <tr>
+                    <th>Nadawca</th>
+                    <th>Odbiorca</th>
+                    <th>Temat</th>
+                    <th>Treść</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="message : ${messagesFrom}">
+                    <td th:text="${message.from.userName}"></td>
+                    <td th:text="${message.to.userName}"></td>
+                    <td th:text="${message.subject}"></td>
+                    <td th:text="${message.contents}"></td>
+                    <!-- adres do nowej wiadomości-->
+                    <!--<td><a th:href="@{/messages/new/{userId}(userId=${from.userId})}">Reply</a></td>-->
+                    <!-- usuwanie wpisu po prostu-->
+                    <!--<td><a th:href="@{/services/delete/{serviceID}(serviceID=${service.serviceID})}">Delete</a></td>-->
+                    <!-- przekierowanie na profil klienta/firmy (autora). niedostępny jeżeli wiadomość od admina?-->
+                    <!--<td><a th:href="@{/services/serviceVariant/new/{serviceID}(serviceID=${service.serviceID})}">View profile</a></td>-->
+                    <!--<p th:text="${companyRepo.}"></p>-->
+                </tr>
+                <tr th:each="message : ${messagesTo}">
+                    <td th:text="${message.from.userName}"></td>
+                    <td th:text="${message.to.userName}"></td>
+                    <td th:text="${message.subject}"></td>
+                    <td th:text="${message.contents}"></td>
+                    <!-- adres do nowej wiadomości-->
+                    <!--<td><a th:href="@{/messages/new/{userId}(userId=${from.userId})}">Reply</a></td>-->
+                    <!-- usuwanie wpisu po prostu-->
+                    <!--<td><a th:href="@{/services/delete/{serviceID}(serviceID=${service.serviceID})}">Delete</a></td>-->
+                    <!-- przekierowanie na profil klienta/firmy (autora). niedostępny jeżeli wiadomość od admina?-->
+                    <!--<td><a th:href="@{/services/serviceVariant/new/{serviceID}(serviceID=${service.serviceID})}">View profile</a></td>-->
+                    <!--<p th:text="${companyRepo.}"></p>-->
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</form>
+</section>
+<script src="/scripts/nav.js"></script>
+</body>
+</html>
