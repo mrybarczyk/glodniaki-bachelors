@@ -1,20 +1,19 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="/css/main.css" />
-    <link rel="stylesheet" type="text/css" href="/css/services.css" />
+    <link rel="stylesheet" type="text/css" href="/css/form.css" />
     <link href="https://fonts.googleapis.com/css?family=Exo:400,500,700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/23df196ab0.js" crossorigin="anonymous"></script>
-    <title>Spring MVC demo app</title>
+    <title>Odpowiedz</title>
 </head>
 <body>
 <section id="main-container">
     <header class="top-bar">
-        <a href="/"><img src="/images/logo-transparent-colors.gif" /></a>
+        <a href="*"><img src="/images/logo-transparent-colors.gif" /></a>
         <button id="toggle-nav" onclick="showNav()"><i class="fas fa-bars fa-3x"></i></button>
     </header>
 
@@ -36,36 +35,18 @@
     </div>
     <section class="content-wrapper">
         <div class="content-main">
-            <table>
-                <thead>
-                <tr>
-                    <th>Nadawca</th>
-                    <th>Odbiorca</th>
-                    <th>Temat</th>
-                    <th>Treść</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="message : ${messagesFrom}">
-                    <td th:text="${message.from.userName}"></td>
-                    <td th:text="${message.to.userName}"></td>
-                    <td th:text="${message.subject}"></td>
-                    <td th:text="${message.contents}"></td>
-                    <td><a th:href="@{/messages/delete/{id}(id=${message.messageID})}">Usuń</a></td>
-                </tr>
-                <tr th:each="message : ${messagesTo}">
-                    <td th:text="${message.from.userName}"></td>
-                    <td th:text="${message.to.userName}"></td>
-                    <td th:text="${message.subject}"></td>
-                    <td th:text="${message.contents}"></td>
-                    <td><a th:href="@{/messages/reply/{id}(id=${message.messageID})}">Odpowiedz</a></td>
-                    <td><a th:href="@{/messages/delete/{id}(id=${message.messageID})}">Usuń</a></td>
-                </tr>
-                </tbody>
-            </table>
+            <form th:action="@{/messages/reply/send}" th:object="${message}" method="post">
+                <input type="hidden" th:field="*{to}" id="to"/>
+                <input type="hidden" th:field="*{from}" id="from"/>
+                <input type="hidden" th:field="*{subject}" id="subject"/>
+                <div class="long-field">
+                    <label for="contents">Treść wiadomości</label>
+                    <textarea class="field" th:field="*{contents}" id="contents"></textarea>
+                </div>
+                <input type="submit" value="Wyślij">
+            </form>
         </div>
     </section>
-    </form>
 </section>
 <script src="/scripts/nav.js"></script>
 </body>

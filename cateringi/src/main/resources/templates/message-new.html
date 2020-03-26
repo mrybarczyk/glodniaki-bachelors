@@ -36,15 +36,18 @@
     <section class="content-wrapper">
         <div class="content-main">
             <form th:action="@{/messages/send}" th:object="${message}" method="post">
-                <table>
-                    <tr>
                         <!-- odbiorca: pobrane company -->
-                        <td><input type="hidden" th:field="*{to}" id="to"/></td>
-                        <td><input type="hidden" th:field="*{from}" id="from"/></td>
-                        <td><label for="subject">Temat</label><input type="text" th:field="*{subject}" id="subject"/></td>
-                        <td><label for="contents">Treść</label><input type="text" th:field="*{contents}" id="contents"/></td>
-                    </tr>
-                    <tr><td><input type="submit" value="Wyślij"></td></tr>
+                        <input type="hidden" th:field="*{to}" id="to"/>
+                        <input type="hidden" th:field="*{from}" id="from"/>
+                        <div class="long-field">
+                            <label for="subject">Temat</label>
+                                <textarea class="field" th:field="*{subject}" id="subject"></textarea>
+                        </div>
+                        <div class="long-field">
+                            <label for="contents">Treść wiadomości</label>
+                            <textarea class="field" th:field="*{contents}" id="contents"></textarea>
+                        </div>
+                    <td><input type="submit" value="Wyślij"></td>
                 </table>
             </form>
         </div>

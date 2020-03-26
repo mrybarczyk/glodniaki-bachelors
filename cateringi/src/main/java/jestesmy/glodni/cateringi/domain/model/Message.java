@@ -28,33 +28,13 @@ public class Message {
     private User from;
 
     // czy nadawca usunął swoją kopię wiadomości?
-    //@Column(nullable = false)
-    //private boolean deletedFrom;
+    @Column(nullable = false)
+    private boolean deletedFrom;
 
     // czy odbiorca usunął swoją kopię wiadomości?
-    //@Column(nullable = false)
-    //private boolean deletedTo;
+    @Column(nullable = false)
+    private boolean deletedTo;
 
-    //public boolean isDeletedFrom() {
-    //    return deletedFrom;
-    //}
-
-    //public void setDeletedFrom(boolean deletedFrom) {
-     //   this.deletedFrom = deletedFrom;
-    //}
-
-    //public boolean isDeletedTo() {
-    //    return deletedTo;
-    //}
-
-    //public void setDeletedTo(boolean deletedTo) {
-    //    this.deletedTo = deletedTo;
-    //}
-
-    // Jeżeli usunęli ją zarówno odbiorca jak i nadawca to można wywalić z bazy?
-    //public boolean isDeletedOnBothSides(){
-    //    return this.deletedFrom && this.deletedTo;
-    //}
 
     public Message(){ }
 
@@ -63,6 +43,27 @@ public class Message {
         this.contents = contents;
         this.to = to;
         this.from = from;
+    }
+
+    public boolean isDeletedFrom() {
+        return deletedFrom;
+    }
+
+    public void setDeletedFrom(boolean deletedFrom) {
+        this.deletedFrom = deletedFrom;
+    }
+
+    public boolean isDeletedTo() {
+        return deletedTo;
+    }
+
+    public void setDeletedTo(boolean deletedTo) {
+        this.deletedTo = deletedTo;
+    }
+
+    // Jeżeli usunęli ją zarówno odbiorca jak i nadawca to można wywalić z bazy?
+    public boolean isDeletedOnBothSides(){
+        return this.deletedFrom && this.deletedTo;
     }
 
     public int getMessageID() {
