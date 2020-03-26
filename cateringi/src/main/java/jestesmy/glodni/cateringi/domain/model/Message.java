@@ -35,6 +35,8 @@ public class Message {
     @Column(nullable = false)
     private boolean deletedTo;
 
+    @Column(nullable = false)
+    private String datetime;
 
     public Message(){ }
 
@@ -104,5 +106,13 @@ public class Message {
 
     public void setFrom(User from) {
         this.from = from;
+    }
+
+    public String getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(String datetime) {
+        this.datetime = datetime;
     }
 }

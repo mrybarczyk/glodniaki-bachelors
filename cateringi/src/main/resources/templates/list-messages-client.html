@@ -29,6 +29,7 @@
             <a class="active-item" href="/client/profile">Profil</a>
             <a href="/client/services">Oferta</a>
             <a href="/client/orders/history">Historia zamówień</a>
+            <a href="/messages">Wiadomości</a>
             <a href="/client/settings">Ustawienia</a>
             <a class="bottom" href="/logout">Wyloguj</a>
 
@@ -51,6 +52,7 @@
                     <td th:text="${message.to.userName}"></td>
                     <td th:text="${message.subject}"></td>
                     <td th:text="${message.contents}"></td>
+                    <td th:text="${message.datetime}"></td>
                     <td><a th:href="@{/messages/delete/{id}(id=${message.messageID})}">Usuń</a></td>
                 </tr>
                 <tr th:each="message : ${messagesTo}">
@@ -58,6 +60,7 @@
                     <td th:text="${message.to.userName}"></td>
                     <td th:text="${message.subject}"></td>
                     <td th:text="${message.contents}"></td>
+                    <td th:text="${message.datetime}"></td>
                     <td><a th:href="@{/messages/reply/{id}(id=${message.messageID})}">Odpowiedz</a></td>
                     <td><a th:href="@{/messages/delete/{id}(id=${message.messageID})}">Usuń</a></td>
                 </tr>

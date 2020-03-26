@@ -12,6 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -71,6 +74,10 @@ public class MessageController {
 
     @PostMapping("/send")
     public String newMessage(Message newmessage, Model model){
+        LocalDateTime dt = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String formatted = dt.format(formatter);
+        newmessage.setDatetime(formatted);
         messageRepository.save(newmessage);
         return "redirect:/messages/";
     }
@@ -80,6 +87,10 @@ public class MessageController {
         Message reply = new Message();
         String replySubject = "Re: ";
         replySubject = replySubject.concat(newmessage.getSubject());
+        LocalDateTime dt = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String formatted = dt.format(formatter);
+        reply.setDatetime(formatted);
         reply.setTo(newmessage.getFrom());
         reply.setFrom(newmessage.getTo());
         reply.setSubject(replySubject);
@@ -93,12 +104,16 @@ public class MessageController {
     public String getMessages(Model model){
         User user = currentAuthenticatedUserService.getCurrentUser();
         List<Message> from = messageRepository.findByFrom(user);
+        // To sortowanie nie działa
+        //from.sort(Comparator.comparing(Message::getDatetime));
         for (int i = 0; i < from.size(); i++){
             if (from.get(i).isDeletedFrom()){
                 from.remove(i);
             }
         }
         List<Message> to = messageRepository.findByTo(user);
+        // To sortowanie nie działa
+        //to.sort(Comparator.comparing(Message::getDatetime));
         for (int i = 0; i < to.size(); i++){
             if (to.get(i).isDeletedTo()){
                 to.remove(i);
