@@ -86,18 +86,20 @@ public class ServiceAndServiceVariantController {
         model.addAttribute("company",company);
         model.addAttribute("serviceAndServiceVariant", serviceAndServiceVariant);
         model.addAttribute("categories",categoryRepository.findAll());
+        model.addAttribute("selectedCategory",new Category());
         model.addAttribute("errors",new ArrayList<String>());
         return "company-services-new";
     }
 
     @PostMapping("/add")
-    public String addService(ServiceAndServiceVariant serviceAndServiceVariant, Model model) {
+    public String addService(ServiceAndServiceVariant serviceAndServiceVariant,Category selectedCategory, Model model) {
         User user = currentAuthenticatedUserService.getCurrentUser();
         Company company = companyRepository.findByUser(user);
         model.addAttribute("company", company);
         Service service = serviceAndServiceVariant.getService();
         service.setCompany(company);
         service.setActive(true);
+        service.setCategory(selectedCategory);
         service.setMinPrice(serviceAndServiceVariant.getServiceVariants().get(0).getPrice());
         List<String> validationErrors = ServiceValidator.validate(serviceAndServiceVariant.getServiceVariants().get(0));
         if(validationErrors.isEmpty()) {

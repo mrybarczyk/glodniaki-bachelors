@@ -48,9 +48,8 @@
                 </div>
                 <div class="long-field">
                     <label for="category">Kategoria</label>
-                    <select th:field="*{service.category}" id="category">
-                        <option th:each="category : ${categories}" th:value="${category}" th:text="${category.name}"></option>
-                        <option th:value="0" th:text="'Inna'"></option>
+                    <select th:field="${selectedCategory.categoryID}" id="category">
+                        <option th:each="category : ${categories}" th:value="${category.categoryID}" th:text="${category.name}"></option>
                     </select>
                 </div>
                 <div class="long-field">
