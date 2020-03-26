@@ -20,19 +20,19 @@
 
     <div id="side-nav">
         <button id="close-nav" onclick="closeNav()"><i class="fas fa-times fa-3x"></i></button>
-        <div class="user-info" th:object="${client}">
+        <div class="user-info" th:object="${admin}">
             <img src="/images/default-user-icon.jpg" width="100px" height="100px" />
-            <p><span th:text="*{name}+' '+*{lastName}"></span> </p>
-            <p><span style="font-size: .75rem;" th:text="*{user.email}"></span></p>
+            <p><span th:text="*{name}"></span> <span th:text="*{lastName}"></span></p>
+            <p th:object="${user}"><span th:text="${user.email}"></span></p>
         </div>
         <div class="nav-items">
-            <a class="active-item" href="/client/profile">Profil</a>
-            <a href="/client/services">Oferta</a>
-            <a href="/client/orders/history">Historia zamówień</a>
+            <a href="/admin/userlist">Lista użytkowników</a>
             <a href="/messages">Wiadomości</a>
-            <a href="/client/settings">Ustawienia</a>
-            <a class="bottom" href="/logout">Wyloguj</a>
-
+            <a href="index.html">Pomocy</a>
+            <a href="index.html">Pomocy</a>
+        </div>
+        <div class="nav-items bottom">
+            <a href="/logout">Wyloguj</a>
         </div>
     </div>
     <section class="content-wrapper">
@@ -70,7 +70,7 @@
             </div>
         </div>
     </section>
-</form>
+    </form>
 </section>
 <script src="/scripts/nav.js"></script>
 </body>

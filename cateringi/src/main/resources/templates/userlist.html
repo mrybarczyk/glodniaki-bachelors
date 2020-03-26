@@ -26,7 +26,7 @@
         </div>
         <div class="nav-items">
             <a href="/admin/userlist">Lista użytkowników</a>
-            <a href="index.html">Pomocy</a>
+            <a href="/messages">Wiadomości</a>
             <a href="index.html">Pomocy</a>
             <a href="index.html">Pomocy</a>
         </div>
@@ -46,6 +46,7 @@
                     <th> Aktywny </th>
                     <th> Banowanie </th>
                     <th> Reset hasła </th>
+                    <th> Wiadomości </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -63,6 +64,7 @@
                     <td><span class="black" th:text="${user.isActive} ? 'Aktywny' : 'Zbanowany'"/></td>
                     <td><a class="black" th:href="@{/admin/ban/} + ${user.userId}"> BAN </a></td>
                     <td><a class="black" th:href="@{/admin/resetpassword/} + ${user.userId}"> RESET HASŁA </a></td>
+                    <td><a class="black" th:href="@{/messages/new/} + ${user.userId}"> WYŚLIJ WIADOMOŚĆ </a></td>
                 </tr>
                 </tbody>
             </table>

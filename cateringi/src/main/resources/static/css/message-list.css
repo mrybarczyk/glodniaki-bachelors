@@ -1,0 +1,117 @@
+.content-main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 90vw;
+}
+
+.content-main * {
+    color: var(--clr-text-dark);
+}
+
+.service-card {
+    box-shadow: 0 0 3em rgba(0,0,0,.15);
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: .5rem;
+}
+
+.service-card-big {
+    box-shadow: 0 0 3em rgba(0,0,0,.15);
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin: .5rem;
+    width: 100%;
+    min-height: 20%;
+    max-height: 100%;
+    justify-content: space-between;
+}
+
+.service-info {
+    display: flex;
+    justify-content: space-around;
+}
+
+.service-action {
+    height: 10%;
+    display: flex;
+    justify-content: space-between;
+    flex-flow: row-reverse wrap;
+}
+
+.manage {
+    display: flex;
+    flex: 50%;
+    text-align: flex-end;
+    justify-content: space-between;
+    align-content: space-between;
+}
+
+.manage > a {
+    margin-left: .5rem;
+}
+
+
+.service-card-big > * > * {
+    color: var(--clr-text-dark);
+}
+
+.service-card, .service-card-big > * {
+    color: var(--clr-text-dark);
+}
+
+.service-name {
+    font-weight: 700;
+    font-size: 2rem;
+    margin-top: .75rem;
+}
+
+.user {
+    font-weight: 200;
+    font-size: .75rem;
+    margin-top: .75rem;
+}
+
+.description {
+     font-size: 1.5rem;
+     font-style: none;
+}
+
+.datetime {
+     font-size: .75rem;
+     font-style: italic;
+}
+
+.page-button {
+    margin-top: 15px;
+    border: 2px solid transparent;
+    text-decoration: none;
+    color: var(--clr-text);
+    background: var(--clr-primary);
+    padding: 5px;
+}
+
+.new-service {
+    margin:.5rem;
+    width: max-content !important;
+    float: right;
+}
+
+.page-button > i {
+    color: var(--clr-text);
+    margin-right: 3px;
+}
+
+.page-button:hover {
+    color: var(--clr-text-dark);
+    background: var(--clr-secondary);
+    border: 2px solid var(--clr-primary);
+}
+
+.page-button:hover>i {
+    color: var(--clr-text-dark);
+}

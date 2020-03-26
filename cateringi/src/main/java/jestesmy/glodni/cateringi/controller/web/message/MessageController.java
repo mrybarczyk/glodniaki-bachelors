@@ -1,12 +1,10 @@
 package jestesmy.glodni.cateringi.controller.web.message;
 
 import jestesmy.glodni.cateringi.domain.model.*;
-import jestesmy.glodni.cateringi.repository.ClientRepository;
-import jestesmy.glodni.cateringi.repository.CompanyRepository;
-import jestesmy.glodni.cateringi.repository.MessageRepository;
-import jestesmy.glodni.cateringi.repository.UserRepository;
+import jestesmy.glodni.cateringi.repository.*;
 import jestesmy.glodni.cateringi.security.CurrentAuthenticatedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,14 +23,16 @@ public class MessageController {
     private final MessageRepository messageRepository;
     private final CompanyRepository companyRepository;
     private final ClientRepository clientRepository;
+    private final AdminRepository adminRepository;
 
     @Autowired
-    public MessageController(ClientRepository clientRepository, CompanyRepository companyRepository, CurrentAuthenticatedUserService currentAuthenticatedUserService, UserRepository userRepository, MessageRepository messageRepository) {
+    public MessageController(ClientRepository clientRepository, CompanyRepository companyRepository, CurrentAuthenticatedUserService currentAuthenticatedUserService, UserRepository userRepository, MessageRepository messageRepository, AdminRepository adminRepository) {
         this.currentAuthenticatedUserService = currentAuthenticatedUserService;
         this.userRepository = userRepository;
         this.messageRepository = messageRepository;
         this.companyRepository = companyRepository;
         this.clientRepository = clientRepository;
+        this.adminRepository = adminRepository;
     }
 
     @GetMapping("/new/{id}")
@@ -40,13 +40,24 @@ public class MessageController {
     public String sendMessage(@PathVariable("id") int id, Model model){
         Message m = new Message();
         User author = currentAuthenticatedUserService.getCurrentUser();
+        if (author.getUserType() == UserType.ADMIN){
+            User addressee = userRepository.findById(id).get();
+            Admin a = adminRepository.findByUser(author);
+            m.setFrom(author);
+            m.setTo(addressee);
+            model.addAttribute("user", author);
+            model.addAttribute("message", m);
+            model.addAttribute("admin", a);
+            return "message-new-admin";
+        }
         Client c = clientRepository.findByUser(author);
         User addressee = companyRepository.findById(id).get().getUser();
         m.setFrom(author);
         m.setTo(addressee);
+        model.addAttribute("user", author);
         model.addAttribute("message", m);
         model.addAttribute("client", c);
-        return "message-new";
+        return "message-new-client";
     }
 
     @GetMapping("/reply/{id}")
@@ -60,14 +71,21 @@ public class MessageController {
         model.addAttribute("message", m);
         if (author.getUserType() == UserType.CLIENT){
             Client c = clientRepository.findByUser(author);
+            model.addAttribute("user", author);
             model.addAttribute("client", c);
-            return "message-reply-client-to-company";
+            return "message-reply-client";
         }
         if (author.getUserType() == UserType.COMPANY){
             Company c = companyRepository.findByUser(author);
             model.addAttribute("user", author);
             model.addAttribute("company", c);
-            return "message-reply-company-to-client";
+            return "message-reply-company";
+        }
+        if (author.getUserType() == UserType.ADMIN){
+            Admin a = adminRepository.findByUser(author);
+            model.addAttribute("user", author);
+            model.addAttribute("admin", a);
+            return("message-reply-admin");
         }
         return "redirect:/messages/";
     }
@@ -103,7 +121,7 @@ public class MessageController {
     @GetMapping(value={"", "/"})
     public String getMessages(Model model){
         User user = currentAuthenticatedUserService.getCurrentUser();
-        List<Message> from = messageRepository.findByFrom(user);
+        List<Message> from = messageRepository.findByFrom(user)/*(Sort.by(Sort.Direction.ASC, "datetime"))*/; //też nie działa
         // To sortowanie nie działa
         //from.sort(Comparator.comparing(Message::getDatetime));
         for (int i = 0; i < from.size(); i++){
@@ -123,6 +141,7 @@ public class MessageController {
         model.addAttribute("messagesTo", to);
         if (user.getUserType() == UserType.CLIENT){
             Client c = clientRepository.findByUser(user);
+            model.addAttribute("user", user);
             model.addAttribute("client", c);
             return "list-messages-client";
         }
@@ -131,6 +150,12 @@ public class MessageController {
             model.addAttribute("user", user);
             model.addAttribute("company", c);
             return "list-messages-company";
+        }
+        if (user.getUserType() == UserType.ADMIN){
+            Admin a = adminRepository.findByUser(user);
+            model.addAttribute("user", user);
+            model.addAttribute("admin", a);
+            return "list-messages-admin";
         }
         return "redirect:/";
         //model.addAttribute("companyRepo",companyRepository);
