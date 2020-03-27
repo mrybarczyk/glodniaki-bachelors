@@ -117,9 +117,41 @@ public class MessageController {
         return "redirect:/messages/";
     }
 
-    //Both for sent and received
-    @GetMapping(value={"", "/"})
-    public String getMessages(Model model){
+    @GetMapping(value={"", "/", "/received"})
+    public String getReceived(Model model){
+        User user = currentAuthenticatedUserService.getCurrentUser();
+        List<Message> to = messageRepository.findByTo(user);
+        // To sortowanie nie działa
+        //to.sort(Comparator.comparing(Message::getDatetime));
+        for (int i = 0; i < to.size(); i++){
+            if (to.get(i).isDeletedTo()){
+                to.remove(i);
+            }
+        }
+        model.addAttribute("messages", to);
+        if (user.getUserType() == UserType.CLIENT){
+            Client c = clientRepository.findByUser(user);
+            model.addAttribute("user", user);
+            model.addAttribute("client", c);
+            return "list-received-client";
+        }
+        if (user.getUserType() == UserType.COMPANY){
+            Company c = companyRepository.findByUser(user);
+            model.addAttribute("user", user);
+            model.addAttribute("company", c);
+            return "list-received-company";
+        }
+        if (user.getUserType() == UserType.ADMIN){
+            Admin a = adminRepository.findByUser(user);
+            model.addAttribute("user", user);
+            model.addAttribute("admin", a);
+            return "list-received-admin";
+        }
+        return "redirect:/";
+    }
+
+    @GetMapping(value={"/sent"})
+    public String getSent(Model model){
         User user = currentAuthenticatedUserService.getCurrentUser();
         List<Message> from = messageRepository.findByFrom(user)/*(Sort.by(Sort.Direction.ASC, "datetime"))*/; //też nie działa
         // To sortowanie nie działa
@@ -129,36 +161,26 @@ public class MessageController {
                 from.remove(i);
             }
         }
-        List<Message> to = messageRepository.findByTo(user);
-        // To sortowanie nie działa
-        //to.sort(Comparator.comparing(Message::getDatetime));
-        for (int i = 0; i < to.size(); i++){
-            if (to.get(i).isDeletedTo()){
-                to.remove(i);
-            }
-        }
-        model.addAttribute("messagesFrom", from);
-        model.addAttribute("messagesTo", to);
+        model.addAttribute("messages", from);
         if (user.getUserType() == UserType.CLIENT){
             Client c = clientRepository.findByUser(user);
             model.addAttribute("user", user);
             model.addAttribute("client", c);
-            return "list-messages-client";
+            return "list-sent-client";
         }
         if (user.getUserType() == UserType.COMPANY){
             Company c = companyRepository.findByUser(user);
             model.addAttribute("user", user);
             model.addAttribute("company", c);
-            return "list-messages-company";
+            return "list-sent-company";
         }
         if (user.getUserType() == UserType.ADMIN){
             Admin a = adminRepository.findByUser(user);
             model.addAttribute("user", user);
             model.addAttribute("admin", a);
-            return "list-messages-admin";
+            return "list-sent-admin";
         }
         return "redirect:/";
-        //model.addAttribute("companyRepo",companyRepository);
     }
 
     @GetMapping("/delete/{id}")

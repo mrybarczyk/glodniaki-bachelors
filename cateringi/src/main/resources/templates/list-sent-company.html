@@ -29,7 +29,8 @@
             <a href="/company">Profil</a>
             <a href="/company/services">Oferta</a>
             <a href="/company/orders/history">Historia zamówień</a>
-            <a href="/messages">Wiadomości</a>
+            <a href="/messages">Odebrane</a>
+            <a href="/messages/sent">Wysłane</a>
             <a href="/company/settings">Ustawienia</a>
             <a class="bottom" href="/logout">Wyloguj</a>
 
@@ -37,7 +38,7 @@
     </div>
     <section class="content-wrapper">
         <div class="content-main">
-            <div th:each="message : ${messagesFrom}" class="service-card-big">
+            <div th:each="message : ${messages}" class="service-card-big">
                 <div class="service-info">
                     <div>
                         <p class="service-name" th:text="${message.subject}"></p>
@@ -47,22 +48,6 @@
                         <div class="service-action">
                             <div class="manage">
                                 <a th:href="@{/messages/delete/{id}(id=${message.messageID})}"><img border="0" alt="Usuń" src="/images/delete.png" width="32px" height="32px"></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div th:each="message : ${messagesTo}" class="service-card-big">
-                <div class="service-info">
-                    <div>
-                        <p class="service-name" th:text="${message.subject}"></p>
-                        <p class="description" th:text="${message.contents}"></p>
-                        <div class="user">Nadawca: <span th:text="${message.from.userName}"></span>, Odbiorca: <span th:text="${message.to.userName}"></span></div>
-                        <p class="datetime" th:text="${message.datetime}"></p>
-                        <div class="service-action">
-                            <div class="manage">
-                                <a th:href="@{/messages/delete/{id}(id=${message.messageID})}"><img border="0" alt="Usuń" src="/images/delete.png" width="32px" height="32px"></a>
-                                <a th:href="@{/messages/reply/{id}(id=${message.messageID})}"><img border="0" alt="Odpowiedz" src="/images/reply.png" width="32px" height="32px"></a>
                             </div>
                         </div>
                     </div>
