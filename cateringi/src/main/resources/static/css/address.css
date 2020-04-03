@@ -1,0 +1,18 @@
+.variants {
+    border: none;
+}
+
+.star-explain {
+    display: flex;
+    flex-basis: 30%;
+    flex-grow: 0;
+    box-shadow: 0 0 3em rgba(0,0,0,.15);
+    align-items: flex-start;
+    padding: .5rem;
+}
+
+.page-button {
+    margin-top: .3rem;
+    width: 100px;
+    float: right;
+}

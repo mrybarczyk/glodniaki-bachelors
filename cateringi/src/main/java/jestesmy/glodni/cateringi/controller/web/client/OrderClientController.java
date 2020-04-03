@@ -1,6 +1,7 @@
 package jestesmy.glodni.cateringi.controller.web.client;
 
 import jestesmy.glodni.cateringi.domain.model.*;
+import jestesmy.glodni.cateringi.domain.util.ServiceVariantIDWithAddress;
 import jestesmy.glodni.cateringi.repository.*;
 import jestesmy.glodni.cateringi.security.CurrentAuthenticatedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,28 +57,33 @@ public class OrderClientController {
     public String newOrder(ServiceVariant selectedVariant, Model model){
         User user = currentAuthenticatedUserService.getCurrentUser();
         Client client = clientRepository.findByUser(user);
-        LocalDateTime now = LocalDateTime.now();
-        Order order = new Order();
-        order.setClient(client);
-        order.setServiceVariant(serviceVariantRepository.findById(selectedVariant.getServiceVariantID()).get());
-        order.setCompany(order.getServiceVariant().getService().getCompany());
-        order.setOrderDate(Timestamp.valueOf(now));
-        order.setToDate(Timestamp.valueOf(now.plusDays(order.getServiceVariant().getDayNumber())));
-        order.setIsPaid(false);
-        order.setRated(false);
-        orderRepository.save(order);
+        ServiceVariant serviceVariant = serviceVariantRepository.findById(selectedVariant.getServiceVariantID()).get();
+        Company company = serviceVariant.getService().getCompany();
+        ServiceVariantIDWithAddress serviceVariantIDWithAddress = new ServiceVariantIDWithAddress();
+        serviceVariantIDWithAddress.setSelectedServiceVariantID(serviceVariant.getServiceVariantID());
+        model.addAttribute("serviceVariantIDWithAddress", serviceVariantIDWithAddress);
         model.addAttribute("user", user);
         model.addAttribute("client", client);
-        model.addAttribute("order", order);
-        model.addAttribute("total",order.getServiceVariant().getPrice()*order.getServiceVariant().getDayNumber());
+        model.addAttribute("serviceVariant", serviceVariant);
+        model.addAttribute("total",selectedVariant.getPrice()*selectedVariant.getDayNumber());
+        model.addAttribute("company", company);
         return "client-order-summary";
     }
 
     @PostMapping("add")
-    public String addOrder(@ModelAttribute("order") Order order){
-        Order paidOrder = orderRepository.findById(order.getOrderID()).get();
-        paidOrder.setIsPaid(true);
-        orderRepository.save(paidOrder);
+    public String addOrder(@ModelAttribute("serviceVariantIDWithAddress") ServiceVariantIDWithAddress serviceVariantIDWithAddress){
+        User user = currentAuthenticatedUserService.getCurrentUser();
+        Client client = clientRepository.findByUser(user);
+        LocalDateTime now = LocalDateTime.now();
+        Order order = new Order();
+        order.setClient(client);
+        order.setServiceVariant(serviceVariantRepository.findById(serviceVariantIDWithAddress.getSelectedServiceVariantID()).get());
+        order.setCompany(order.getServiceVariant().getService().getCompany());
+        order.setOrderDate(Timestamp.valueOf(now));
+        order.setToDate(Timestamp.valueOf(now.plusDays(order.getServiceVariant().getDayNumber())));
+        order.setRated(false);
+        order.setIsPaid(true);
+        orderRepository.save(order);
         return "redirect:/client/orders/history";
     }
 
