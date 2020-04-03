@@ -36,7 +36,7 @@
     </div>
     <section class="content-wrapper">
         <div class="content-main">
-            <form th:action="@{/messages/send}" th:object="${message}" method="post">
+            <form th:action="@{/messages/contactus/send}" th:object="${message}" method="post">
                 <input type="hidden" th:field="*{to}" id="to"/>
                 <input type="hidden" th:field="*{from}" id="from"/>
                 <div class="long-field">
