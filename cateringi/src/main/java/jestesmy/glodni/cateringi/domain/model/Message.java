@@ -18,12 +18,10 @@ public class Message {
     private String contents;
 
     @ManyToOne
-    //@JoinColumn(name="userId")
     @JsonIgnore
     private User to;
 
     @ManyToOne
-    //@JoinColumn(name="userId")
     @JsonIgnore
     private User from;
 
@@ -63,7 +61,7 @@ public class Message {
         this.deletedTo = deletedTo;
     }
 
-    // Jeżeli usunęli ją zarówno odbiorca jak i nadawca to można wywalić z bazy?
+    // Jeżeli usunęli ją zarówno odbiorca jak i nadawca to można usunąć z bazy
     public boolean isDeletedOnBothSides(){
         return this.deletedFrom && this.deletedTo;
     }

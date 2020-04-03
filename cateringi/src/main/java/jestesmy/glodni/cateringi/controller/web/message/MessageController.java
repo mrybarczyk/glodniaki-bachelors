@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -90,6 +91,53 @@ public class MessageController {
         return "redirect:/messages/";
     }
 
+    @GetMapping("/contactus")
+    public String contactAdmin(Model model){
+        Message m = new Message();
+        User author = currentAuthenticatedUserService.getCurrentUser();
+        User addressee = adminRepository.findAll().get(0).getUser();
+        m.setFrom(author);
+        m.setTo(addressee);
+        model.addAttribute("user", author);
+        model.addAttribute("message", m);
+        if (author.getUserType() == UserType.CLIENT){
+            Client c = clientRepository.findByUser(author);
+            model.addAttribute("client", c);
+            return "messages-contact-admin-client";
+        }
+        if (author.getUserType() == UserType.COMPANY){
+            Company c = companyRepository.findByUser(author);
+            model.addAttribute("company", c);
+            return "messages-contact-admin-company";
+        }
+        return "redirect:/messages/";
+    }
+
+    @PostMapping("/contactus/send")
+    public String newContact(Message newmessage, Model model){
+        LocalDateTime dt = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String formatted = dt.format(formatter);
+        List<Admin> admins = adminRepository.findAll();
+        List<User> adminUsers = new ArrayList<>();
+        int length = admins.size();
+        for (int i = 0; i < length; i++){
+            adminUsers.add(admins.get(i).getUser());
+        }
+        for (int i = 0; i < length; i++) {
+            Message m = new Message();
+            m.setFrom(newmessage.getFrom());
+            m.setTo(adminUsers.get(i));
+            m.setDatetime(formatted);
+            m.setSubject(newmessage.getSubject());
+            m.setContents(newmessage.getContents());
+            messageRepository.save(m);
+            m.getTo().setMessageCounter(m.getTo().getMessageCounter() + 1);
+            System.out.println(m.getTo().getMessageCounter());
+        }
+        return "redirect:/messages/";
+    }
+
     @PostMapping("/send")
     public String newMessage(Message newmessage, Model model){
         LocalDateTime dt = LocalDateTime.now();
@@ -97,6 +145,8 @@ public class MessageController {
         String formatted = dt.format(formatter);
         newmessage.setDatetime(formatted);
         messageRepository.save(newmessage);
+        newmessage.getTo().setMessageCounter(newmessage.getTo().getMessageCounter() + 1);
+        System.out.println(newmessage.getTo().getMessageCounter());
         return "redirect:/messages/";
     }
 
@@ -114,6 +164,8 @@ public class MessageController {
         reply.setSubject(replySubject);
         reply.setContents(newmessage.getContents());
         messageRepository.save(reply);
+        reply.getTo().setMessageCounter(reply.getTo().getMessageCounter() + 1);
+        System.out.println(reply.getTo().getMessageCounter());
         return "redirect:/messages/";
     }
 

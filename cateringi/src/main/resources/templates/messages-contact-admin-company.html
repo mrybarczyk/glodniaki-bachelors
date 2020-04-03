@@ -1,20 +1,19 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="/css/main.css" />
-    <link rel="stylesheet" type="text/css" href="/css/message-list.css" />
+    <link rel="stylesheet" type="text/css" href="/css/form.css" />
     <link href="https://fonts.googleapis.com/css?family=Exo:400,500,700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/23df196ab0.js" crossorigin="anonymous"></script>
-    <title>Spring MVC demo app</title>
+    <title>Nowa wiadomość</title>
 </head>
 <body>
 <section id="main-container">
     <header class="top-bar">
-        <a href="/"><img src="/images/logo-transparent-colors.gif" /></a>
+        <a href="*"><img src="/images/logo-transparent-colors.gif" /></a>
         <button id="toggle-nav" onclick="showNav()"><i class="fas fa-bars fa-3x"></i></button>
     </header>
 
@@ -29,7 +28,7 @@
             <a href="/company">Profil</a>
             <a href="/company/services">Oferta</a>
             <a href="/company/orders/history">Historia zamówień</a>
-            <a href="/messages/sent">Wysłane</a>
+            <a href="/messages">Wiadomości</a>
             <a href="/company/settings">Ustawienia</a>
             <a class="bottom" href="/logout">Wyloguj</a>
 
@@ -37,25 +36,22 @@
     </div>
     <section class="content-wrapper">
         <div class="content-main">
-            <div th:each="message : ${messages}" class="service-card-big">
-                <div class="service-info">
-                    <div>
-                        <p class="service-name" th:text="${message.subject}"></p>
-                        <p class="description" th:text="${message.contents}"></p>
-                        <div class="user">Nadawca: <span th:text="${message.from.userName}"></span>, Odbiorca: <span th:text="${message.to.userName}"></span></div>
-                        <p class="datetime" th:text="${message.datetime}"></p>
-                        <div class="service-action">
-                            <div class="manage">
-                                <a th:href="@{/messages/delete/{id}(id=${message.messageID})}"><img border="0" alt="Usuń" src="/images/delete.png" width="32px" height="32px"></a>
-                                <a th:href="@{/messages/reply/{id}(id=${message.messageID})}"><img border="0" alt="Odpowiedz" src="/images/reply.png" width="32px" height="32px"></a>
-                            </div>
-                        </div>
-                    </div>
+            <form th:action="@{/messages/send}" th:object="${message}" method="post">
+                <input type="hidden" th:field="*{to}" id="to"/>
+                <input type="hidden" th:field="*{from}" id="from"/>
+                <div class="long-field">
+                    <label for="subject">Temat</label>
+                    <textarea class="field" th:field="*{subject}" id="subject"></textarea>
                 </div>
-            </div>
+                <div class="long-field">
+                    <label for="contents">Treść wiadomości</label>
+                    <textarea class="field" th:field="*{contents}" id="contents"></textarea>
+                </div>
+                <td><input type="submit" value="Wyślij"></td>
+                </table>
+            </form>
         </div>
     </section>
-    </form>
 </section>
 <script src="/scripts/nav.js"></script>
 </body>
