@@ -29,12 +29,15 @@
             <a href="/company">Profil</a>
             <a href="/company/services">Oferta</a>
             <a href="/company/orders/history">Historia zamówień</a>
-            <a href="/messages"> <span th:if="${user.messageCounter != 0}">(<span th:text="${user.messageCounter}"></span>)</span> Odebrane</a>
-            <a href="/messages/contactus">Administracja</a>
+            <a href="/messages"> <span th:if="${user.messageCounter != 0}">(<span th:text="${user.messageCounter}"></span>)</span> Wiadomości</a>
             <a href="/company/settings">Ustawienia</a>
             <a class="bottom" href="/logout">Wyloguj</a>
 
         </div>
+    </div>
+    <div class="button-bar">
+        <a class="page-button" href="/messages/received">Odebrane</a>
+        <a class="page-button" href="/messages/sent">Wysłane</a>
     </div>
     <section class="content-wrapper">
         <div class="content-main">
@@ -57,6 +60,7 @@
     </section>
     </form>
 </section>
+<footer><a href="/messages/contactus">Skontaktuj się z administracją</a></footer>
 <script src="/scripts/nav.js"></script>
 </body>
 </html>

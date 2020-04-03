@@ -27,13 +27,17 @@
         </div>
         <div class="nav-items">
             <a href="/admin/userlist">Lista użytkowników</a>
-            <a href="/messages"> <span th:if="${user.messageCounter != 0}">(<span th:text="${user.messageCounter}"></span>)</span> Odebrane</a>
+            <a href="/messages"> <span th:if="${user.messageCounter != 0}">(<span th:text="${user.messageCounter}"></span>)</span> Wiadomości</a>
             <a href="index.html">Pomocy</a>
             <a href="index.html">Pomocy</a>
         </div>
         <div class="nav-items bottom">
             <a href="/logout">Wyloguj</a>
         </div>
+    </div>
+    <div class="button-bar">
+        <a class="page-button" href="/messages/received">Odebrane</a>
+        <a class="page-button" href="/messages/sent">Wysłane</a>
     </div>
     <section class="content-wrapper">
         <div class="content-main">
