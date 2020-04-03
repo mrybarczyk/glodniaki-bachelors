@@ -120,11 +120,10 @@ public class MessageController {
         String formatted = dt.format(formatter);
         List<Admin> admins = adminRepository.findAll();
         List<User> adminUsers = new ArrayList<>();
-        int length = admins.size();
-        for (int i = 0; i < length; i++){
+        for (int i = 0; i < admins.size(); i++){
             adminUsers.add(admins.get(i).getUser());
         }
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < admins.size(); i++) {
             Message m = new Message();
             m.setFrom(newmessage.getFrom());
             m.setTo(adminUsers.get(i));
@@ -133,7 +132,7 @@ public class MessageController {
             m.setContents(newmessage.getContents());
             messageRepository.save(m);
             m.getTo().setMessageCounter(m.getTo().getMessageCounter() + 1);
-            System.out.println(m.getTo().getMessageCounter());
+            userRepository.save(m.getTo());
         }
         return "redirect:/messages/";
     }
@@ -146,7 +145,7 @@ public class MessageController {
         newmessage.setDatetime(formatted);
         messageRepository.save(newmessage);
         newmessage.getTo().setMessageCounter(newmessage.getTo().getMessageCounter() + 1);
-        System.out.println(newmessage.getTo().getMessageCounter());
+        userRepository.save(newmessage.getTo());
         return "redirect:/messages/";
     }
 
@@ -165,13 +164,15 @@ public class MessageController {
         reply.setContents(newmessage.getContents());
         messageRepository.save(reply);
         reply.getTo().setMessageCounter(reply.getTo().getMessageCounter() + 1);
-        System.out.println(reply.getTo().getMessageCounter());
+        userRepository.save(reply.getTo());
         return "redirect:/messages/";
     }
 
     @GetMapping(value={"", "/", "/received"})
     public String getReceived(Model model){
         User user = currentAuthenticatedUserService.getCurrentUser();
+        user.setMessageCounter(0);
+        userRepository.save(user);
         List<Message> to = messageRepository.findByTo(user);
         // To sortowanie nie działa
         //to.sort(Comparator.comparing(Message::getDatetime));
