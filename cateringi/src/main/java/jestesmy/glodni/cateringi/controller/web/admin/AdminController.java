@@ -141,4 +141,17 @@ public class AdminController {
         return "redirect:/admin/categories";
     }
 
+    @GetMapping("/categories/new")
+    public String showNewCategoryForm(Model model) {
+        model.addAttribute("admin",adminRepository.findByUser(currentAuthenticatedUserService.getCurrentUser()));
+        model.addAttribute("category", new Category());
+        return "admin-category-new";
+    }
+
+    @PostMapping("/categories/new")
+    public String saveCategory(@ModelAttribute("category") Category category) {
+        categoryRepository.save(category);
+        return "redirect:/admin/categories";
+    }
+
 }
