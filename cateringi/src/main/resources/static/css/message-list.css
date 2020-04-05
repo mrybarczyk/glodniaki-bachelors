@@ -131,7 +131,7 @@ footer > a {
     color: black;
 }
 
-button-bar {
+.button-bar {
     margin: auto;
     width: 50%;
     padding: 10px;
