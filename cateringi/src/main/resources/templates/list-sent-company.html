@@ -44,15 +44,15 @@
             <div th:each="message : ${messages}" class="service-card-big">
                 <div class="service-info">
                     <div>
-                        <p class="service-name" th:text="${message.subject}"></p>
-                        <p class="description" th:text="${message.contents}"></p>
-                        <div class="user">Nadawca: <span th:text="${message.from.userName}"></span>, Odbiorca: <span th:text="${message.to.userName}"></span></div>
-                        <p class="datetime" th:text="${message.datetime}"></p>
                         <div class="service-action">
                             <div class="manage">
                                 <a th:href="@{/messages/delete/{id}(id=${message.messageID})}"><i class="fas fa-trash"></i></a>
                             </div>
                         </div>
+                        <p class="service-name" th:text="${message.subject}"></p>
+                        <p class="description" th:text="${message.contents}"></p>
+                        <div class="user">Nadawca: <span th:text="${message.from.userName}"></span>, Odbiorca: <span th:text="${message.to.userName}"></span></div>
+                        <p class="datetime" th:text="${message.datetime}"></p>
                     </div>
                 </div>
             </div>
