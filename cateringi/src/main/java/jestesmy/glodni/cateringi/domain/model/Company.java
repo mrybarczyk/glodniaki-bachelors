@@ -26,7 +26,7 @@ public class Company {
     @JoinColumn(name="companyID")
     @MapsId
     @JsonIgnore
-    User user;
+    private User user;
 
     public Company(){
         this.averageRating = 0;

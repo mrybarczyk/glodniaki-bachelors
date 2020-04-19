@@ -20,7 +20,7 @@ public class Admin {
     @JoinColumn(name="adminID")
     @MapsId
     @JsonIgnore
-    User user;
+    private User user;
 
     public Admin() {
     }
