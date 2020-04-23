@@ -35,8 +35,7 @@ public class CompanyController {
     public String showWelcomeMessage(Model model){
         User user = currentAuthenticatedUserService.getCurrentUser();
         Company company = companyRepository.findByUser(user);
-        CompanyWithUser companyUser = new CompanyWithUser(company,user);
-        model.addAttribute("company",companyUser);
+        model.addAttribute("company", company);
         return "welcome-company";
     }
 
@@ -44,8 +43,9 @@ public class CompanyController {
     public String showSettingsForm(Model model) {
         User user = currentAuthenticatedUserService.getCurrentUser();
         Company company = companyRepository.findByUser(user);
-        CompanyWithUser companyUser = new CompanyWithUser(company,user);
-        model.addAttribute("company",companyUser);
+        CompanyWithUser cwu = new CompanyWithUser(company, user);
+        model.addAttribute("company", company);
+        model.addAttribute("cwu", cwu);
         model.addAttribute("passwordChanged",false);
         return "company-settings";
     }
@@ -54,14 +54,15 @@ public class CompanyController {
     public String showSettingsFormWithInfo(Model model) {
         User user = currentAuthenticatedUserService.getCurrentUser();
         Company company = companyRepository.findByUser(user);
-        CompanyWithUser companyUser = new CompanyWithUser(company,user);
-        model.addAttribute("company",companyUser);
+        CompanyWithUser cwu = new CompanyWithUser(company, user);
+        model.addAttribute("company", company);
+        model.addAttribute("cwu", cwu);
         model.addAttribute("passwordChanged",true);
         return "company-settings";
     }
 
     @PostMapping("update")
-    public String updateCompanyInfo(@ModelAttribute("company")CompanyWithUser modified) {
+    public String updateCompanyInfo(@ModelAttribute("cwu")CompanyWithUser modified) {
         User user = currentAuthenticatedUserService.getCurrentUser();
         Company company = companyRepository.findByUser(user);
         user.setEmail(modified.getEmail());
@@ -75,7 +76,7 @@ public class CompanyController {
     @GetMapping("update/password")
     public String showPasswordForm(Model model) {
         User user = currentAuthenticatedUserService.getCurrentUser();
-        CompanyWithUser company = new CompanyWithUser(companyRepository.findByUser(user),user);
+        Company company = companyRepository.findByUser(user);
         model.addAttribute("company",company);
         return "company-change-password";
     }

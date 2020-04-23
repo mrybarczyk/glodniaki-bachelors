@@ -23,12 +23,13 @@
             <div class="user-info" th:object="${client}">
             <img src="/images/default-user-icon.jpg" width="100px" height="100px" />
                 <p><span th:text="*{name}+' '+*{lastName}"></span> </p>
-                <p><span style="font-size: .75rem;" th:text="${client.user.email}"></span></p>
+                <p><span style="font-size: .75rem;" th:text="*{user.email}"></span></p>
             </div>
         <div class="nav-items">
         <a href="/client/profile">Profil</a>
         <a class="active-item" href="/client/services">Oferta</a>
         <a href="/client/orders/history">Historia zamówień</a>
+        <a href="/messages"> <span th:if="${client.user.messageCounter != 0}">(<span th:text="${client.user.messageCounter}"></span>)</span> Wiadomości</a>
         <a href="/client/settings">Ustawienia</a>
         <a class="bottom" href="/logout">Wyloguj</a>
 
@@ -45,7 +46,6 @@
                <a class="page-button" th:href="@{/client/services/{serviceID}/details(serviceID=${service.serviceID})}">Szczegóły</a>
            </div>
         </div>
-
     </section>
 </section>
 <script src="/scripts/nav.js"></script>

@@ -1,0 +1,156 @@
+.content-main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 90vw;
+}
+
+.content-main * {
+    color: var(--clr-text-dark);
+}
+
+.service-card {
+    box-shadow: 0 0 3em rgba(0,0,0,.15);
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: .5rem;
+}
+
+.service-card-big {
+    box-shadow: 0 0 3em rgba(0,0,0,.15);
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin: .5rem;
+    width: 100%;
+    min-height: 20%;
+    justify-content: space-between;
+}
+
+.service-info {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    flex-grow: 1;
+}
+
+.service-info > * {
+    width: 100%;
+}
+
+.service-action {
+    height: 10%;
+    display: flex;
+    justify-content: flex-end;
+    flex-flow: column;
+}
+
+.manage {
+    display: flex;
+    flex: 50%;
+    flex-flow: row;
+    justify-content: flex-end;
+    align-content: space-between;
+}
+
+.manage > a {
+    margin-left: .5rem;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.service-card-big > * > * {
+    color: var(--clr-text-dark);
+}
+
+.service-card, .service-card-big > * {
+    color: var(--clr-text-dark);
+}
+
+.service-name {
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+.user {
+    font-weight: 200;
+    font-size: .75rem;
+    margin-top: .75rem;
+}
+
+.description {
+     font-size: 1.5rem;
+     font-style: none;
+     word-break: break-all;
+}
+
+.datetime {
+     font-size: .75rem;
+     font-style: italic;
+}
+
+.page-button {
+    margin-top: 15px;
+    border: 2px solid transparent;
+    text-decoration: none;
+    color: var(--clr-text);
+    background: var(--clr-primary);
+    padding: 5px;
+}
+
+.new-service {
+    margin:.5rem;
+    width: max-content !important;
+    float: right;
+}
+
+.page-button > i {
+    color: var(--clr-text);
+    margin-right: 3px;
+}
+
+.page-button:hover {
+    color: var(--clr-text-dark);
+    background: var(--clr-secondary);
+    border: 2px solid var(--clr-primary);
+}
+
+.page-button:hover>i {
+    color: var(--clr-text-dark);
+}
+
+footer {
+    color: black;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--clr-secondary);
+    text-align: center;
+    align-items: center;
+    width: 100%;
+    height: 5%;
+}
+
+footer > a {
+    color: black;
+}
+
+.button-bar {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+    color: black;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background-color: var(--clr-secondary);
+    text-align: center;
+    justify: center;
+    align-items: center;
+    justify-content: middle;
+}

@@ -10,5 +10,8 @@ import java.util.List;
 public interface AdminRepository extends CrudRepository<Admin, Integer> {
     List<Admin> findByLastName(String lastName);
 
+    @Override
+    List<Admin> findAll();
+
     Admin findByUser(User user);
 }
