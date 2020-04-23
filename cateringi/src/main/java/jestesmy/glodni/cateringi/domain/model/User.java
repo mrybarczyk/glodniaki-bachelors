@@ -14,7 +14,17 @@ public class User {
 
     private String password;
 
+    public int getMessageCounter() {
+        return messageCounter;
+    }
+
+    public void setMessageCounter(int messageCounter) {
+        this.messageCounter = messageCounter;
+    }
+
     private Boolean isActive;
+
+    private int messageCounter = 0;
 
     private String phoneNumber;
 
