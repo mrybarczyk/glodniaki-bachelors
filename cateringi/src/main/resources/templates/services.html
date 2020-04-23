@@ -29,6 +29,7 @@
         <a class="active-item" href="index.html">Profil</a>
         <a href="index.html">Oferta</a>
         <a href="index.html">Historia zamówień</a>
+            <a href="/messages"> <span th:if="${user.messageCounter != 0}">(<span th:text="${user.messageCounter}"></span>)</span> Wiadomości</a>
         <a href="index.html">Ustawienia</a>
         <a class="bottom" href="/logout">Wyloguj</a>
 
