@@ -253,9 +253,9 @@ public class MessageController {
             messageRepository.save(message);
             if (message.isDeletedOnBothSides()){
                 messageRepository.delete(message);
-                return "redirect:/messages";
+                return "redirect:/messages/sent";
             }
-            return "redirect:/messages";
+            return "redirect:/messages/sent";
         }
         if (!test_from && test_to){
             message.setDeletedTo(true);

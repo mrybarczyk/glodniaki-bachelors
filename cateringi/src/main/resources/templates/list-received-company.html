@@ -21,7 +21,7 @@
     <div id="side-nav">
         <button id="close-nav" onclick="closeNav()"><i class="fas fa-times fa-3x"></i></button>
         <div class="user-info" th:object="${company}">
-            <img src="images/default-user-icon.jpg" width="100px" height="100px" />
+            <img src="/images/default-user-icon.jpg" width="100px" height="100px" />
             <p><span th:text="*{name}"></span> </p>
             <p th:object="${user}"><span style="font-size: .75rem;" th:text="${user.email}"></span></p>
         </div>
