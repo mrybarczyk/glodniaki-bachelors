@@ -125,6 +125,9 @@ public class MessageController {
         }
         for (int i = 0; i < admins.size(); i++) {
             Message m = new Message();
+            if (i != 0){
+                m.setDeletedFrom(true);
+            }
             m.setFrom(newmessage.getFrom());
             m.setTo(adminUsers.get(i));
             m.setDatetime(formatted);
