@@ -31,16 +31,20 @@ public class OrderClientController {
 
     private CompanyRepository companyRepository;
 
+    private AddressRepository addressRepository;
+
     @Autowired
     public OrderClientController(CurrentAuthenticatedUserService currentAuthenticatedUserService,
                                  ClientRepository clientRepository, ServiceVariantRepository serviceVariantRepository,
-                                 OrderRepository orderRepository, RateRepository rateRepository, CompanyRepository companyRepository) {
+                                 OrderRepository orderRepository, RateRepository rateRepository, CompanyRepository companyRepository,
+                                 AddressRepository addressRepository) {
         this.currentAuthenticatedUserService = currentAuthenticatedUserService;
         this.clientRepository = clientRepository;
         this.serviceVariantRepository = serviceVariantRepository;
         this.orderRepository = orderRepository;
         this.rateRepository = rateRepository;
         this.companyRepository = companyRepository;
+        this.addressRepository = addressRepository;
     }
 
     @GetMapping()
@@ -61,12 +65,14 @@ public class OrderClientController {
         Company company = serviceVariant.getService().getCompany();
         ServiceVariantIDWithAddress serviceVariantIDWithAddress = new ServiceVariantIDWithAddress();
         serviceVariantIDWithAddress.setSelectedServiceVariantID(serviceVariant.getServiceVariantID());
+        List addresses = addressRepository.findByUser(user);
         model.addAttribute("serviceVariantIDWithAddress", serviceVariantIDWithAddress);
         model.addAttribute("user", user);
         model.addAttribute("client", client);
         model.addAttribute("serviceVariant", serviceVariant);
         model.addAttribute("total",selectedVariant.getPrice()*selectedVariant.getDayNumber());
         model.addAttribute("company", company);
+        model.addAttribute("addresses", addresses);
         return "client-order-summary";
     }
 
@@ -83,6 +89,7 @@ public class OrderClientController {
         order.setToDate(Timestamp.valueOf(now.plusDays(order.getServiceVariant().getDayNumber())));
         order.setRated(false);
         order.setIsPaid(true);
+        order.setAddress(serviceVariantIDWithAddress.getAddress());
         orderRepository.save(order);
         return "redirect:/client/orders/history";
     }

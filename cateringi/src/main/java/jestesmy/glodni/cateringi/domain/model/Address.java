@@ -83,4 +83,13 @@ public class Address {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        String fullAddress = street + "/" + apartmentNumber + ", " + postalCode + " " + city;
+        if(companyName != ""){
+            fullAddress += " Firma:" + companyName;
+        }
+        return fullAddress;
+    }
 }
