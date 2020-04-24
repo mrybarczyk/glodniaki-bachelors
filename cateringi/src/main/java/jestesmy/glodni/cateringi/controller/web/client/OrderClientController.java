@@ -70,7 +70,7 @@ public class OrderClientController {
         model.addAttribute("user", user);
         model.addAttribute("client", client);
         model.addAttribute("serviceVariant", serviceVariant);
-        model.addAttribute("total",selectedVariant.getPrice()*selectedVariant.getDayNumber());
+        model.addAttribute("total",serviceVariant.getPrice()*serviceVariant.getDayNumber());
         model.addAttribute("company", company);
         model.addAttribute("addresses", addresses);
         return "client-order-summary";
