@@ -121,6 +121,7 @@ public class ServiceAndServiceVariantController {
         model.addAttribute("service", service);
         model.addAttribute("user",user);
         model.addAttribute("company",company);
+        model.addAttribute("categories",categoryRepository.findAll());
         return "updateService";
     }
 
