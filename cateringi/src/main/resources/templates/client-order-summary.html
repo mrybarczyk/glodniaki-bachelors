@@ -46,7 +46,7 @@
                         <img src="/images/indexBg.jpg" style="margin-right:.5rem;" width="200px" height="150px" alt="">
                         <div>
                             <p class="service-name" th:text="*{serviceName}">Nazwa</p>
-                            <p>Kategoria</p>
+                            <p th:text="*{category.name}"></p>
                             <p class="description" th:text="*{description}"></p>
                         </div>
                     </div>

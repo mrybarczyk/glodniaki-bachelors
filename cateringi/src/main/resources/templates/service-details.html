@@ -46,7 +46,7 @@
                         <a class="description" th:href="@{/client/company/profile/{companyID}(companyID=*{company.companyID})}">
                             <span th:text="*{company.name}"></span>
                         </a>
-                        <p>Kategoria</p>
+                        <p th:text="*{category.name}"></p>
                         <p class="description" th:text="*{description}"></p>
                     </div>
                 </div>
