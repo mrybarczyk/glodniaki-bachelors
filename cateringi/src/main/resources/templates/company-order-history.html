@@ -31,6 +31,7 @@
             <a href="/company">Profil</a>
             <a href="/company/services">Oferta</a>
             <a class="active-item" href="/company/orders/history">Historia zamówień</a>
+            <a href="/messages"> <span th:if="${company.user.messageCounter != 0}">(<span th:text="${company.user.messageCounter}"></span>)</span> Wiadomości</a>
             <a href="/company/settings">Ustawienia</a>
             <a class="bottom" href="/logout">Wyloguj</a>
         </div>

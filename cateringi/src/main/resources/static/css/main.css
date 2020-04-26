@@ -225,8 +225,14 @@ table, th, td, tr {
   border-collapse: collapse;
 }
 
+.borderless {
+    border-style: none !important;
+}
+
 .black {
+    max-width: 10vw;
     color: black !important;
+    word-wrap: break-word;
 }
 
 .description {

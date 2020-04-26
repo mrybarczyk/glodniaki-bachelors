@@ -21,15 +21,10 @@ import java.util.List;
 @Controller()
 @RequestMapping("/company/services")
 public class ServiceAndServiceVariantController {
-
     private CurrentAuthenticatedUserService currentAuthenticatedUserService;
-
     private ServiceRepository serviceRepository;
-
     private CompanyRepository companyRepository;
-
     private ClientRepository clientRepository;
-
     private ServiceVariantRepository serviceVariantRepository;
 
     @Autowired
@@ -44,20 +39,20 @@ public class ServiceAndServiceVariantController {
         this.serviceVariantRepository = serviceVariantRepository;
     }
 
-    @GetMapping()
-    public String servicesAll(HttpServletResponse httpServletResponse, Model model) throws IOException {
-        if(currentAuthenticatedUserService.getCurrentUser().getUserType() == UserType.CLIENT) {
-            model.addAttribute("client", clientRepository.findByUser(currentAuthenticatedUserService.getCurrentUser()));
-            httpServletResponse.sendRedirect("/client");
-        }
+        @GetMapping()
+        public String servicesAll(HttpServletResponse httpServletResponse, Model model) throws IOException {
+            if(currentAuthenticatedUserService.getCurrentUser().getUserType() == UserType.CLIENT) {
+                model.addAttribute("client", clientRepository.findByUser(currentAuthenticatedUserService.getCurrentUser()));
+                httpServletResponse.sendRedirect("/client");
+            }
 
-        User user = currentAuthenticatedUserService.getCurrentUser();
-        Company company = companyRepository.findByUser(user);
-        model.addAttribute("user",user);
-        model.addAttribute("company",company);
-        model.addAttribute("services", serviceRepository.findByCompanyAndActiveIsTrue(company));
-        return "company-services";
-    }
+            User user = currentAuthenticatedUserService.getCurrentUser();
+            Company company = companyRepository.findByUser(user);
+            model.addAttribute("user",user);
+            model.addAttribute("company",company);
+            model.addAttribute("services", serviceRepository.findByCompanyAndActiveIsTrue(company));
+            return "company-services";
+        }
 
     @GetMapping("/{serviceID}/variants")
     public String showServiceWithVariants(@PathVariable("serviceID")int serviceID,Model model) {
