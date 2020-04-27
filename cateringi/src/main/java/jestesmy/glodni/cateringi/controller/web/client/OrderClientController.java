@@ -89,8 +89,19 @@ public class OrderClientController {
         order.setToDate(Timestamp.valueOf(now.plusDays(order.getServiceVariant().getDayNumber())));
         order.setRated(false);
         order.setIsPaid(true);
-        if(serviceVariantIDWithAddress.getAddress().equals("inny"))
-            order.setAddress(serviceVariantIDWithAddress.getDiffAddress());
+        if(serviceVariantIDWithAddress.getAddress().equals("inny")){
+            order.setAddress(serviceVariantIDWithAddress.fullAddress());
+            if(serviceVariantIDWithAddress.isSave()){
+                Address address = new Address();
+                address.setUser(user);
+                address.setCompanyName(serviceVariantIDWithAddress.getCompanyName().trim());
+                address.setApartmentNumber(serviceVariantIDWithAddress.getApartmentNumber());
+                address.setCity(serviceVariantIDWithAddress.getCity());
+                address.setPostalCode(serviceVariantIDWithAddress.getPostalCode());
+                address.setStreet(serviceVariantIDWithAddress.getStreet());
+                addressRepository.save(address);
+            }
+        }
         else
             order.setAddress(serviceVariantIDWithAddress.getAddress());
         orderRepository.save(order);

@@ -40,6 +40,9 @@
 
     <section class="content-wrapper">
         <div class="content-main">
+            <div class="notification-error" th:each="error : ${errors}">
+                <p th:text="${error}"></p>
+            </div>
             <form th:method="post" th:action="@{/client/addresses/add}" th:object="${address}">
                 <h3 style="align-self: center;">Dodaj nowy adres</h3>
                 <div class="variants">
