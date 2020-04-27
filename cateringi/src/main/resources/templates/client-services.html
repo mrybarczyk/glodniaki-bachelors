@@ -41,7 +41,7 @@
            <div th:each="service : ${services}" class="service-card">
                <img src="/images/indexBg.jpg" width="200px" height="150px" alt="">
                <p class="service-name" th:text="${service.serviceName}"></p>
-               <p>Kategoria</p>
+               <p th:text="${service.category.name}"></p>
                <p>Cena od <span th:text="${service.minPrice}"></span>zł /dzień</p>
                <a class="page-button" th:href="@{/client/services/{serviceID}/details(serviceID=${service.serviceID})}">Szczegóły</a>
            </div>

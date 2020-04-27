@@ -1,0 +1,15 @@
+.content-main {
+    width: 40vw;
+}
+
+table, th, tr ,td {
+    width: 100%;
+    border: none;
+    table-layout: fixed;
+    text-align: center;
+}
+
+.new-category {
+    margin:1rem;
+    float: right;
+}

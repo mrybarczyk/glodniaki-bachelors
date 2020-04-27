@@ -12,6 +12,10 @@ public class Service {
     @Column(nullable = false)
     private String serviceName;
 
+    @ManyToOne
+    @JoinColumn(name="categoryID", nullable = false)
+    private Category category;
+
     private String description;
 
     @ManyToOne
@@ -64,5 +68,13 @@ public class Service {
 
     public void setMinPrice(double minPrice) {
         this.minPrice = minPrice;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
