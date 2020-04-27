@@ -48,6 +48,12 @@
                 <input class="field" type="text" th:field="*{service.serviceName}" id="serviceName"/>
                 </div>
                 <div class="long-field">
+                    <label for="category">Kategoria</label>
+                    <select th:field="${selectedCategory.categoryID}" id="category">
+                        <option th:each="category : ${categories}" th:value="${category.categoryID}" th:text="${category.name}"></option>
+                    </select>
+                </div>
+                <div class="long-field">
                 <label for="description">Opis</label>
                     <textarea class="field"th:field="*{service.description}" id="description"></textarea>
                 </div>

@@ -25,9 +25,9 @@
             <p th:object="${user}"><span th:text="${user.email}"></span></p>
         </div>
         <div class="nav-items">
-            <a href="/admin/userlist">Lista użytkowników</a>
+            <a class="active-item" href="/admin/userlist">Lista użytkowników</a>
             <a href="/messages"> <span th:if="${user.messageCounter != 0}">(<span th:text="${user.messageCounter}"></span>)</span> Wiadomości</a>
-            <a href="index.html">Pomocy</a>
+            <a href="/admin/categories">Kategorie usług</a>
             <a href="index.html">Pomocy</a>
         </div>
         <div class="nav-items bottom">
