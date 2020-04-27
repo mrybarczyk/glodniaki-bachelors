@@ -6,6 +6,8 @@ public class ServiceVariantIDWithAddress {
 
     private String address;
 
+    private String diffAddress;
+
     public int getSelectedServiceVariantID() {
         return selectedServiceVariantID;
     }
@@ -20,5 +22,13 @@ public class ServiceVariantIDWithAddress {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getDiffAddress() {
+        return diffAddress;
+    }
+
+    public void setDiffAddress(String diffAddress) {
+        this.diffAddress = diffAddress;
     }
 }

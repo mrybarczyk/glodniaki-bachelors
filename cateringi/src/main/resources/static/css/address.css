@@ -1,5 +1,7 @@
 .variants {
     border: none;
+    padding: 5px;
+    margin-top: 5px;
 }
 
 .star-explain {
@@ -13,6 +15,5 @@
 
 .page-button {
     margin-top: .3rem;
-    width: 100px;
     float: right;
 }

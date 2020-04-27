@@ -30,16 +30,6 @@ public class AddressClientController {
         this.addressRepository = addressRepository;
     }
 
-    @GetMapping()
-    public String allClientAddresses(Model model){
-        User user = currentAuthenticatedUserService.getCurrentUser();
-        Client client = clientRepository.findByUser(user);
-        model.addAttribute("user", user);
-        model.addAttribute("client", client);
-        model.addAttribute("addresses", addressRepository.findByUser(user));
-        return "client-addresses";
-    }
-
     @GetMapping("/new")
     public String newAddress(Model model){
         User user = currentAuthenticatedUserService.getCurrentUser();
@@ -58,13 +48,13 @@ public class AddressClientController {
         address.setCompanyName(address.getCompanyName().trim());
         System.out.println("dafuq:" + address.getCompanyName());
         addressRepository.save(address);
-        return "redirect:/client/addresses";
+        return "redirect:/client/profile";
     }
 
     @GetMapping("/delete/{addressID}")
     public String deleteService(@PathVariable("addressID") int addressID) {
         Address address = addressRepository.findById(addressID).get();
         addressRepository.delete(address);
-        return "redirect:/client/addresses";
+        return "redirect:/client/profile";
     }
 }

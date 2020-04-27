@@ -54,10 +54,12 @@
                 <p>Kalorie: <span th:text="${serviceVariant.calories}"></span></p>
                 <p>Ilość dni: <span th:text="${serviceVariant.dayNumber}"></span></p>
                 <p>Cena/dzień: <span th:text="${serviceVariant.price}"></span> zł</p>
-                <select th:field="${serviceVariantIDWithAddress.address}">
+                <select id="address-select" th:field="${serviceVariantIDWithAddress.address}">
                     <option th:each="address : ${addresses}" th:value="${address.toString()}" th:text="${address.toString()}">
                     </option>
+                    <option th:value="inny" th:text="Inny"></option>
                 </select>
+                <input id="diff-addr" class="field" style="display: none" type="text" th:field="${serviceVariantIDWithAddress.diffAddress}" />
                 <h1>Do zapłaty: <span th:text="${total}"></span> zł</h1>
                 <input type="text" th:field="${serviceVariantIDWithAddress.selectedServiceVariantID}" th:value="${serviceVariant.serviceVariantID}" style="display: none;"/>
                 <input type="submit" class="page-button" value="Zamawiam i płacę" />
@@ -67,5 +69,6 @@
 </section>
 <script src="/scripts/nav.js"></script>
 <script src="/scripts/services-company.js"></script>
+<script src="/scripts/show-address.js"></script>
 </body>
 </html>

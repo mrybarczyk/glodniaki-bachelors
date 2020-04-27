@@ -89,7 +89,10 @@ public class OrderClientController {
         order.setToDate(Timestamp.valueOf(now.plusDays(order.getServiceVariant().getDayNumber())));
         order.setRated(false);
         order.setIsPaid(true);
-        order.setAddress(serviceVariantIDWithAddress.getAddress());
+        if(serviceVariantIDWithAddress.getAddress().equals("inny"))
+            order.setAddress(serviceVariantIDWithAddress.getDiffAddress());
+        else
+            order.setAddress(serviceVariantIDWithAddress.getAddress());
         orderRepository.save(order);
         return "redirect:/client/orders/history";
     }
