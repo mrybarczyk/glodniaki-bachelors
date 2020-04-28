@@ -11,8 +11,8 @@ address.addEventListener('change', () => {
             addrFields[i].style.display = "block";
             addrLabels[i].style.display = "block";
         }
-        checkbox.style.display = "block";
-        checkboxLabel.style.display = "block";
+        checkbox.style.display = "inline";
+        checkboxLabel.style.display = "inline";
     }
     else{
         for(i = 0; i < addrLabels.length; i++){
@@ -29,6 +29,6 @@ if(address.childElementCount == 1){
         addrFields[i].style.display = "block";
         addrLabels[i].style.display = "block";
     }
-    checkbox.style.display = "block";
-    checkboxLabel.style.display = "block";
+    checkbox.style.display = "inline";
+    checkboxLabel.style.display = "inline";
 }

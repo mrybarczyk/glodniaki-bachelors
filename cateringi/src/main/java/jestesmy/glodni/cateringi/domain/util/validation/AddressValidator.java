@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class AddressValidator {
 
     private static String validateStreet(String street){
-        if(!Pattern.matches("[A-Za-z_]+\\d+", street)){
+        if(!Pattern.matches("[A-Za-ząęćśźżłóń ]+\\d+[ ]?[A-Za-z]?", street)){
             return "Podaj poprawny adres";
         }
         return "";
