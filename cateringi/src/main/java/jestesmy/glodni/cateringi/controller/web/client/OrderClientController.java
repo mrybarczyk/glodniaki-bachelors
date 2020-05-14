@@ -95,7 +95,7 @@ public class OrderClientController {
                 Address address = new Address();
                 address.setUser(user);
                 address.setCompanyName(serviceVariantIDWithAddress.getCompanyName().trim());
-                address.setApartmentNumber(serviceVariantIDWithAddress.getApartmentNumber());
+                address.setApartmentNumber(serviceVariantIDWithAddress.getApartmentNumber().trim());
                 address.setCity(serviceVariantIDWithAddress.getCity());
                 address.setPostalCode(serviceVariantIDWithAddress.getPostalCode());
                 address.setStreet(serviceVariantIDWithAddress.getStreet());

@@ -57,9 +57,9 @@ public class AddressClientController {
             model.addAttribute("errors", validationErrors);
             return "client-address-new";
         }
+        address.setApartmentNumber(address.getApartmentNumber().trim());
         address.setUser(user);
         address.setCompanyName(address.getCompanyName().trim());
-        System.out.println("dafuq:" + address.getCompanyName());
         addressRepository.save(address);
         return "redirect:/client/profile";
     }

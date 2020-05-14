@@ -12,7 +12,7 @@ public class ServiceVariantIDWithAddress {
 
     private String street;
 
-    private int apartmentNumber;
+    private String apartmentNumber;
 
     private String postalCode;
 
@@ -52,10 +52,6 @@ public class ServiceVariantIDWithAddress {
         this.street = street;
     }
 
-    public int getApartmentNumber() {
-        return apartmentNumber;
-    }
-
     public String getPostalCode() {
         return postalCode;
     }
@@ -72,7 +68,11 @@ public class ServiceVariantIDWithAddress {
         this.companyName = companyName;
     }
 
-    public void setApartmentNumber(int apartmentNumber) {
+    public String getApartmentNumber() {
+        return apartmentNumber;
+    }
+
+    public void setApartmentNumber(String apartmentNumber) {
         this.apartmentNumber = apartmentNumber;
     }
 
@@ -85,7 +85,13 @@ public class ServiceVariantIDWithAddress {
     }
 
     public String fullAddress() {
-        String fullAddress = street + "/" + apartmentNumber + ", " + postalCode + " " + city;
+        String fullAddress;
+        if(apartmentNumber != ""){
+            fullAddress = street + "/" + apartmentNumber + ", " + postalCode + " " + city;
+        } else {
+            fullAddress = street + ", " + postalCode + " " + city;
+        }
+
         if(companyName != ""){
             fullAddress += " Firma:" + companyName;
         }

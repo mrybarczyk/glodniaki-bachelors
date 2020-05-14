@@ -58,16 +58,13 @@
             <h2>Zapisane adresy</h2>
             <div class="variants" th:each="address : ${addresses}">
                 <p>
-                    <span th:text="${address.street}" ></span> /
+                    <span th:text="${address.street}" ></span>
+                    <div th:if="${address.apartmentNumber != ''}">/</div>
                     <span th:text="${address.apartmentNumber}"></span>,
                     <span th:text="${address.city}"></span>
                     <span th:text="${address.postalCode}"></span>
                 <div th:if="${address.companyName != ''}">Firma: <span th:text="${address.companyName}"></span></div>
                 </p>
-                <!--                <p><span th:text="${address.apartmentNumber}"></span></p>-->
-                <!--                <p><span th:text="${address.city}"></span></p>-->
-                <!--                <p><span th:text="${address.postalCode}"></span></p>-->
-                <!--                <p><span th:text="${address.companyName}"></span></p>-->
                 <div class="manage">
                     <a th:href="@{/client/addresses/delete/{addressID}(addressID=${address.addressID})}">
                         <i class="fa fa-trash"></i>

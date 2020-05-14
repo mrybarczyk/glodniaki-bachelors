@@ -63,18 +63,18 @@
                 <input id="save" style="display: none" name="save" type="checkbox" th:checked="${serviceVariantIDWithAddress.save}" /> Zapisz adres
                 </label>
                 <label class="addr-label" for="addr-street" style="display: none">Ulica *</label>
-                <input class="field" style="display: none" type="text" th:field="${serviceVariantIDWithAddress.street}" id="addr-street"/>
-                <label class="addr-label" for="addr-apartmentNumber" style="display: none">Nr lokalu *</label>
-                <input class="field" style="display: none" type="text" th:field="${serviceVariantIDWithAddress.apartmentNumber}" id="addr-apartmentNumber"/>
+                <input class="field" style="display: none" type="text" th:field="${serviceVariantIDWithAddress.street}" id="addr-street" pattern="[A-Za-ząęćśźżłóń ]+\d+[ ]?[A-Za-z]?"/>
+                <label class="addr-label" for="addr-apartmentNumber" style="display: none">Nr lokalu</label>
+                <input class="field" style="display: none" type="text" th:field="${serviceVariantIDWithAddress.apartmentNumber}" id="addr-apartmentNumber" pattern="\d*"/>
                 <label class="addr-label" for="addr-city" style="display: none">Miasto *</label>
-                <input class="field" style="display: none" type="text" th:field="${serviceVariantIDWithAddress.city}" id="addr-city"/>
+                <input class="field" style="display: none" type="text" th:field="${serviceVariantIDWithAddress.city}" id="addr-city" pattern="[A-Za-ząęćśźżłóń ]+"/>
                 <label class="addr-label" for="addr-postalCode" style="display: none">Kod pocztowy *</label>
-                <input class="field" style="display: none" type="text" th:field="${serviceVariantIDWithAddress.postalCode}" id="addr-postalCode"/>
+                <input class="field" style="display: none" type="text" th:field="${serviceVariantIDWithAddress.postalCode}" id="addr-postalCode" pattern="\d\d-\d\d\d"/>
                 <label class="addr-label" for="addr-companyName" style="display: none">Nazwa firmy</label>
                 <input class="field" style="display: none" type="text" th:field="${serviceVariantIDWithAddress.companyName}" id="addr-companyName"/>
                 <h1>Do zapłaty: <span th:text="${total}"></span> zł</h1>
                 <input type="text" th:field="${serviceVariantIDWithAddress.selectedServiceVariantID}" th:value="${serviceVariant.serviceVariantID}" style="display: none;"/>
-                <input type="submit" class="page-button" value="Zamawiam i płacę" />
+                <input id="submit-order" type="submit" class="page-button" value="Zamawiam i płacę" />
             </form>
         </div>
     </section>

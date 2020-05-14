@@ -16,8 +16,7 @@ public class Address {
     @Column(nullable = false)
     private String street;
 
-    @Column(nullable = false)
-    private int apartmentNumber;
+    private String apartmentNumber;
 
     @Column(nullable = false)
     private String postalCode;
@@ -52,11 +51,11 @@ public class Address {
         this.street = street;
     }
 
-    public int getApartmentNumber() {
+    public String getApartmentNumber() {
         return apartmentNumber;
     }
 
-    public void setApartmentNumber(int apartmentNumber) {
+    public void setApartmentNumber(String apartmentNumber) {
         this.apartmentNumber = apartmentNumber;
     }
 
@@ -86,7 +85,13 @@ public class Address {
 
     @Override
     public String toString() {
-        String fullAddress = street + "/" + apartmentNumber + ", " + postalCode + " " + city;
+        String fullAddress;
+        if(apartmentNumber != ""){
+            fullAddress = street + "/" + apartmentNumber + ", " + postalCode + " " + city;
+        } else {
+            fullAddress = street + ", " + postalCode + " " + city;
+        }
+
         if(companyName != ""){
             fullAddress += " Firma:" + companyName;
         }
