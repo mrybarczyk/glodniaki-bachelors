@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class AddressValidator {
 
     private static String validateCity(String city){
-        if(!Pattern.matches("[A-Za-ząęćśźżłóń ]+", city)){
+        if(!Pattern.matches("[A-ZŚŻĆŹŁŃa-ząęćśźżłóń \\-]+", city)){
             return "Podaj istniejące misato";
         } else if(city == null || city == ""){
             return "Miasto jest wymagane";
@@ -18,7 +18,7 @@ public class AddressValidator {
     }
 
     private static String validateStreet(String street){
-        if(!Pattern.matches("[A-Za-ząęćśźżłóń ]+\\d+[ ]?[A-Za-z]?", street)){
+        if(!Pattern.matches("[A-ZŚŻĆŹŁŃa-ząęćśźżłóń \\-]+\\d+[ ]?[A-Za-z]?", street)){
             return "Podaj poprawny adres";
         } else if(street == null){
             return "Ulica jest wymagana";
