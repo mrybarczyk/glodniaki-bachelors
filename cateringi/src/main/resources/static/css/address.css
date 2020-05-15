@@ -1,0 +1,19 @@
+.variants {
+    border: none;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+.star-explain {
+    display: flex;
+    flex-basis: 30%;
+    flex-grow: 0;
+    box-shadow: 0 0 3em rgba(0,0,0,.15);
+    align-items: flex-start;
+    padding: .5rem;
+}
+
+.page-button {
+    margin-top: .3rem;
+    float: right;
+}

@@ -49,6 +49,10 @@
                        th:href="@{/client/company/profile/{companyID}(companyID=${order.company.companyID})}"></a>
                 </div>
                 <div class="date">
+                    <p>Adres zamówienia:
+                        <span class="description"
+                              th:text="${order.address}"></span>
+                    </p>
                     <p>Data Zamówienia:
                         <span class="description"
                               th:text="${#dates.format(order.orderDate,'yyyy-MM-dd')}"></span>

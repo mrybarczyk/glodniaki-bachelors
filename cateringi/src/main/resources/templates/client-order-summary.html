@@ -38,10 +38,10 @@
 
     <section class="content-wrapper">
         <div class="content-main">
-            <form th:action="@{/client/orders/add}" th:object="${order}" th:method="post">
-                <h1>Zamówienie nr: <span th:text="${order.orderID}"></span></h1>
-                <p>Firma: <span th:text="*{serviceVariant.service.company.name}"></span></p>
-                <div th:object="${order.serviceVariant.service}" class="service-card-big">
+            <form th:action="@{/client/orders/add}" th:object="${serviceVariantIDWithAddress}" th:method="post">
+                <h1>Podsumowanie zamówienia</h1>
+                <p>Firma: <span th:text="${company.name}"></span></p>
+                <div th:object="${serviceVariant.service}" class="service-card-big">
                     <div class="service-info">
                         <img src="/images/indexBg.jpg" style="margin-right:.5rem;" width="200px" height="150px" alt="">
                         <div>
@@ -51,18 +51,36 @@
                         </div>
                     </div>
                 </div>
-                <p>Kalorie: <span th:text="*{serviceVariant.calories}"></span></p>
-                <p>Ilość dni: <span th:text="*{serviceVariant.dayNumber}"></span></p>
-                <p>Cena/dzień: <span th:text="*{serviceVariant.price}"></span> zł</p>
-
+                <p>Kalorie: <span th:text="${serviceVariant.calories}"></span></p>
+                <p>Ilość dni: <span th:text="${serviceVariant.dayNumber}"></span></p>
+                <p>Cena/dzień: <span th:text="${serviceVariant.price}"></span> zł</p>
+                <select id="address-select" th:field="${serviceVariantIDWithAddress.address}">
+                    <option th:each="address : ${addresses}" th:value="${address.toString()}" th:text="${address.toString()}">
+                    </option>
+                    <option th:value="inny" th:text="Inny"></option>
+                </select>
+                <label id="save-label" for="save" style="display: none">
+                <input id="save" style="display: none" name="save" type="checkbox" th:checked="${serviceVariantIDWithAddress.save}" /> Zapisz adres
+                </label>
+                <label class="addr-label" for="addr-street" style="display: none">Ulica *</label>
+                <input class="field" style="display: none" type="text" th:field="${serviceVariantIDWithAddress.street}" id="addr-street" pattern="[A-ZŚŻĆŹŁŃa-ząęćśźżłóń \-]+\d+[ ]?[A-Za-z]?"/>
+                <label class="addr-label" for="addr-apartmentNumber" style="display: none">Nr lokalu</label>
+                <input class="field" style="display: none" type="text" th:field="${serviceVariantIDWithAddress.apartmentNumber}" id="addr-apartmentNumber" pattern="\d*"/>
+                <label class="addr-label" for="addr-city" style="display: none">Miasto *</label>
+                <input class="field" style="display: none" type="text" th:field="${serviceVariantIDWithAddress.city}" id="addr-city" pattern="[A-ZŚŻĆŹŁŃa-ząęćśźżłóń \-]+"/>
+                <label class="addr-label" for="addr-postalCode" style="display: none">Kod pocztowy *</label>
+                <input class="field" style="display: none" type="text" th:field="${serviceVariantIDWithAddress.postalCode}" id="addr-postalCode" pattern="\d\d-\d\d\d"/>
+                <label class="addr-label" for="addr-companyName" style="display: none">Nazwa firmy</label>
+                <input class="field" style="display: none" type="text" th:field="${serviceVariantIDWithAddress.companyName}" id="addr-companyName"/>
                 <h1>Do zapłaty: <span th:text="${total}"></span> zł</h1>
-                <input type="text" th:field="*{orderID}" th:value="*{orderID}" style="display: none;"/>
-                <input type="submit" class="page-button" value="Zamawiam i płacę" />
+                <input type="text" th:field="${serviceVariantIDWithAddress.selectedServiceVariantID}" th:value="${serviceVariant.serviceVariantID}" style="display: none;"/>
+                <input id="submit-order" type="submit" class="page-button" value="Zamawiam i płacę" />
             </form>
         </div>
     </section>
 </section>
 <script src="/scripts/nav.js"></script>
 <script src="/scripts/services-company.js"></script>
+<script src="/scripts/show-address.js"></script>
 </body>
 </html>
