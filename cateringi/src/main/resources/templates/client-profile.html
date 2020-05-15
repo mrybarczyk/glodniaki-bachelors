@@ -6,6 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="/css/main.css" />
     <link rel="stylesheet" type="text/css" href="/css/company.css" />
+    <link rel="stylesheet" type="text/css" href="/css/services.css" />
+    <link rel="stylesheet" type="text/css" href="/css/service-variants.css" />
+    <link rel="stylesheet" type="text/css" href="/css/order.css" />
+    <link rel="stylesheet" type="text/css" href="/css/address.css" />
     <link href="https://fonts.googleapis.com/css?family=Exo:400,500,700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/23df196ab0.js" crossorigin="anonymous"></script>
     <title>Index</title>
@@ -49,6 +53,25 @@
                 <h2>Adres e-mail: <span class="highlight" th:text="*{user.email}"></span></h2>
                 <h2>Numer telefonu: <span class="highlight" th:text="*{user.phoneNumber}"></span></h2>
             </div>
+        </div>
+        <div class="content-main">
+            <h2>Zapisane adresy</h2>
+            <div class="variants" th:each="address : ${addresses}">
+                <p>
+                    <span th:text="${address.street}" ></span>
+                    <span th:if="${address.apartmentNumber != ''}">/</span>
+                    <span th:text="${address.apartmentNumber}"></span>,
+                    <span th:text="${address.city}"></span>
+                    <span th:text="${address.postalCode}"></span>
+                <div th:if="${address.companyName != ''}">Firma: <span th:text="${address.companyName}"></span></div>
+                </p>
+                <div class="manage">
+                    <a th:href="@{/client/addresses/delete/{addressID}(addressID=${address.addressID})}">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </div>
+            </div>
+            <a class="page-button" href="/client/addresses/new"><i class="fa fa-plus"></i>Dodaj adres</a>
         </div>
     </section>
 </section>

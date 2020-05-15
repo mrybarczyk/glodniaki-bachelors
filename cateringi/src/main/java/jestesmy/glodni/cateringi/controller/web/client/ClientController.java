@@ -1,8 +1,10 @@
 package jestesmy.glodni.cateringi.controller.web.client;
 
+import jestesmy.glodni.cateringi.domain.model.Address;
 import jestesmy.glodni.cateringi.domain.model.Client;
 import jestesmy.glodni.cateringi.domain.model.Company;
 import jestesmy.glodni.cateringi.domain.model.User;
+import jestesmy.glodni.cateringi.repository.AddressRepository;
 import jestesmy.glodni.cateringi.repository.ClientRepository;
 import jestesmy.glodni.cateringi.repository.CompanyRepository;
 import jestesmy.glodni.cateringi.repository.ServiceRepository;
@@ -14,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/client")
@@ -30,15 +34,19 @@ public class ClientController {
 
     private final CompanyRepository companyRepository;
 
+    private final AddressRepository addressRepository;
+
     @Autowired
     public ClientController(CurrentAuthenticatedUserService currentAuthenticatedUserService,
                             ClientRepository clientRepository,
                             ServiceRepository serviceRepository,
-                            CompanyRepository companyRepository) {
+                            CompanyRepository companyRepository,
+                            AddressRepository addressRepository) {
         this.currentAuthenticatedUserService = currentAuthenticatedUserService;
         this.clientRepository = clientRepository;
         this.serviceRepository = serviceRepository;
         this.companyRepository = companyRepository;
+        this.addressRepository = addressRepository;
     }
 
     @GetMapping
@@ -53,7 +61,9 @@ public class ClientController {
     @GetMapping("profile")
     public String showClientProfile(Model model) {
         Client client = clientRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
+        List<Address> addresses = addressRepository.findByUser(client.getUser());
         model.addAttribute("client",client);
+        model.addAttribute("addresses", addresses);
         return "client-profile";
     }
 
