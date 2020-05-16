@@ -50,11 +50,10 @@ public class ServiceAndServiceVariantClientController {
     public String servicesAll(Model model){
         User user = currentAuthenticatedUserService.getCurrentUser();
         Client client = clientRepository.findByUser(user);
-        CityAndCategories cityAndCategories = new CityAndCategories();
         model.addAttribute("user",user);
         model.addAttribute("client", client);
         model.addAttribute("services", serviceRepository.findAllByActiveIsTrue());
-        model.addAttribute("cityAndCategories", cityAndCategories);
+        model.addAttribute("cityAndCategories", new CityAndCategories());
         return "client-services";
     }
 

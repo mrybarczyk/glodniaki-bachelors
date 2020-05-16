@@ -1,6 +1,7 @@
 package jestesmy.glodni.cateringi.domain.util;
 
 import jestesmy.glodni.cateringi.domain.model.Category;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 

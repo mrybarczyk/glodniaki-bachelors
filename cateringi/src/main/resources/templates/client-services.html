@@ -15,11 +15,6 @@
 <section id="main-container">
     <header class="top-bar">
         <a href="*"><img src="/images/logo-transparent-colors.gif" /></a>
-        <form th:method="post" th:action="@{/client/services/search}" th:object="${cityAndCategories}">
-            <label for="city">Miasto:</label>
-            <input class="field" type="text" th:field="*{city}" id="city"/>
-            <input type="submit" class="page-button" value="Wyszukaj">
-        </form>
         <button id="toggle-nav" onclick="showNav()"><i class="fas fa-bars fa-3x"></i></button>
     </header>
 
@@ -42,6 +37,12 @@
     </div>
 
     <section class="content-wrapper">
+        <form class="search" th:method="post" th:action="@{/client/services/search}" th:object="${cityAndCategories}">
+            <input class="field search-input" type="text" th:field="*{city}" id="city" placeholder="Wpisz miasto.." />
+            <button type="submit" class="page-button search-button">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
         <div class="content-main" style="justify-content: flex-start;">
            <div th:each="service : ${services}" class="service-card">
                <img src="/images/indexBg.jpg" width="200px" height="150px" alt="">

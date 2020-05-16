@@ -102,6 +102,11 @@
     color: var(--clr-text-dark);
 }
 
-.search {
+.search-button, .search-input{
     border-radius: 25px;
+    padding: .7rem;
+}
+
+.search-input {
+    color: black;
 }
