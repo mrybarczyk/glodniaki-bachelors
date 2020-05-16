@@ -4,10 +4,7 @@ import com.sun.xml.bind.v2.schemagen.xmlschema.Union;
 import jestesmy.glodni.cateringi.domain.model.*;
 import jestesmy.glodni.cateringi.domain.util.CityAndCategories;
 import jestesmy.glodni.cateringi.domain.util.ServiceAndServiceVariant;
-import jestesmy.glodni.cateringi.repository.ClientRepository;
-import jestesmy.glodni.cateringi.repository.CompanyRepository;
-import jestesmy.glodni.cateringi.repository.ServiceRepository;
-import jestesmy.glodni.cateringi.repository.ServiceVariantRepository;
+import jestesmy.glodni.cateringi.repository.*;
 import jestesmy.glodni.cateringi.security.CurrentAuthenticatedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,15 +32,19 @@ public class ServiceAndServiceVariantClientController {
 
     private CompanyRepository companyRepository;
 
+    private CategoryRepository categoryRepository;
+
     @Autowired
     public ServiceAndServiceVariantClientController(CurrentAuthenticatedUserService currentAuthenticatedUserService,
                                                     ServiceRepository serviceRepository, ClientRepository clientRepository,
-                                                    ServiceVariantRepository serviceVariantRepository, CompanyRepository companyRepository) {
+                                                    ServiceVariantRepository serviceVariantRepository, CompanyRepository companyRepository,
+                                                    CategoryRepository categoryRepository) {
         this.currentAuthenticatedUserService = currentAuthenticatedUserService;
         this.serviceRepository = serviceRepository;
         this.clientRepository = clientRepository;
         this.serviceVariantRepository = serviceVariantRepository;
         this.companyRepository = companyRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @GetMapping()
@@ -54,6 +55,7 @@ public class ServiceAndServiceVariantClientController {
         model.addAttribute("client", client);
         model.addAttribute("services", serviceRepository.findAllByActiveIsTrue());
         model.addAttribute("cityAndCategories", new CityAndCategories());
+        model.addAttribute("allCategories", categoryRepository.findAll());
         return "client-services";
     }
 
@@ -63,13 +65,26 @@ public class ServiceAndServiceVariantClientController {
         Client client = clientRepository.findByUser(user);
         List<Company> companies = companyRepository.findByCity(cityAndCategories.getCity());
         List<Service> services = new ArrayList<>();
-        for (Company company : companies) {
-            services.addAll(serviceRepository.findByCompanyAndActiveIsTrue(company));
+        if(cityAndCategories.getCity() != ""){
+            for (Company company : companies) {
+                if(cityAndCategories.getCategories().size() == 0)
+                    services.addAll(serviceRepository.findByCompanyAndActiveIsTrue(company));
+                else{
+                    for(Category category : cityAndCategories.getCategories()){
+                        services.addAll(serviceRepository.findByCompanyAndCategoryAndActiveIsTrue(company, category));
+                    }
+                }
+            }
+        } else {
+            for(Category category : cityAndCategories.getCategories()){
+
+            }
         }
         model.addAttribute("user",user);
         model.addAttribute("client", client);
         model.addAttribute("services", services);
         model.addAttribute("cityAndCategories", cityAndCategories);
+        model.addAttribute("allCategories", categoryRepository.findAll());
         return "client-services";
     }
 
