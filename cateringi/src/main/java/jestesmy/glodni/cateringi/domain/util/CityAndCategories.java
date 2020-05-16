@@ -9,7 +9,7 @@ public class CityAndCategories {
 
     private String city;
 
-    private List<Category> categories;
+    private List<Integer> categories;
 
     public String getCity() {
         return city;
@@ -19,11 +19,11 @@ public class CityAndCategories {
         this.city = city;
     }
 
-    public List<Category> getCategories() {
+    public List<Integer> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<Category> categories) {
+    public void setCategories(List<Integer> categories) {
         this.categories = categories;
     }
 }

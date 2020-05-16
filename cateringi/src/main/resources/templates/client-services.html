@@ -40,7 +40,7 @@
         <form class="search" th:method="post" th:action="@{/client/services/search}" th:object="${cityAndCategories}">
             <input class="field search-input" type="text" th:field="*{city}" id="city" placeholder="Wpisz miasto.." />
             <select id="categories-select" th:field="*{categories}" multiple>
-                <option style="color: black" th:each="category : ${allCategories}" th:value="${category}" th:text="${category.name}">
+                <option style="color: black" th:each="category : ${allCategories}" th:value="${category.categoryID}" th:text="${category.name}">
                 </option>
             </select>
             <button type="submit" class="page-button search-button">
