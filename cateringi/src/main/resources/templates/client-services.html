@@ -15,6 +15,11 @@
 <section id="main-container">
     <header class="top-bar">
         <a href="*"><img src="/images/logo-transparent-colors.gif" /></a>
+        <form th:method="post" th:action="@{/client/services/search}" th:object="${cityAndCategories}">
+            <label for="city">Miasto:</label>
+            <input class="field" type="text" th:field="*{city}" id="city"/>
+            <input type="submit" class="page-button" value="Wyszukaj">
+        </form>
         <button id="toggle-nav" onclick="showNav()"><i class="fas fa-bars fa-3x"></i></button>
     </header>
 

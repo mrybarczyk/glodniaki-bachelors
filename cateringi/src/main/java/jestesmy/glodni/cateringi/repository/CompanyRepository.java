@@ -10,4 +10,6 @@ public interface CompanyRepository extends CrudRepository<Company, Integer> {
     List<Company> findByName(String name);
 
     Company findByUser(User user);
+
+    List<Company> findByCity(String city);
 }

@@ -40,20 +40,20 @@ public class ServiceAndServiceVariantController {
         this.categoryRepository = categoryRepository;
     }
 
-        @GetMapping()
-        public String servicesAll(HttpServletResponse httpServletResponse, Model model) throws IOException {
-            if(currentAuthenticatedUserService.getCurrentUser().getUserType() == UserType.CLIENT) {
-                model.addAttribute("client", clientRepository.findByUser(currentAuthenticatedUserService.getCurrentUser()));
-                httpServletResponse.sendRedirect("/client");
-            }
-
-            User user = currentAuthenticatedUserService.getCurrentUser();
-            Company company = companyRepository.findByUser(user);
-            model.addAttribute("user",user);
-            model.addAttribute("company",company);
-            model.addAttribute("services", serviceRepository.findByCompanyAndActiveIsTrue(company));
-            return "company-services";
+    @GetMapping()
+    public String servicesAll(HttpServletResponse httpServletResponse, Model model) throws IOException {
+        if(currentAuthenticatedUserService.getCurrentUser().getUserType() == UserType.CLIENT) {
+            model.addAttribute("client", clientRepository.findByUser(currentAuthenticatedUserService.getCurrentUser()));
+            httpServletResponse.sendRedirect("/client");
         }
+
+        User user = currentAuthenticatedUserService.getCurrentUser();
+        Company company = companyRepository.findByUser(user);
+        model.addAttribute("user",user);
+        model.addAttribute("company",company);
+        model.addAttribute("services", serviceRepository.findByCompanyAndActiveIsTrue(company));
+        return "company-services";
+    }
 
     @GetMapping("/{serviceID}/variants")
     public String showServiceWithVariants(@PathVariable("serviceID")int serviceID,Model model) {

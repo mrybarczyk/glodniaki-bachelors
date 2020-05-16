@@ -101,3 +101,7 @@
 .page-button:hover>i {
     color: var(--clr-text-dark);
 }
+
+.search {
+    border-radius: 25px;
+}
