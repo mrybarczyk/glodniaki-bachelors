@@ -84,8 +84,11 @@ public class ServiceAndServiceVariantClientController {
                 }
             }
         } else {
+            if(cityAndCategories.getCategories().size() == 0){
+                return "redirect:/client/services";
+            }
             for(Integer categoryID : cityAndCategories.getCategories()){
-
+                services.addAll(serviceRepository.findByCategoryAndActiveIsTrue(categoryRepository.findById(categoryID).get()));
             }
         }
         model.addAttribute("user",user);
