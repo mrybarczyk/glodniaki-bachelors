@@ -107,6 +107,10 @@
     padding: .7rem;
 }
 
+.search-button {
+    margin-left: 4rem;
+}
+
 .search-input {
     color: black;
 }
