@@ -39,7 +39,7 @@
     <section class="content-wrapper">
         <div class="content-main" th:object="${company}">
             <a class="page-button" href="/company/settings"><i class="fa fa-gear"></i>Ustawienia</a>
-            <img th:src="@{/images/default-user-icon.jpg" alt="" class="company-photo" />
+            <img th:src="@{/images/default-user-icon.jpg}" alt="" class="company-photo" />
             <div class="main-info">
                 <p class="company-name" th:text="*{name}"></p>
                 <p th:text="*{websiteAddress}"></p>
