@@ -21,16 +21,16 @@
     <div id="side-nav">
         <button id="close-nav" onclick="closeNav()"><i class="fas fa-times fa-3x"></i></button>
         <div class="user-info" th:object="${company}">
-            <img src="images/default-user-icon.jpg" width="100px" height="100px" />
+            <img src="/images/default-user-icon.jpg" width="100px" height="100px" />
             <p><span th:text="*{name}"></span> </p>
             <p th:object="${user}"><span style="font-size: .75rem;" th:text="${user.email}"></span></p>
         </div>
         <div class="nav-items">
-            <a class="active-item" href="index.html">Profil</a>
-            <a href="index.html">Oferta</a>
-            <a href="index.html">Historia zamówień</a>
+            <a href="/company">Profil</a>
+            <a class="active-item" href="/company/services">Oferta</a>
+            <a href="/company/orders/history">Historia zamówień</a>
             <a href="/messages"> <span th:if="${user.messageCounter != 0}">(<span th:text="${user.messageCounter}"></span>)</span> Wiadomości</a>
-            <a href="index.html">Ustawienia</a>
+            <a href="/company/settings">Ustawienia</a>
             <a class="bottom" href="/logout">Wyloguj</a>
 
         </div>
