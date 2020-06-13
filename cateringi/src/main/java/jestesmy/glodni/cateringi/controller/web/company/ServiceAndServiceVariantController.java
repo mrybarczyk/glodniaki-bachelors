@@ -52,7 +52,7 @@ public class ServiceAndServiceVariantController {
         model.addAttribute("user",user);
         model.addAttribute("company",company);
         model.addAttribute("services", serviceRepository.findByCompanyAndActiveIsTrue(company));
-        return "company-services";
+        return "company/company-services";
     }
 
     @GetMapping("/{serviceID}/variants")
@@ -68,7 +68,7 @@ public class ServiceAndServiceVariantController {
         model.addAttribute("user",user);
         model.addAttribute("company",company);
         model.addAttribute("service",serviceAndServiceVariant);
-        return "company-service-var";
+        return "company/company-service-var";
     }
 
     @GetMapping("/new")
@@ -83,7 +83,7 @@ public class ServiceAndServiceVariantController {
         model.addAttribute("categories",categoryRepository.findAll());
         model.addAttribute("selectedCategory",new Category());
         model.addAttribute("errors",new ArrayList<String>());
-        return "company-services-new";
+        return "company/company-services-new";
     }
 
     @PostMapping("/add")
@@ -109,7 +109,7 @@ public class ServiceAndServiceVariantController {
             model.addAttribute("user",user);
             model.addAttribute("serviceAndServiceVariant", serviceAndServiceVariant);
             model.addAttribute("errors",validationErrors);
-            return "company-services-new";
+            return "company/company-services-new";
         }
     }
 
@@ -122,14 +122,14 @@ public class ServiceAndServiceVariantController {
         model.addAttribute("user",user);
         model.addAttribute("company",company);
         model.addAttribute("categories",categoryRepository.findAll());
-        return "updateService";
+        return "company/updateService";
     }
 
     @PostMapping("/update/{serviceID}")
     public String updateService(@PathVariable("serviceID") int serviceID, Service service, BindingResult result) {
         if (result.hasErrors()) {
             service.setServiceID(serviceID);
-            return "updateService";
+            return "company/updateService";
         }
         User user = currentAuthenticatedUserService.getCurrentUser();
         Company company = companyRepository.findByUser(user);
@@ -168,7 +168,7 @@ public class ServiceAndServiceVariantController {
         model.addAttribute("service", serviceAndServiceVariant);
         model.addAttribute("newVariant",newVariant);
         model.addAttribute("errors",new ArrayList<String>());
-        return "company-service-var-new";
+        return "company/company-service-var-new";
     }
 
     @PostMapping("/{serviceID}/variants/add")
@@ -198,7 +198,7 @@ public class ServiceAndServiceVariantController {
             model.addAttribute("service", serviceAndServiceVariant);
             model.addAttribute("newVariant",newVariant);
             model.addAttribute("errors",validationErrors);
-            return "company-service-var-new";
+            return "company/company-service-var-new";
         }
     }
 

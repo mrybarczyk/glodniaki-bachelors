@@ -2,7 +2,6 @@ package jestesmy.glodni.cateringi.controller.web.company;
 
 import jestesmy.glodni.cateringi.domain.model.Company;
 import jestesmy.glodni.cateringi.domain.model.Rate;
-import jestesmy.glodni.cateringi.repository.ClientRepository;
 import jestesmy.glodni.cateringi.repository.CompanyRepository;
 import jestesmy.glodni.cateringi.repository.RateRepository;
 import jestesmy.glodni.cateringi.security.CurrentAuthenticatedUserService;
@@ -38,6 +37,6 @@ public class RateCompanyController {
         List<Rate> rates = rateRepository.findByCompany(company);
         model.addAttribute("company", company);
         model.addAttribute("rates", rates);
-        return "company-rates";
+        return "company/company-rates";
     }
 }

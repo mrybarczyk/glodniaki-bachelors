@@ -4,8 +4,6 @@ import jestesmy.glodni.cateringi.domain.model.*;
 import jestesmy.glodni.cateringi.repository.*;
 import jestesmy.glodni.cateringi.security.CurrentAuthenticatedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -49,7 +46,7 @@ public class MessageController {
             model.addAttribute("user", author);
             model.addAttribute("message", m);
             model.addAttribute("admin", a);
-            return "message-new-admin";
+            return "message/message-new-admin";
         }
         Client c = clientRepository.findByUser(author);
         User addressee = companyRepository.findById(id).get().getUser();
@@ -58,7 +55,7 @@ public class MessageController {
         model.addAttribute("user", author);
         model.addAttribute("message", m);
         model.addAttribute("client", c);
-        return "message-new-client";
+        return "message/message-new-client";
     }
 
     @GetMapping("/reply/{id}")
@@ -74,19 +71,19 @@ public class MessageController {
             Client c = clientRepository.findByUser(author);
             model.addAttribute("user", author);
             model.addAttribute("client", c);
-            return "message-reply-client";
+            return "message/message-reply-client";
         }
         if (author.getUserType() == UserType.COMPANY){
             Company c = companyRepository.findByUser(author);
             model.addAttribute("user", author);
             model.addAttribute("company", c);
-            return "message-reply-company";
+            return "message/message-reply-company";
         }
         if (author.getUserType() == UserType.ADMIN){
             Admin a = adminRepository.findByUser(author);
             model.addAttribute("user", author);
             model.addAttribute("admin", a);
-            return("message-reply-admin");
+            return("message/message-reply-admin");
         }
         return "redirect:/messages/";
     }
@@ -103,12 +100,12 @@ public class MessageController {
         if (author.getUserType() == UserType.CLIENT){
             Client c = clientRepository.findByUser(author);
             model.addAttribute("client", c);
-            return "messages-contact-admin-client";
+            return "message/messages-contact-admin-client";
         }
         if (author.getUserType() == UserType.COMPANY){
             Company c = companyRepository.findByUser(author);
             model.addAttribute("company", c);
-            return "messages-contact-admin-company";
+            return "message/messages-contact-admin-company";
         }
         return "redirect:/messages/";
     }
@@ -189,19 +186,19 @@ public class MessageController {
             Client c = clientRepository.findByUser(user);
             model.addAttribute("user", user);
             model.addAttribute("client", c);
-            return "list-received-client";
+            return "message/list-received-client";
         }
         if (user.getUserType() == UserType.COMPANY){
             Company c = companyRepository.findByUser(user);
             model.addAttribute("user", user);
             model.addAttribute("company", c);
-            return "list-received-company";
+            return "message/list-received-company";
         }
         if (user.getUserType() == UserType.ADMIN){
             Admin a = adminRepository.findByUser(user);
             model.addAttribute("user", user);
             model.addAttribute("admin", a);
-            return "list-received-admin";
+            return "message/list-received-admin";
         }
         return "redirect:/";
     }
@@ -222,19 +219,19 @@ public class MessageController {
             Client c = clientRepository.findByUser(user);
             model.addAttribute("user", user);
             model.addAttribute("client", c);
-            return "list-sent-client";
+            return "message/list-sent-client";
         }
         if (user.getUserType() == UserType.COMPANY){
             Company c = companyRepository.findByUser(user);
             model.addAttribute("user", user);
             model.addAttribute("company", c);
-            return "list-sent-company";
+            return "message/list-sent-company";
         }
         if (user.getUserType() == UserType.ADMIN){
             Admin a = adminRepository.findByUser(user);
             model.addAttribute("user", user);
             model.addAttribute("admin", a);
-            return "list-sent-admin";
+            return "message/list-sent-admin";
         }
         return "redirect:/";
     }

@@ -43,7 +43,7 @@ public class AddressClientController {
         model.addAttribute("client", client);
         model.addAttribute("address", address);
         model.addAttribute("errors", new ArrayList<String>());
-        return "client-address-new";
+        return "client/client-address-new";
     }
 
     @PostMapping("/add")
@@ -55,7 +55,7 @@ public class AddressClientController {
             model.addAttribute("client", clientRepository.findByUser(user));
             model.addAttribute("address", address);
             model.addAttribute("errors", validationErrors);
-            return "client-address-new";
+            return "client/client-address-new";
         }
         address.setApartmentNumber(address.getApartmentNumber().trim());
         address.setUser(user);

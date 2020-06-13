@@ -5,6 +5,7 @@ import jestesmy.glodni.cateringi.domain.model.UserType;
 import jestesmy.glodni.cateringi.domain.model.Admin;
 import jestesmy.glodni.cateringi.repository.AdminRepository;
 import jestesmy.glodni.cateringi.repository.UserRepository;
+import jestesmy.glodni.cateringi.security.CurrentAuthenticatedUserService;
 import org.apache.commons.codec.binary.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -85,9 +86,13 @@ public class AdminRegistrationController {
     @Autowired
     private AdminRepository adminRepository;
 
+    @Autowired
+    private CurrentAuthenticatedUserService currentAuthenticatedUserService;
+
     @GetMapping()
     public String showRegistrationForm(Model model) {
         RegistrationFormAdmin user = new RegistrationFormAdmin();
+        model.addAttribute("admin",adminRepository.findByUser(currentAuthenticatedUserService.getCurrentUser()));
         model.addAttribute("user", user);
         return "registration-admin";
     }
@@ -101,7 +106,7 @@ public class AdminRegistrationController {
         userRepository.save(registeredUser);
         registeredAdmin.setUser(registeredUser);
         adminRepository.save(registeredAdmin);
-        return "redirect:/login?registered";
+        return "redirect:/admin/userlist";
     }
 
 }
