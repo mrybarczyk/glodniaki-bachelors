@@ -22,6 +22,8 @@ public class Company {
 
     private double averageRating;
 
+    private String city;
+
     @OneToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name="companyID")
     @MapsId
@@ -32,11 +34,12 @@ public class Company {
         this.averageRating = 0;
     }
 
-    public Company(String name, String nip, String regon, String websiteAddress) {
+    public Company(String name, String nip, String regon, String websiteAddress, String city) {
         this.name = name;
         this.nip = nip;
         this.regon = regon;
         this.websiteAddress = websiteAddress;
+        this.city = city;
         this.averageRating = 0;
     }
 
@@ -94,5 +97,13 @@ public class Company {
 
     public void setAverageRating(double averageRating) {
         this.averageRating = averageRating;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }
