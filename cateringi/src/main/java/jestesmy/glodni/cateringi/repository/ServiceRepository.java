@@ -16,5 +16,9 @@ public interface ServiceRepository extends CrudRepository<Service, Integer> {
 
     List<Service> findAllByActiveIsTrue();
 
+    List<Service> findByCompanyAndCategoryAndActiveIsTrue(Company company, Category category);
+
+    List<Service> findByCategoryAndActiveIsTrue(Category category);
+
     int countAllByCategory(Category category);
 }

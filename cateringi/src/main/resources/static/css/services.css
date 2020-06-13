@@ -101,3 +101,16 @@
 .page-button:hover>i {
     color: var(--clr-text-dark);
 }
+
+.search-button, .search-input{
+    border-radius: 25px;
+    padding: .7rem;
+}
+
+.search-button {
+    margin-left: 4rem;
+}
+
+.search-input {
+    color: black;
+}

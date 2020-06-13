@@ -36,6 +36,7 @@ public class CompanyRegistrationController {
         private String regon;
         private String websiteAddress;
         private String phoneNumber;
+        private String city;
 
         public RegistrationFormCompany(){
         }
@@ -103,6 +104,14 @@ public class CompanyRegistrationController {
         public void setWebsiteAddress(String websiteAddress) {
             this.websiteAddress = websiteAddress;
         }
+
+        public String getCity() {
+            return city;
+        }
+
+        public void setCity(String city) {
+            this.city = city;
+        }
     }
 
     @Autowired
@@ -125,7 +134,7 @@ public class CompanyRegistrationController {
     public String createAccount(@ModelAttribute("user") RegistrationFormCompany user, Model model) {
         byte [] encrypted = DigestUtils.md5Digest(user.getPassword().getBytes());
         User registeredUser = new User(user.getUserName(),user.getEmail(),user.getPhoneNumber(),Hex.encodeHexString(encrypted));
-        Company registeredCompany = new Company(user.getCompanyName(),user.getNip(),user.getRegon(),user.getWebsiteAddress());
+        Company registeredCompany = new Company(user.getCompanyName(),user.getNip(),user.getRegon(),user.getWebsiteAddress(), user.getCity());
         List<String> validationErrors = CompanyValidator.validate(registeredCompany);
         List<String> userValidationErrors = userValidator.validate(registeredUser);
         validationErrors.addAll(userValidationErrors);
