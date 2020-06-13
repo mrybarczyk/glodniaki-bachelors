@@ -173,14 +173,14 @@ public class MessageController {
         User user = currentAuthenticatedUserService.getCurrentUser();
         user.setMessageCounter(0);
         userRepository.save(user);
-        List<Message> to = messageRepository.findByTo(user);
+        List<Message> to = messageRepository.findByToAndDeletedTo(user,false);
         // To sortowanie nie działa
         //to.sort(Comparator.comparing(Message::getDatetime));
-        for (int i = 0; i < to.size(); i++){
-            if (to.get(i).isDeletedTo()){
-                to.remove(i);
-            }
-        }
+//        for (int i = 0; i < to.size(); i++){
+//            if (to.get(i).isDeletedTo()){
+//                to.remove(i);
+//            }
+//        }
         model.addAttribute("messages", to);
         if (user.getUserType() == UserType.CLIENT){
             Client c = clientRepository.findByUser(user);
@@ -206,14 +206,14 @@ public class MessageController {
     @GetMapping(value={"/sent"})
     public String getSent(Model model){
         User user = currentAuthenticatedUserService.getCurrentUser();
-        List<Message> from = messageRepository.findByFrom(user)/*(Sort.by(Sort.Direction.ASC, "datetime"))*/; //też nie działa
+        List<Message> from = messageRepository.findByFromAndDeletedFrom(user,false)/*(Sort.by(Sort.Direction.ASC, "datetime"))*/; //też nie działa
         // To sortowanie nie działa
         //from.sort(Comparator.comparing(Message::getDatetime));
-        for (int i = 0; i < from.size(); i++){
-            if (from.get(i).isDeletedFrom()){
-                from.remove(i);
-            }
-        }
+//        for (int i = 0; i < from.size(); i++){
+//            if (from.get(i).isDeletedFrom()){
+//                from.remove(i);
+//            }
+//        }
         model.addAttribute("messages", from);
         if (user.getUserType() == UserType.CLIENT){
             Client c = clientRepository.findByUser(user);
