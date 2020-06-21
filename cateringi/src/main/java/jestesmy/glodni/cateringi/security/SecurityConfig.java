@@ -32,15 +32,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/")
                 .permitAll()
-                .antMatchers("/api/companies/**")
-                .hasAuthority("admin")
-
+                .antMatchers("/api/companies/**","/admin/**")
+                .hasAuthority("ADMIN")
+                .antMatchers(("/company/**"))
+                .hasAuthority("COMPANY")
+                .antMatchers(("/client/**"))
+                .hasAuthority("CLIENT")
                 .antMatchers("/css/**","/images/**","/scripts/**","*.css","*.js","/resources/**", "static/favicon.ico","/static/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated().and()
                 .formLogin().loginPage("/login").successHandler(successLoginHandler)
                 .and().logout()
+                .and().exceptionHandling().accessDeniedPage("/403")
                 .and().csrf().disable();
     }
 

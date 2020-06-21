@@ -26,9 +26,29 @@ public class UserValidator {
         return "";
     }
 
+    private String validateEmail(String email) {
+        if(userRepository.findByEmail(email)!=null){
+            return "Podany email już istnieje w naszej bazie";
+        }
+        return "";
+    }
+
+    private String validatePhoneNumber(String phoneNumber) {
+        if(userRepository.findByPhoneNumber(phoneNumber)!=null){
+            return "Podany numer telefonu już istnieje w naszej bazie";
+        }
+        return "";
+    }
+
     public List<String> validate(User user) {
         List<String> errors = new ArrayList<>();
         String error = validateLogin(user.getUserName());
+        if(!error.isEmpty())
+            errors.add(error);
+        error = validateEmail(user.getEmail());
+        if(!error.isEmpty())
+            errors.add(error);
+        error = validatePhoneNumber(user.getPhoneNumber());
         if(!error.isEmpty())
             errors.add(error);
         return errors;
