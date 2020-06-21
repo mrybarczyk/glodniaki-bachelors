@@ -90,14 +90,14 @@ public class ServiceAndServiceVariantController {
     public String addService(ServiceAndServiceVariant serviceAndServiceVariant,Category selectedCategory, Model model) {
         User user = currentAuthenticatedUserService.getCurrentUser();
         Company company = companyRepository.findByUser(user);
-        model.addAttribute("company", company);
-        Service service = serviceAndServiceVariant.getService();
-        service.setCompany(company);
-        service.setActive(true);
-        service.setCategory(selectedCategory);
-        service.setMinPrice(serviceAndServiceVariant.getServiceVariants().get(0).getPrice());
+//        model.addAttribute("company", company);
         List<String> validationErrors = ServiceValidator.validate(serviceAndServiceVariant.getServiceVariants().get(0));
         if(validationErrors.isEmpty()) {
+            Service service = serviceAndServiceVariant.getService();
+            service.setCompany(company);
+            service.setActive(true);
+            service.setCategory(selectedCategory);
+            service.setMinPrice(serviceAndServiceVariant.getServiceVariants().get(0).getPrice());
             serviceRepository.save(service);
             for (ServiceVariant serviceVariant : serviceAndServiceVariant.getServiceVariants()) {
                 serviceVariant.setService(service);
@@ -107,6 +107,9 @@ public class ServiceAndServiceVariantController {
             return "redirect:/company/services";
         } else {
             model.addAttribute("user",user);
+            model.addAttribute("company",company);
+            model.addAttribute("categories",categoryRepository.findAll());
+            model.addAttribute("selectedCategory",new Category());
             model.addAttribute("serviceAndServiceVariant", serviceAndServiceVariant);
             model.addAttribute("errors",validationErrors);
             return "company/company-services-new";

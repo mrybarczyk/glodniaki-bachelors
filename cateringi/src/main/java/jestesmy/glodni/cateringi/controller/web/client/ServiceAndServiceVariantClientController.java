@@ -1,5 +1,6 @@
 package jestesmy.glodni.cateringi.controller.web.client;
 
+import com.sun.xml.bind.v2.schemagen.xmlschema.Union;
 import jestesmy.glodni.cateringi.domain.model.*;
 import jestesmy.glodni.cateringi.domain.util.CityAndCategories;
 import jestesmy.glodni.cateringi.domain.util.ServiceAndServiceVariant;
@@ -12,6 +13,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.thymeleaf.util.ListUtils;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import java.util.ArrayList;
+import java.util.List;
 
 import java.util.ArrayList;
 import java.util.List;

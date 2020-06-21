@@ -45,23 +45,22 @@
             <form action="/client/settings" method="POST" th:object="${client}">
                 <div class="image-container long-field">
                     <img th:src="@{/images/default-user-icon.jpg}" alt="" class="company-photo" />
-                    <input id="image" type="file" />
                 </div>
                 <h2 class="long-field">Dane logowania</h2>
                 <a class="page-button" style="justify-self:center; grid-column: 1/3;" th:href="@{settings/password}">Zmień hasło</a>
                 <h2 class="long-field">Dane personalne</h2>
                 <div class="field-container">
                     <label for="name">Imię</label>
-                    <input id="name" class="field" type="text" th:field="*{name}" />
+                    <input id="name" class="field" type="text" th:field="*{name}" pattern="[A-ZŚŻĆŹŁŃ][a-ząęćśźżłóń]+"/>
                 </div>
                 <div class="field-container">
                     <label for="lname">Nazwisko</label>
-                    <input id="lname" class="field" type="text" th:field="*{lastName}" />
+                    <input id="lname" class="field" type="text" th:field="*{lastName}" pattern="[A-ZŚŻĆŹŁŃ][a-ząęćśźżłóń]+"/>
                 </div>
                 <h2 class="long-field">Dane kontaktowe</h2>
                 <div class="field-container">
                     <label for="email">E-mail</label>
-                    <input id="email" class="field" type="text" th:field="*{user.email}" />
+                    <input id="email" class="field" type="email" th:field="*{user.email}" />
                 </div>
                 <div class="field-container">
                     <label for="phone">Numer telefonu</label>
