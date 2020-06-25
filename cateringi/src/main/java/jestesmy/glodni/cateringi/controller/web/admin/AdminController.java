@@ -49,7 +49,7 @@ public class AdminController {
         Admin admin = adminRepository.findByUser(user);
         model.addAttribute("user",user);
         model.addAttribute("admin",admin);
-        return "welcome-admin";
+        return "admin/welcome-admin";
     }
 
     @GetMapping("/userlist")
@@ -59,7 +59,7 @@ public class AdminController {
         model.addAttribute("allusers", userRepository.findAll());
         model.addAttribute("user", user);
         model.addAttribute("admin", admin);
-        return "userlist";
+        return "admin/userlist";
     }
 
     @GetMapping("/ban/{userId}")
@@ -68,7 +68,7 @@ public class AdminController {
         User currentUser = userRepository.findByUserName(currentAuthenticatedUserService.getCurrentUserName());
         Admin admin = adminRepository.findByUser(currentUser);
         if (user == null){
-            return "error";
+            return "admin/error";
         }
         else {
             if (user.getUserType() != UserType.ADMIN) {
@@ -77,14 +77,14 @@ public class AdminController {
             } else{
                 model.addAttribute("user", currentUser);
                 model.addAttribute("admin", admin);
-                return "error-cannotbanadmin";
+                return "admin/error-cannotbanadmin";
             }
         }
         userRepository.save(user);
         model.addAttribute("user", currentUser);
         model.addAttribute("admin", admin);
         model.addAttribute("allusers", userRepository.findAll());
-        return "userlist";
+        return "admin/userlist";
     }
 
     @GetMapping("/resetpassword/{userId}")
@@ -102,7 +102,7 @@ public class AdminController {
         }
         User user = userRepository.findById(userId).orElse(null);
         if (user == null){
-            return "error";
+            return "admin/error";
         }
         else {
             byte [] encrypted = DigestUtils.md5Digest(sb.toString().getBytes());
@@ -114,7 +114,7 @@ public class AdminController {
         model.addAttribute("user", a);
         model.addAttribute("admin", admin);
         model.addAttribute("resetpassword", sb.toString());
-        return "reset";
+        return "admin/reset";
     }
 
     @GetMapping("/categories")
@@ -122,14 +122,14 @@ public class AdminController {
         model.addAttribute("categories", categoryRepository.findAll());
         model.addAttribute("serviceRepository", serviceRepository);
         model.addAttribute("admin", adminRepository.findByUser(currentAuthenticatedUserService.getCurrentUser()));
-        return "admin-categories";
+        return "admin/admin-categories";
     }
 
     @GetMapping("/categories/{id}")
     public String showEditCategoryForm(@PathVariable("id") int id, Model model) {
         model.addAttribute("admin",adminRepository.findByUser(currentAuthenticatedUserService.getCurrentUser()));
         model.addAttribute("category", categoryRepository.findById(id).get());
-        return "admin-category-edit";
+        return "admin/admin-category-edit";
     }
 
     @PostMapping("/categories/{id}")
@@ -145,7 +145,7 @@ public class AdminController {
     public String showNewCategoryForm(Model model) {
         model.addAttribute("admin",adminRepository.findByUser(currentAuthenticatedUserService.getCurrentUser()));
         model.addAttribute("category", new Category());
-        return "admin-category-new";
+        return "admin/admin-category-new";
     }
 
     @PostMapping("/categories/new")

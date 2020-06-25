@@ -7,4 +7,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     public User findByEmail(String email);
 
     public User findByUserName(String accountName);
+
+    public User findByPhoneNumber(String phoneNumber);
 }

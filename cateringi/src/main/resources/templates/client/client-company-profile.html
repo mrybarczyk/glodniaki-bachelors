@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/company.css}" />
+    <link href="https://fonts.googleapis.com/css?family=Exo:400,500,700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/23df196ab0.js" crossorigin="anonymous"></script>
+    <title>Głodniaki - profil</title>
+
+</head>
+<body>
+<section id="main-container">
+    <header class="top-bar">
+        <a href="/client"><img th:src="@{/images/logo-transparent-colors.gif}" /></a>
+        <button id="toggle-nav" onclick="showNav()"><i class="fas fa-bars fa-3x"></i></button>
+    </header>
+
+    <div id="side-nav">
+        <button id="close-nav" onclick="closeNav()"><i class="fas fa-times fa-3x"></i></button>
+        <div class="user-info" th:object="${client}">
+            <img th:src="@{/images/default-user-icon.jpg}" width="100px" height="100px" />
+            <p><span th:text="*{name}+' '+*{lastName}"></span> </p>
+            <p><span style="font-size: .75rem;" th:text="*{user.email}"></span></p>
+        </div>
+        <div class="nav-items">
+            <a class="active-item" href="/client/profile">Profil</a>
+            <a href="/client/services">Oferta</a>
+            <a href="/client/orders/history">Historia zamówień</a>
+            <a href="/messages"> <span th:if="${client.user.messageCounter != 0}">(<span th:text="${client.user.messageCounter}"></span>)</span> Wiadomości</a>
+            <a href="/client/settings">Ustawienia</a>
+            <a class="bottom" href="/logout">Wyloguj</a>
+
+        </div>
+    </div>
+
+    <section class="content-wrapper">
+        <div class="content-main" th:object="${company}">
+            <img th:src="@{/images/default-user-icon.jpg}" alt="" class="company-photo" />
+            <div class="main-info">
+                <p class="company-name" th:text="*{name}"></p>
+                <p th:text="*{websiteAddress}"></p>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <p>Średnia ocen: <span id="avgRating" th:text="*{averageRating}"></span></p>
+                <a class="highlight description" th:href="@{/client/company/rating/all/{companyID}(companyID=${company.companyID})}">Lista ocen</a>
+            </div>
+
+            <td><a th:href="@{/messages/new/{userId}(userId=${company.user.userId})}">Napisz wiadomość</a></td>
+            <h1>Dane kontaktowe:</h1>
+            <div class="contact">
+                <h2>Adres e-mail: <span class="highlight" th:text="*{user.email}"></span></h2>
+                <h2>Numer telefonu: <span class="highlight" th:text="*{user.phoneNumber}"></span></h2>
+            </div>
+        </div>
+
+    </section>
+</section>
+<script th:src="@{/scripts/nav.js}"></script>
+<script th:src="@{/scripts/rates.js}"></script>
+</body>
+</html>

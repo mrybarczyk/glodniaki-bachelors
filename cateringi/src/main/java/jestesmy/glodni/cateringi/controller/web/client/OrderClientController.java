@@ -54,7 +54,7 @@ public class OrderClientController {
         model.addAttribute("user", user);
         model.addAttribute("client", client);
         model.addAttribute("orders", orderRepository.findByClient(client));
-        return "client-orders";
+        return "client/client-orders";
     }
 
     @PostMapping("new")
@@ -73,7 +73,7 @@ public class OrderClientController {
         model.addAttribute("total",serviceVariant.getPrice()*serviceVariant.getDayNumber());
         model.addAttribute("company", company);
         model.addAttribute("addresses", addresses);
-        return "client-order-summary";
+        return "client/client-order-summary";
     }
 
     @PostMapping("add")
@@ -114,7 +114,7 @@ public class OrderClientController {
         List<Order> orders = orderRepository.findByClient(client);
         model.addAttribute("client",client);
         model.addAttribute("orders",orders);
-        return "client-order-history";
+        return "client/client-order-history";
     }
 
     @GetMapping("rate/new/{orderID}")
@@ -124,7 +124,7 @@ public class OrderClientController {
         Order order = orderRepository.findById(orderID).orElseThrow(() -> new IllegalArgumentException("Invalid order Id:" + orderID));
         model.addAttribute("order",order);
         model.addAttribute("rates", new Rate());
-        return "client-order-rate";
+        return "client/client-order-rate";
     }
 
     @PostMapping("rate/add/{orderID}")

@@ -44,6 +44,6 @@ public class RateClientController {
         model.addAttribute("company",company);
         model.addAttribute("client",client);
         model.addAttribute("rates", rates);
-        return "client-company-rates";
+        return "client/client-company-rates";
     }
 }

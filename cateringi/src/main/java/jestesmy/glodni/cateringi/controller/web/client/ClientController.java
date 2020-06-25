@@ -60,7 +60,7 @@ public class ClientController {
         List<Address> addresses = addressRepository.findByUser(client.getUser());
         model.addAttribute("client",client);
         model.addAttribute("addresses", addresses);
-        return "client-profile";
+        return "client/client-profile";
     }
 
     @GetMapping("settings")
@@ -68,14 +68,14 @@ public class ClientController {
         Client client = clientRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
         model.addAttribute("client",client);
         model.addAttribute("passwordChanged",false);
-        return "client-settings";
+        return "client/client-settings";
     }
 
     @GetMapping("settings/password")
     public String showPasswordChangeForm(Model model) {
         Client client = clientRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
         model.addAttribute("client",client);
-        return "client-change-password";
+        return "client/client-change-password";
     }
 
     @PostMapping("settings/password")
@@ -116,7 +116,7 @@ public class ClientController {
         Client client = clientRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
         model.addAttribute("client",client);
         model.addAttribute("passwordChanged",true);
-        return "client-settings";
+        return "client/client-settings";
     }
 
     @GetMapping("company/profile/{companyID}")
@@ -125,6 +125,6 @@ public class ClientController {
         Client client = clientRepository.findByUser(currentAuthenticatedUserService.getCurrentUser());
         model.addAttribute("company",company);
         model.addAttribute("client",client);
-        return "client-company-profile";
+        return "client/client-company-profile";
     }
 }

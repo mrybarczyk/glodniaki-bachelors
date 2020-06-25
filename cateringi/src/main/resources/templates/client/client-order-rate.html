@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/order.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/rates.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/form.css}" />
+    <link href="https://fonts.googleapis.com/css?family=Exo:400,500,700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/23df196ab0.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <title>Głodniaki - Oceń firmę</title>
+
+</head>
+<body>
+<section id="main-container">
+    <header class="top-bar">
+        <a href="/client"><img th:src="@{/images/logo-transparent-colors.gif}" /></a>
+        <button id="toggle-nav" onclick="showNav()"><i class="fas fa-bars fa-3x"></i></button>
+    </header>
+
+    <div id="side-nav">
+        <button id="close-nav" onclick="closeNav()"><i class="fas fa-times fa-3x"></i></button>
+        <div class="user-info" th:object="${client}">
+            <img th:src="@{/images/default-user-icon.jpg}" width="100px" height="100px" />
+            <p><span th:text="*{name}+' '+*{lastName}"></span> </p>
+            <p><span style="font-size: .75rem;" th:text="*{user.email}"></span></p>
+        </div>
+        <div class="nav-items">
+            <a href="/client/profile">Profil</a>
+            <a href="/client/services">Oferta</a>
+            <a class="active-item" href="/client/orders/history">Historia zamówień</a>
+            <a href="/messages"> <span th:if="${client.user.messageCounter != 0}">(<span th:text="${client.user.messageCounter}"></span>)</span> Wiadomości</a>
+            <a href="/client/settings">Ustawienia</a>
+            <a class="bottom" href="/logout">Wyloguj</a>
+        </div>
+    </div>
+
+    <section class="content-wrapper">
+        <div class="content-main">
+            <h1 style="font-size: 2rem;">Oceń firmę</h1>
+            <a th:href="@{/client/company/profile/{companyID}(companyID=${order.company.companyID})}" th:text="${order.company.name}"></a>
+            <div class="stars">
+                <form th:action="@{/client/orders/rate/add/{orderID}/(orderID=${order.orderID})}" th:object="${rates}" method="post">
+                    <div class="star-container" style="display: flex; flex-direction: row-reverse">
+                    <input data-value="5" class="star star-5" id="star-5" type="radio" name="star"/>
+                    <label data-value="5" class="star star-5" for="star-5"></label>
+                    <input data-value="4" class="star star-4" id="star-4" type="radio" name="star"/>
+                    <label data-value="4" class="star star-4" for="star-4"></label>
+                    <input data-value="3" class="star star-3" id="star-3" type="radio" name="star"/>
+                    <label data-value="3" class="star star-3" for="star-3"></label>
+                    <input data-value="2" class="star star-2" id="star-2" type="radio" name="star"/>
+                    <label data-value="2" class="star star-2" for="star-2"></label>
+                    <input data-value="1" class="star star-1" id="star-1" type="radio" name="star"/>
+                    <label data-value="1" class="star star-1" for="star-1"></label>
+                    <input type="hidden" name="rating">
+                    </div>
+                    <div class="long-field">
+                    <label for="description">Komentarz</label>
+                    <textarea style="resize: none;" th:field="*{description}" id="description"></textarea>
+                    </div>
+                    <input class="rate-button" type="submit" value="Oceń" name="result">
+                </form>
+            </div>
+
+            <script>
+                $('input[data-value]').click(function () {
+                    $('[name="rating"]').val($(this).data('value'));
+                });
+            </script>
+
+        </div>
+    </section>
+</section>
+<script th:src="@{/scripts/nav.js}"></script>
+</body>
+</html>
