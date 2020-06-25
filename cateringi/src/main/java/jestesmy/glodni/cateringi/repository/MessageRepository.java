@@ -11,4 +11,8 @@ public interface MessageRepository extends CrudRepository<Message, Integer> {
     List<Message> findByFrom(User user);
 
     List<Message> findByTo(User user);
+
+    List<Message> findByFromAndDeletedFrom(User user,boolean deleted);
+
+    List<Message> findByToAndDeletedTo(User user,boolean deleted);
 }

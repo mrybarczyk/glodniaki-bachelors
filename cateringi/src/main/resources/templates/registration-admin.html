@@ -8,28 +8,30 @@
     <link rel="stylesheet" type="text/css" href="/css/form.css" />
     <link href="https://fonts.googleapis.com/css?family=Exo:400,500,700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/23df196ab0.js" crossorigin="anonymous"></script>
-    <title>Index</title>
+    <title>Głodniaki - Rejestracja</title>
 
 </head>
 <body>
 <section id="main-container">
     <header class="top-bar">
-        <a href="*"><img src="/images/logo-transparent-colors.gif" /></a>
+        <a href="/"><img src="/images/logo-transparent-colors.gif" /></a>
         <button id="toggle-nav" onclick="showNav()"><i class="fas fa-bars fa-3x"></i></button>
     </header>
 
     <div id="side-nav">
         <button id="close-nav" onclick="closeNav()"><i class="fas fa-times fa-3x"></i></button>
-        <div class="nav-items">
-            <a href="index.html">Pomocy</a>
-            <a href="index.html">Pomocy</a>
-            <a href="index.html">Pomocy</a>
-            <a href="index.html">Pomocy</a>
+        <div class="user-info" th:object="${admin}">
+            <img th:src="@{/images/default-user-icon.jpg}" width="100px" height="100px" />
+            <p><span th:text="*{name}+' '+*{lastName}"></span> </p>
+            <p><span style="font-size: .75rem;" th:text="*{user.email}"></span></p>
         </div>
-        <div class="nav-items bottom">
-            <a href="/login">Zaloguj</a>
-            <a href="/client/register">Załóż konto klienta</a>
-            <a href="/company/register">Załóż konto firmy</a>
+        <div class="nav-items">
+            <a href="/admin/userlist">Lista użytkowników</a>
+            <a href="/messages"> <span th:if="${admin.user.messageCounter != 0}">(<span th:text="${admin.user.messageCounter}"></span>)</span> Wiadomości</a>
+            <a href="/admin/categories">Kategorie usług</a>
+            <a class="active-item" href="/admin/register">Załóż konto admina</a>
+            <a class="bottom" href="/logout">Wyloguj</a>
+
         </div>
     </div>
 

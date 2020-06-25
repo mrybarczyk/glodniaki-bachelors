@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/company.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/form.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/categories.css}" />
+    <link href="https://fonts.googleapis.com/css?family=Exo:400,500,700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/23df196ab0.js" crossorigin="anonymous"></script>
+    <title>Głodniaki - Kategorie</title>
+
+</head>
+<body>
+<section id="main-container">
+    <header class="top-bar">
+        <a href="/admin"><img th:src="@{/images/logo-transparent-colors.gif}" /></a>
+        <button id="toggle-nav" onclick="showNav()"><i class="fas fa-bars fa-3x"></i></button>
+    </header>
+
+    <div id="side-nav">
+        <button id="close-nav" onclick="closeNav()"><i class="fas fa-times fa-3x"></i></button>
+        <div class="user-info" th:object="${admin}">
+            <img th:src="@{/images/default-user-icon.jpg}" width="100px" height="100px" />
+            <p><span th:text="*{name}+' '+*{lastName}"></span> </p>
+            <p><span style="font-size: .75rem;" th:text="*{user.email}"></span></p>
+        </div>
+        <div class="nav-items">
+            <a href="/admin/userlist">Lista użytkowników</a>
+            <a href="/messages"> <span th:if="${admin.user.messageCounter != 0}">(<span th:text="${admin.user.messageCounter}"></span>)</span> Wiadomości</a>
+            <a class="active-item" href="/admin/categories">Kategorie usług</a>
+            <a href="/admin/register">Załóż konto admina</a>
+            <a class="bottom" href="/logout">Wyloguj</a>
+
+        </div>
+    </div>
+
+    <section class="content-wrapper">
+        <div class="content-main">
+            <h1 style="font-size: 2rem; padding: 20px 30px;">Kategorie usług</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nazwa kategorii</th>
+                        <th>Ilość usług</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr class="category" th:each="category : ${categories}">
+                    <td th:text="${category.name}"></td>
+                    <td><strong th:text="${serviceRepository.countAllByCategory(category)}"></strong></td>
+                    <td><a th:href="@{categories/{categoryID}(categoryID = ${category.categoryID})}"><i class=" fa fa-gear"></i></a></td>
+                </tr>
+                </tbody>
+            </table>
+            <div style="width:100%; margin-top:.5rem;">
+                <a href="/admin/categories/new" class="page-button new-category"><i class="fa fa-plus"></i>Dodaj nową kategorię</a>
+            </div>
+        </div>
+
+    </section>
+</section>
+<script th:src="@{/scripts/nav.js}"></script>
+<script th:src="@{/scripts/form.js}"></script>
+</body>
+</html>

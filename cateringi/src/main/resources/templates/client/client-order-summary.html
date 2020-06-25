@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/services.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/service-variants.css}" />
+    <link href="https://fonts.googleapis.com/css?family=Exo:400,500,700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/23df196ab0.js" crossorigin="anonymous"></script>
+    <title>Głodniaki - Podsumowanie</title>
+
+</head>
+<body>
+<section id="main-container">
+    <header class="top-bar">
+        <a href="/client"><img th:src="@{/images/logo-transparent-colors.gif}" /></a>
+        <button id="toggle-nav" onclick="showNav()"><i class="fas fa-bars fa-3x"></i></button>
+    </header>
+
+    <div id="side-nav">
+        <button id="close-nav" onclick="closeNav()"><i class="fas fa-times fa-3x"></i></button>
+        <div class="user-info" th:object="${client}">
+            <img th:src="@{/images/default-user-icon.jpg}" width="100px" height="100px" />
+            <p><span th:text="*{name}+' '+*{lastName}"></span> </p>
+            <p><span style="font-size: .75rem;" th:text="*{user.email}"></span></p>
+        </div>
+        <div class="nav-items">
+            <a href="/client/profile">Profil</a>
+            <a class="active-item" href="/client/services">Oferta</a>
+            <a href="/client/orders/history">Historia zamówień</a>
+            <a href="/messages"> <span th:if="${client.user.messageCounter != 0}">(<span th:text="${client.user.messageCounter}"></span>)</span> Wiadomości</a>
+            <a href="/client/settings">Ustawienia</a>
+            <a class="bottom" href="/logout">Wyloguj</a>
+        </div>
+    </div>
+
+    <section class="content-wrapper">
+        <div class="content-main">
+            <form th:action="@{/client/orders/add}" th:object="${serviceVariantIDWithAddress}" th:method="post">
+                <h1>Podsumowanie zamówienia</h1>
+                <p>Firma: <span th:text="${company.name}"></span></p>
+                <div th:object="${serviceVariant.service}" class="service-card-big">
+                    <div class="service-info">
+                        <img th:src="@{/images/indexBg.jpg" style="margin-right:.5rem;" width="200px" height="150px" alt="">
+                        <div>
+                            <p class="service-name" th:text="*{serviceName}">Nazwa</p>
+                            <p th:text="*{category.name}"></p>
+                            <p class="description" th:text="*{description}"></p>
+                        </div>
+                    </div>
+                </div>
+                <p>Kalorie: <span th:text="${serviceVariant.calories}"></span></p>
+                <p>Ilość dni: <span th:text="${serviceVariant.dayNumber}"></span></p>
+                <p>Cena/dzień: <span th:text="${serviceVariant.price}"></span> zł</p>
+                <select id="address-select" th:field="${serviceVariantIDWithAddress.address}">
+                    <option th:each="address : ${addresses}" th:value="${address.toString()}" th:text="${address.toString()}">
+                    </option>
+                    <option th:value="inny" th:text="Inny"></option>
+                </select>
+                <label id="save-label" for="save" style="display: none">
+                <input id="save" style="display: none" name="save" type="checkbox" th:checked="${serviceVariantIDWithAddress.save}" /> Zapisz adres
+                </label>
+                <label class="addr-label" for="addr-street" style="display: none">Ulica *</label>
+                <input class="field" style="display: none" type="text" th:field="${serviceVariantIDWithAddress.street}" id="addr-street" pattern="[A-ZŚŻĆŹŁŃa-ząęćśźżłóń \-]+\d+[ ]?[A-Za-z]?"/>
+                <label class="addr-label" for="addr-apartmentNumber" style="display: none">Nr lokalu</label>
+                <input class="field" style="display: none" type="text" th:field="${serviceVariantIDWithAddress.apartmentNumber}" id="addr-apartmentNumber" pattern="\d*"/>
+                <label class="addr-label" for="addr-city" style="display: none">Miasto *</label>
+                <input class="field" style="display: none" type="text" th:field="${serviceVariantIDWithAddress.city}" id="addr-city" pattern="[A-ZŚŻĆŹŁŃa-ząęćśźżłóń \-]+"/>
+                <label class="addr-label" for="addr-postalCode" style="display: none">Kod pocztowy *</label>
+                <input class="field" style="display: none" type="text" th:field="${serviceVariantIDWithAddress.postalCode}" id="addr-postalCode" pattern="\d\d-\d\d\d"/>
+                <label class="addr-label" for="addr-companyName" style="display: none">Nazwa firmy</label>
+                <input class="field" style="display: none" type="text" th:field="${serviceVariantIDWithAddress.companyName}" id="addr-companyName"/>
+                <h1>Do zapłaty: <span th:text="${total}"></span> zł</h1>
+                <input type="text" th:field="${serviceVariantIDWithAddress.selectedServiceVariantID}" th:value="${serviceVariant.serviceVariantID}" style="display: none;"/>
+                <input id="submit-order" type="submit" class="page-button" value="Zamawiam i płacę" />
+            </form>
+        </div>
+    </section>
+</section>
+<script th:src="@{/scripts/nav.js}"></script>
+<script th:src="@{/scripts/services-company.js}"></script>
+<script th:src="@{/scripts/show-address.js}"></script>
+</body>
+</html>

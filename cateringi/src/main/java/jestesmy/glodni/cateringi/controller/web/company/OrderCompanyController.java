@@ -34,6 +34,6 @@ public class OrderCompanyController {
         Company company = companyRepository.findByUser(user);
         model.addAttribute("company", company);
         model.addAttribute("orders", orderRepository.findByCompany(company));
-        return "company-order-history";
+        return "company/company-order-history";
     }
 }

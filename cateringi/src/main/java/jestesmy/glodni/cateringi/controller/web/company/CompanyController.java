@@ -36,7 +36,7 @@ public class CompanyController {
         User user = currentAuthenticatedUserService.getCurrentUser();
         Company company = companyRepository.findByUser(user);
         model.addAttribute("company", company);
-        return "welcome-company";
+        return "company/welcome-company";
     }
 
     @GetMapping("settings")
@@ -47,7 +47,7 @@ public class CompanyController {
         model.addAttribute("company", company);
         model.addAttribute("cwu", cwu);
         model.addAttribute("passwordChanged",false);
-        return "company-settings";
+        return "company/company-settings";
     }
 
     @GetMapping(value="settings", params="passwordChanged")
@@ -58,7 +58,7 @@ public class CompanyController {
         model.addAttribute("company", company);
         model.addAttribute("cwu", cwu);
         model.addAttribute("passwordChanged",true);
-        return "company-settings";
+        return "company/company-settings";
     }
 
     @PostMapping("update")
@@ -78,7 +78,7 @@ public class CompanyController {
         User user = currentAuthenticatedUserService.getCurrentUser();
         Company company = companyRepository.findByUser(user);
         model.addAttribute("company",company);
-        return "company-change-password";
+        return "company/company-change-password";
     }
 
     @PostMapping("update/password")
