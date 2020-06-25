@@ -43,7 +43,7 @@
                 <p>Firma: <span th:text="${company.name}"></span></p>
                 <div th:object="${serviceVariant.service}" class="service-card-big">
                     <div class="service-info">
-                        <img th:src="@{/images/indexBg.jpg" style="margin-right:.5rem;" width="200px" height="150px" alt="">
+                        <img th:src="@{/images/indexBg.jpg}" style="margin-right:.5rem;" width="200px" height="150px" alt="">
                         <div>
                             <p class="service-name" th:text="*{serviceName}">Nazwa</p>
                             <p th:text="*{category.name}"></p>
